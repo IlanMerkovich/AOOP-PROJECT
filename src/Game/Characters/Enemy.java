@@ -12,7 +12,6 @@ public abstract class Enemy extends AbstractCharacter{
         this.setHealth(50);
         this.loot= new Random().nextInt(201) + 100;
     }
-    @Override
     public boolean setHealth(int health) {
         if (health<0){
             return false;
@@ -35,11 +34,9 @@ public abstract class Enemy extends AbstractCharacter{
     public void Defeat(){
         Treasure treasure=new Treasure(getPosition(),loot);
     }
-    @Override
     public String getDisplaySymbol() {
         return "";
     }
-    @Override
     public void setVisible(boolean visible) {
     }
 }

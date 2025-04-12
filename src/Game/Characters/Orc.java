@@ -35,7 +35,7 @@ public class Orc extends Enemy implements PhysicalAttacker, MeleeFighter{
         fightClose(target);
     }
     public boolean isCriticalHit() {
-        return new Random().nextDouble()<=0.1;
+        return new Random().nextDouble()<0.1;
     }
     public void receiveDamage(int amount, Combatant source) {
         int damageReceived=amount;

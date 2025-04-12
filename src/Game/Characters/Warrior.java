@@ -13,7 +13,6 @@ public class Warrior extends PlayerCharacter implements MeleeFighter, PhysicalAt
         super(r,c,name);
         defence=new Random().nextInt(121);
     }
-    @Override
     public boolean equals(Object obj){
         if (!(obj instanceof Warrior) || !(super.equals(obj))){
             return false;
@@ -22,7 +21,6 @@ public class Warrior extends PlayerCharacter implements MeleeFighter, PhysicalAt
         return this.getName().equals(other.getName()) && this.defence==other.getDefence();
     }
 
-    @Override
     public void fightClose(Combatant target){
         if (isInMeleeRange(this.getPosition(),target.getPosition())){
             int damage=this.getPower();
@@ -32,7 +30,6 @@ public class Warrior extends PlayerCharacter implements MeleeFighter, PhysicalAt
             target.receiveDamage(damage,this);
         }
     }
-    @Override
     public void receiveDamage(int amount, Combatant source){
         int totaldamage=0;
         if (tryEvade()){
@@ -43,27 +40,22 @@ public class Warrior extends PlayerCharacter implements MeleeFighter, PhysicalAt
             this.setHealth(this.getHealth()-totaldamage);
         }
     }
-    @Override
     public MagicElement getElement() {
         return null;
     }
 
-    @Override
     public double getAccuracy() {
         return -1;
     }
 
-    @Override
     public boolean isInMeleeRange(Position self, Position target) {
         return self.distanceTo(target)==1;
     }
 
-    @Override
     public void attack(Combatant target){
         fightClose(target);
     }
 
-    @Override
     public boolean isCriticalHit() {
         return new Random().nextDouble()<0.1;
     }

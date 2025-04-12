@@ -14,20 +14,16 @@ public class Goblin extends Enemy implements PhysicalAttacker, MeleeFighter{
         super(r,c);
         this.agility=new Random().nextInt(81);
     }
-    @Override
     public boolean tryEvade(){
         double GoblinEvasion=min(0.8,this.agility/100.0);
-        return new Random().nextDouble()<=GoblinEvasion;
+        return new Random().nextDouble()<GoblinEvasion;
     }
-    @Override
     public MagicElement getElement() {
         return null;
     }
-    @Override
     public double getAccuracy() {
         return -1;
     }
-    @Override
     public void fightClose(Combatant target){
         int totaldamage=this.getPower();
         if (isInMeleeRange(this.getPosition(),target.getPosition())){
@@ -37,15 +33,12 @@ public class Goblin extends Enemy implements PhysicalAttacker, MeleeFighter{
             target.receiveDamage(totaldamage,this);
         }
     }
-    @Override
     public boolean isInMeleeRange(Position self, Position target){
         return self.distanceTo(target)==1;
     }
-    @Override
     public void attack(Combatant target){
         fightClose(target);
     }
-    @Override
     public boolean isCriticalHit(){
         return new Random().nextDouble()<0.1;
     }

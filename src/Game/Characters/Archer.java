@@ -19,23 +19,18 @@ public class Archer extends PlayerCharacter implements RangedFighter, PhysicalAt
         Archer other = (Archer) obj;
         return this.accuracy==other.getAccuracy();
     }
-    @Override
     public MagicElement getElement() {
         return null;
     }
-    @Override
     public double getAccuracy() {
         return accuracy;
     }
-    @Override
     public void attack(Combatant target){
         fightRanged(target);
     }
-    @Override
     public boolean isCriticalHit(){
         return new Random().nextDouble()<0.1;
     }
-    @Override
     public void fightRanged(Combatant target){
         if (this.isInRange(this.getPosition(),target.getPosition())){
             int damage=this.getPower();
@@ -45,11 +40,9 @@ public class Archer extends PlayerCharacter implements RangedFighter, PhysicalAt
             target.receiveDamage(damage,this);
         }
     }
-    @Override
     public int getRange() {
         return 2;
     }
-    @Override
     public boolean isInRange(Position self, Position target) {
         return self.distanceTo(target)<=getRange();
     }
