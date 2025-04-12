@@ -41,7 +41,6 @@ public class Dragon extends Enemy implements PhysicalAttacker,MeleeFighter, Magi
     public double getAccuracy() {
         return -1;
     }
-
     public void fightClose(Combatant target) {
         int damage = getPower();
         if (isCriticalHit()) {
@@ -49,25 +48,20 @@ public class Dragon extends Enemy implements PhysicalAttacker,MeleeFighter, Magi
         }
         target.receiveDamage(damage, this);
     }
-
     public boolean isInMeleeRange(Position self, Position target) {
         return self.distanceTo(target) == 1;
     }
-
     public void fightRanged(Combatant target) {
         if (isInRange(getPosition(),target.getPosition())) {
             castSpell(target);
         }
     }
-
     public int getRange() {
         return 2;
     }
-
     public boolean isInRange(Position self, Position target) {
         return self.distanceTo(target) <= getRange();
     }
-
     public void attack(Combatant target){
         if (isInMeleeRange(getPosition(), target.getPosition())) {
             fightClose(target);

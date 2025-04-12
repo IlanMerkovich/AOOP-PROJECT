@@ -20,7 +20,6 @@ public class Warrior extends PlayerCharacter implements MeleeFighter, PhysicalAt
         Warrior other=(Warrior) obj;
         return this.getName().equals(other.getName()) && this.defence==other.getDefence();
     }
-
     public void fightClose(Combatant target){
         if (isInMeleeRange(this.getPosition(),target.getPosition())){
             int damage=this.getPower();
@@ -43,23 +42,18 @@ public class Warrior extends PlayerCharacter implements MeleeFighter, PhysicalAt
     public MagicElement getElement() {
         return null;
     }
-
     public double getAccuracy() {
         return -1;
     }
-
     public boolean isInMeleeRange(Position self, Position target) {
         return self.distanceTo(target)==1;
     }
-
     public void attack(Combatant target){
         fightClose(target);
     }
-
     public boolean isCriticalHit() {
         return new Random().nextDouble()<0.1;
     }
-
     public int getDefence() {
         return defence;
     }

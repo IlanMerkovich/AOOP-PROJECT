@@ -27,6 +27,14 @@ public abstract class AbstractCharacter implements Combatant, GameEntity{
             this.Health+=amount;
         }
     }
+    public void addPower(int amount){
+        if (this.Power+amount>14){
+            this.Power=14;
+        }
+        else{
+            this.Power+=amount;
+        }
+    }
     public boolean setHealth(int health) {
         if (health>100 || health<0){
             return false;

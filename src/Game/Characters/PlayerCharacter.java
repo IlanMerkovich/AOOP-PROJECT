@@ -2,6 +2,8 @@ package Game.Characters;
 import Game.Combat.MagicElement;
 import Game.Core.Inventory;
 import Game.Items.GameItem;
+import Game.Items.Potion;
+import Game.Items.PowerPotion;
 
 public abstract class PlayerCharacter extends AbstractCharacter{
     public PlayerCharacter(int r,int c,String name){
@@ -10,7 +12,6 @@ public abstract class PlayerCharacter extends AbstractCharacter{
         this.treasurePoints=0;
         inventory=new Inventory();
     }
-    @Override
     public boolean equals(Object obj) {
         if (!super.equals(obj) || !(obj instanceof PlayerCharacter)){
             return false;
@@ -18,7 +19,6 @@ public abstract class PlayerCharacter extends AbstractCharacter{
         PlayerCharacter other=(PlayerCharacter) obj;
         return this.name.equals(other.getName()) && this.treasurePoints==other.getTreasurePoints();
     }
-
     public String getName(){
         return name;
     }
