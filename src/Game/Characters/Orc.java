@@ -45,5 +45,9 @@ public class Orc extends Enemy implements PhysicalAttacker, MeleeFighter{
         this.setHealth(this.getHealth()-damageReceived);
     }
 
+
+    public String getDisplaySymbol() {
+        return "O";
+    }
     private double resistance;
 }

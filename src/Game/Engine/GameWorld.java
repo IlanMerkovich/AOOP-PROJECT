@@ -10,10 +10,10 @@ public class GameWorld{
     private List<Enemy>enemies;
     private List<GameItem>items;
     private GameMap map;
-    public GameWorld(){
+    public GameWorld(int rows,int cols,String name){
         this.players=new ArrayList<PlayerCharacter>();
         this.enemies=new ArrayList<Enemy>();
         this.items=new ArrayList<GameItem>();
-        this.map=new GameMap();
+        this.map=new GameMap(rows,cols,name);
     }
 }

@@ -43,6 +43,9 @@ public class Archer extends PlayerCharacter implements RangedFighter, PhysicalAt
     public int getRange() {
         return 2;
     }
+    public String getDisplaySymbol() {
+        return "A";
+    }
     public boolean isInRange(Position self, Position target) {
         return self.distanceTo(target)<=getRange();
     }

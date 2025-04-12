@@ -42,4 +42,9 @@ public class Goblin extends Enemy implements PhysicalAttacker, MeleeFighter{
     public boolean isCriticalHit(){
         return new Random().nextDouble()<0.1;
     }
+
+    @Override
+    public String getDisplaySymbol() {
+        return "G";
+    }
 }

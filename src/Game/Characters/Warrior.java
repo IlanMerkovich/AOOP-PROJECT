@@ -57,6 +57,9 @@ public class Warrior extends PlayerCharacter implements MeleeFighter, PhysicalAt
     public int getDefence() {
         return defence;
     }
+    public String getDisplaySymbol() {
+        return "WR";
+    }
 
     private int defence;
 }

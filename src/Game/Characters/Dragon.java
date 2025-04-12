@@ -73,4 +73,7 @@ public class Dragon extends Enemy implements PhysicalAttacker,MeleeFighter, Magi
     public boolean isCriticalHit() {
         return new Random().nextDouble() < 0.1;
     }
+    public String getDisplaySymbol() {
+        return "D";
+    }
 }

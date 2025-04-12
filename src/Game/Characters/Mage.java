@@ -55,4 +55,7 @@ public class Mage extends PlayerCharacter implements MagicAttacker, RangedFighte
     public boolean isInRange(Position self, Position target){
         return self.distanceTo(target)<=getRange();
     }
+    public String getDisplaySymbol() {
+        return "A";
+    }
 }
