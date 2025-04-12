@@ -9,11 +9,11 @@ import java.util.Random;
 
 public class Mage extends PlayerCharacter implements MagicAttacker, RangedFighter{
     private MagicElement element;
+
     public Mage(int r,int c,String name){
         super(r,c,name);
         this.element=MagicElement.getRandomElement();
     }
-
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Mage) || !super.equals(obj))
@@ -21,7 +21,6 @@ public class Mage extends PlayerCharacter implements MagicAttacker, RangedFighte
         Mage other = (Mage) obj;
         return this.element == other.getElement();
     }
-
     @Override
     public void calculateMagicDamage(Combatant target){
         int totaldamage= (int) (this.getPower()*1.5);
@@ -43,7 +42,6 @@ public class Mage extends PlayerCharacter implements MagicAttacker, RangedFighte
     public MagicElement getElement(){
         return element;
     }
-
     @Override
     public double getAccuracy() {
         return -1;
@@ -64,9 +62,6 @@ public class Mage extends PlayerCharacter implements MagicAttacker, RangedFighte
     }
     @Override
     public boolean isInRange(Position self, Position target){
-        if (self.distanceTo(target)<=getRange()){
-            return true;
-        }
-        return false;
+        return self.distanceTo(target)<=getRange();
     }
 }

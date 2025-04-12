@@ -27,7 +27,6 @@ public class Archer extends PlayerCharacter implements RangedFighter, PhysicalAt
     public double getAccuracy() {
         return accuracy;
     }
-
     @Override
     public void attack(Combatant target){
         fightRanged(target);
@@ -52,10 +51,7 @@ public class Archer extends PlayerCharacter implements RangedFighter, PhysicalAt
     }
     @Override
     public boolean isInRange(Position self, Position target) {
-        if (self.distanceTo(target)<=getRange()){
-            return true;
-        }
-        return false;
+        return self.distanceTo(target)<=getRange();
     }
 
     private double accuracy;

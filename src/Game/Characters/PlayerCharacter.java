@@ -59,11 +59,6 @@ public abstract class PlayerCharacter extends AbstractCharacter{
     public int getTreasurePoints() {
         return treasurePoints;
     }
-
-    private String name;
-    private Inventory inventory;
-    private int treasurePoints;
-
     @Override
     public String getDisplaySymbol() {
         return "";
@@ -74,4 +69,10 @@ public abstract class PlayerCharacter extends AbstractCharacter{
 
     @Override
     public abstract MagicElement getElement();
+
+    private String name;
+    private Inventory inventory;
+    private int treasurePoints;
+
+
 }

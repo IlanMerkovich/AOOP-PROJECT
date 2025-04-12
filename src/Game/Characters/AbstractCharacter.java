@@ -68,7 +68,7 @@ public abstract class AbstractCharacter implements Combatant, GameEntity{
             System.out.println("You have evaded the strike");
         }
         else{
-            this.Health-=amount;
+            this.setHealth(this.getHealth()-amount);
         }
     }
     private Position position;

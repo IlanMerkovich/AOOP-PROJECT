@@ -20,12 +20,6 @@ public abstract class Enemy extends AbstractCharacter{
         this.setHealth(health);
         return true;
     }
-
-    @Override
-    public void receiveDamage(int amount, Combatant source) {
-
-    }
-
     public void Heal(int amount){
         if (this.getHealth()+amount>50){
             this.setHealth(50);
@@ -37,19 +31,11 @@ public abstract class Enemy extends AbstractCharacter{
     public void Defeat(){
         Treasure treasure=new Treasure(getPosition(),loot);
     }
-
-
-
-
-
-
-
     @Override
     public String getDisplaySymbol() {
         return "";
     }
     @Override
     public void setVisible(boolean visible) {
-
     }
 }
