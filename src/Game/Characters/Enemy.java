@@ -14,8 +14,12 @@ public abstract class Enemy extends AbstractCharacter{
     }
     @Override
     public boolean setHealth(int health) {
-        if (health>100 || health<0){
+        if (health<0){
             return false;
+        }
+        if (health>50){
+            this.setHealth(0);
+            return true;
         }
         this.setHealth(health);
         return true;
