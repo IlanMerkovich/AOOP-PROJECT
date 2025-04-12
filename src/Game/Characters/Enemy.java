@@ -2,7 +2,7 @@ package Game.Characters;
 
 import Game.Combat.Combatant;
 import Game.Combat.MagicElement;
-
+import Game.Items.Treasure;
 import java.util.Random;
 
 public abstract class Enemy extends AbstractCharacter{
@@ -13,15 +13,13 @@ public abstract class Enemy extends AbstractCharacter{
         this.loot= new Random().nextInt(201) + 100;
     }
     public boolean setHealth(int health) {
-        if (health<0){
+        if (health < 0) {
             return false;
         }
-        if (health>50){
-            this.setHealth(0);
-            return true;
+        if (health > 50) {
+            return super.setHealth(0);
         }
-        this.setHealth(health);
-        return true;
+        return super.setHealth(health);
     }
     public void Heal(int amount){
         if (this.getHealth()+amount>50){
@@ -32,7 +30,7 @@ public abstract class Enemy extends AbstractCharacter{
         }
     }
     public void Defeat(){
-        Treasure treasure=new Treasure(getPosition(),loot);
+        Treasure treasure=new Treasure(this.getPosition().getRow(),this.getPosition().getCol(),loot);
     }
     public String getDisplaySymbol() {
         return "";

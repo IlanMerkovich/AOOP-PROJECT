@@ -7,10 +7,11 @@ import java.util.Random;
 public class Potion extends GameItem implements Interactable{
     private int increaseAmount;
     private boolean isUsed;
-    public Potion(int r,int c,String despcription){
-        super(r,c,despcription);
+    public Potion(int r,int c){
+        super(r,c);
         this.increaseAmount=new Random().nextInt(41)+10;
         this.isUsed=false;
+        this.setDescription("This is a health Potion.By using this potion,you can heal yourself between 10 and 50 health points.limited for 1 use only");
     }
     public String getDisplaySymbol() {
         return "P";
@@ -22,6 +23,7 @@ public class Potion extends GameItem implements Interactable{
         if (!isUsed) {
             c.Heal(increaseAmount);
             isUsed = true;
+            this.removeBlock();
         }
     }
     public boolean equals(Object obj){

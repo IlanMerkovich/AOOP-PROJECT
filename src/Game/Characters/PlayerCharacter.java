@@ -59,6 +59,9 @@ public abstract class PlayerCharacter extends AbstractCharacter{
     public int getTreasurePoints() {
         return treasurePoints;
     }
+    public void addTreasurePoint(int amount){
+        this.treasurePoints+=amount;
+    }
     public String getDisplaySymbol() {
         return "";
     }
