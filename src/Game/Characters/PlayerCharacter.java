@@ -65,12 +65,8 @@ public abstract class PlayerCharacter extends AbstractCharacter{
     public String getDisplaySymbol() {
         return "";
     }
-    public void setVisible(boolean visible){
-    }
     public abstract MagicElement getElement();
     private String name;
     private Inventory inventory;
     private int treasurePoints;
-
-
 }

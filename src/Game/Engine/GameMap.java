@@ -10,6 +10,14 @@ import Game.Map.Position;
 import java.util.*;
 
 public class GameMap{
+    private static GameMap instance=null;
+    public static GameMap getInstance(int rows,int cols){
+        if (instance==null){
+            return new GameMap(rows,cols);
+        }
+        return instance;
+    }
+
     private Map<Position,List<GameEntity>>grid;
     public GameMap(int rows, int cols) {
         this.grid = new HashMap<>();

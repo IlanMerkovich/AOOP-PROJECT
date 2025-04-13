@@ -38,9 +38,7 @@ public class Treasure extends GameItem implements Interactable{
     public String getDisplaySymbol() {
         return "T";
     }
-    public void setVisible(boolean visible) {
 
-    }
     private int value;
     private boolean collected;
 }

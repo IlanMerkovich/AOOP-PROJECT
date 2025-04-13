@@ -16,9 +16,6 @@ public class Potion extends GameItem implements Interactable{
     public String getDisplaySymbol() {
         return "P";
     }
-    public void setVisible(boolean visible){
-
-    }
     public void interact(PlayerCharacter c){
         if (!isUsed) {
             c.Heal(increaseAmount);

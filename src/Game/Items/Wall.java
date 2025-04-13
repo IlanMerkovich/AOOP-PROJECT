@@ -13,6 +13,4 @@ public class Wall extends GameItem{
     public String getDisplaySymbol() {
         return "W";
     }
-    public void setVisible(boolean visible){
-    }
 }

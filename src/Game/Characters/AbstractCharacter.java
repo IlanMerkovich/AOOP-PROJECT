@@ -11,6 +11,7 @@ public abstract class AbstractCharacter implements Combatant, GameEntity{
         Health=100;
         Power=new Random().nextInt(11) + 4;
         evasionChance=0.25;
+
     }
     public boolean equals(Object obj){
         if (!(obj instanceof AbstractCharacter)){
@@ -19,6 +20,10 @@ public abstract class AbstractCharacter implements Combatant, GameEntity{
         AbstractCharacter other=(AbstractCharacter) obj;
         return this.getPosition().equals(other.getPosition()) && this.getHealth()==other.getHealth() && this.Power==other.getPower();
     }
+    public void setVisible(boolean visible) {
+        this.visibility=visible;
+    }
+
     public void Heal(int amount){
         if (this.Health+amount>100){
             this.Health=100;
@@ -74,4 +79,5 @@ public abstract class AbstractCharacter implements Combatant, GameEntity{
     private Position position;
     private int Health,Power;
     private double evasionChance;
+    private boolean visibility;
 }

@@ -32,6 +32,4 @@ public abstract class Enemy extends AbstractCharacter{
     public void Defeat(){
         Treasure treasure=new Treasure(this.getPosition().getRow(),this.getPosition().getCol(),loot);
     }
-    public void setVisible(boolean visible) {
-    }
 }

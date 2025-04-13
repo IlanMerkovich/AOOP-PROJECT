@@ -22,7 +22,7 @@ public class GameWorld {
         this.players = new ArrayList<>();
         this.enemies = new ArrayList<>();
         this.items = new ArrayList<>();
-        this.gameMap = new GameMap(rows, cols);
+        this.gameMap = GameMap.getInstance(rows,cols);
         Random random = new Random();
 
         Position playerPosition = getRandomEmptyPosition(rows, cols, random);
