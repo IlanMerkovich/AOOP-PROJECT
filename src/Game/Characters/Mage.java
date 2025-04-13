@@ -9,7 +9,6 @@ import java.util.Random;
 
 public class Mage extends PlayerCharacter implements MagicAttacker, RangedFighter{
     private final MagicElement element;
-
     public Mage(int r,int c,String name){
         super(r,c,name);
         this.element=MagicElement.getRandomElement();
@@ -20,26 +19,26 @@ public class Mage extends PlayerCharacter implements MagicAttacker, RangedFighte
         Mage other = (Mage) obj;
         return this.element == other.getElement();
     }
-    public void calculateMagicDamage(Combatant target){
-        int totaldamage= (int) (this.getPower()*1.5);
-        if (target.getElement()!=null){
-            if (this.element.isStrongerThan(target.getElement())){
-                totaldamage*=1.2;
-            }
-            else{
-                totaldamage*=0.8;
+    public void calculateMagicDamage(Combatant target) {
+        double totaldamage = this.getPower() * 1.5;
+        MagicElement targetElement = target.getElement();
+        if (targetElement != null) {
+            if (this.element.isStrongerThan(targetElement)) {
+                totaldamage *= 1.2;
+            } else if (targetElement.isStrongerThan(this.element)) {
+                totaldamage *= 0.8;
             }
         }
-        target.receiveDamage(totaldamage,this);
+        target.receiveDamage((int) totaldamage, this);
     }
-    public void castSpell(Combatant target){
+    public void castSpell(Combatant target) {
         calculateMagicDamage(target);
     }
     public MagicElement getElement(){
         return element;
     }
     public double getAccuracy() {
-        return -1;
+        return 0;
     }
     public boolean isElementStrongerThan(MagicAttacker other){
         return element.isStrongerThan(other.getElement());

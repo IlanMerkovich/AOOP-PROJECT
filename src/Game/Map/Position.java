@@ -1,5 +1,7 @@
 package Game.Map;
 
+import java.util.Objects;
+
 import static java.lang.Math.abs;
 
 public class Position {
@@ -7,7 +9,6 @@ public class Position {
         this.row=r;
         this.col=c;
     }
-    @Override
     public String toString() {
         return "X:"+row+",Y:"+col;
     }
@@ -17,15 +18,17 @@ public class Position {
     public int getCol() {
         return col;
     }
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof Position){
-            return this.row==((Position) obj).getRow()&&this.col==((Position) obj).getCol();
-        }
-        return false;
+    public boolean equals(Object obj){
+        if (this == obj) return true;
+        if (!(obj instanceof Position)) return false;
+        Position other = (Position) obj;
+        return this.getRow() == other.getRow() && this.getCol() == other.getCol();
     }
     public int distanceTo(Position other){
         return abs(this.row-other.getRow())+abs(this.col-other.getCol());
+    }
+    public int hashCode() {
+        return Objects.hash(getRow(), getCol());
     }
     private int row,col;
 }

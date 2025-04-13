@@ -43,13 +43,18 @@ public class Warrior extends PlayerCharacter implements MeleeFighter, PhysicalAt
         return null;
     }
     public double getAccuracy() {
-        return -1;
+        return 0;
     }
     public boolean isInMeleeRange(Position self, Position target) {
         return self.distanceTo(target)==1;
     }
     public void attack(Combatant target){
-        fightClose(target);
+        if (isInMeleeRange(this.getPosition(),target.getPosition())){
+            fightClose(target);
+        }
+        else {
+            System.out.println("Target out of range");
+        }
     }
     public boolean isCriticalHit() {
         return new Random().nextDouble()<0.1;

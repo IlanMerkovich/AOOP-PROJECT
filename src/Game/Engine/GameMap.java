@@ -82,4 +82,8 @@ public class GameMap{
             }
         }
     }
+    public Map<Position, List<GameEntity>> getGrid(){
+        return grid;
+    }
+
 }

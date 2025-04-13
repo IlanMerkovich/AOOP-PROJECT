@@ -17,7 +17,7 @@ public class Orc extends Enemy implements PhysicalAttacker, MeleeFighter{
         return null;
     }
     public double getAccuracy() {
-        return -1;
+        return 0;
     }
     public void fightClose(Combatant target){
         int totaldamage=getPower();
@@ -44,8 +44,6 @@ public class Orc extends Enemy implements PhysicalAttacker, MeleeFighter{
         }
         this.setHealth(this.getHealth()-damageReceived);
     }
-
-
     public String getDisplaySymbol() {
         return "O";
     }

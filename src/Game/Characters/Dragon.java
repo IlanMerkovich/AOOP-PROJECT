@@ -18,7 +18,7 @@ public class Dragon extends Enemy implements PhysicalAttacker,MeleeFighter, Magi
             if (this.element.isStrongerThan(otherelement)){
                 damage*=1.2;
             }
-            else if (target.getElement().isStrongerThan(this.element)){
+            else if (otherelement.isStrongerThan(this.element)){
                 damage*=0.8;
             }
         }
@@ -39,7 +39,7 @@ public class Dragon extends Enemy implements PhysicalAttacker,MeleeFighter, Magi
         }
     }
     public double getAccuracy() {
-        return -1;
+        return 0;
     }
     public void fightClose(Combatant target) {
         int damage = getPower();

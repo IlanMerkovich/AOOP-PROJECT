@@ -22,7 +22,7 @@ public class Goblin extends Enemy implements PhysicalAttacker, MeleeFighter{
         return null;
     }
     public double getAccuracy() {
-        return -1;
+        return 0;
     }
     public void fightClose(Combatant target){
         int totaldamage=this.getPower();
@@ -42,8 +42,6 @@ public class Goblin extends Enemy implements PhysicalAttacker, MeleeFighter{
     public boolean isCriticalHit(){
         return new Random().nextDouble()<0.1;
     }
-
-    @Override
     public String getDisplaySymbol() {
         return "G";
     }
