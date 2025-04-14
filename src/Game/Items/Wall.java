@@ -7,6 +7,9 @@ public class Wall extends GameItem{
         super(r,c);
         this.setDescription("This is a wall,you cant go threw here! You must bypass this wall.");
     }
+    public String toString() {
+        return String.format("🧱 Wall | %s", super.toString());
+    }
     public void interact(PlayerCharacter c) {
 
     }

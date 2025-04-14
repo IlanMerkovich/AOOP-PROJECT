@@ -9,6 +9,12 @@ public class Position {
         this.row=r;
         this.col=c;
     }
+
+    public Position(Position position){
+        this.row=position.getRow();
+        this.col=position.getCol();
+    }
+
     public String toString() {
         return "X:"+row+",Y:"+col;
     }

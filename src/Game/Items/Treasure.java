@@ -35,6 +35,11 @@ public class Treasure extends GameItem implements Interactable{
         this.collected=true;
         this.removeBlock();
     }
+    public String toString() {
+        return String.format("💰 Treasure | %s | Value: %d | Collected: %s",
+                super.toString(), value, collected);
+    }
+
     public String getDisplaySymbol() {
         return "T";
     }

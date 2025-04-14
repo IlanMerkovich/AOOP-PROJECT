@@ -1,19 +1,22 @@
 package Game.Engine;
+
 import Game.Characters.*;
+import Game.Combat.CombatSystem;
 import Game.Core.GameEntity;
-import Game.Items.GameItem;
-import Game.Items.Potion;
-import Game.Items.PowerPotion;
-import Game.Items.Wall;
+import Game.Items.*;
 import Game.Map.Position;
+
 import java.util.*;
 
 public class GameWorld {
-    public GameWorld(int rows, int cols, String name, int type) {
+    private GameWorld(int rows, int cols, String name, int type){
         this.players = new ArrayList<>();
         this.enemies = new ArrayList<>();
         this.items = new ArrayList<>();
-        this.gameMap = GameMap.getInstance(rows,cols);
+        this.gameMap = GameMap.getInstance(rows, cols);
+        this.combatSystem = new CombatSystem();
+        this.rows=rows;
+        this.cols=cols;
         Random random = new Random();
 
         Position playerPosition = getRandomEmptyPosition(rows, cols, random);
@@ -29,9 +32,8 @@ public class GameWorld {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 Position newPos = new Position(i, j);
-                if (!(gameMap.getGrid().get(newPos).isEmpty())) {
-                    continue;
-                }
+                if (!gameMap.getGrid().get(newPos).isEmpty()) continue;
+
                 int probability = random.nextInt(100);
                 GameEntity entity = null;
 
@@ -46,14 +48,10 @@ public class GameWorld {
                 } else if (probability < 40) {
                     entity = new Wall(i, j);
                 } else if (probability < 60) {
-                    int potionType = random.nextInt(100);
-                    if (potionType < 25) {
-                        entity = new PowerPotion(i, j);
-                    } else {
-                        entity = new Potion(i, j);
-                    }
+                    entity = random.nextInt(100) < 25 ? new PowerPotion(i, j) : new Potion(i, j);
                     items.add((GameItem) entity);
                 }
+
                 if (entity != null) {
                     gameMap.placeEntity(newPos, entity);
                 }
@@ -68,73 +66,6 @@ public class GameWorld {
             }
         }
     }
-
-    public void playTurn(){
-        Scanner scanner=new Scanner(System.in);
-        PlayerCharacter player=players.get(0);
-
-        System.out.println("Your turn, " + player.getName());
-        System.out.println("1. Move (w/a/s/d)");
-        System.out.println("2. Attack enemy near you");
-        System.out.println("3. Use health potion");
-
-        System.out.print("Choose action (1-5): ");
-        int choice = scanner.nextInt();
-        scanner.nextLine();
-
-        switch(choice){
-            case 1->{
-                System.out.println("Direction W/S/A/D");
-                String direction=scanner.nextLine();
-            }
-        }
-    }
-
-    private void movePlayer(Position from,Position to){
-        PlayerCharacter player=players.get(0);
-        gameMap.getGrid().get(from).remove(player);
-        player.setPosition(to);
-        gameMap.getGrid().get(to).add(player);
-    }
-    private void moveDirection(String direction){
-        Position current=players.get(0).getPosition();
-        int newRow=current.getRow();
-        int newCol=current.getCol();
-
-        switch (direction.toLowerCase()){
-            case "w"->newRow++;
-            case "s"->newRow--;
-            case "a"->newCol--;
-            case "d"->newCol++;
-            default -> {
-                System.out.println("Invalid Direction");
-                return;
-            }
-        }
-        Position newPos=new Position(newRow,newCol);
-        if (!(gameMap.getGrid().containsKey(newPos))){
-            System.out.println("Out of border ERROR");
-            return;
-        }
-        List<GameEntity>cell=gameMap.getGrid().get(newPos);
-        if (cell.isEmpty()){
-            movePlayer(current,newPos);
-        }
-        if (cell.getFirst() instanceof Enemy e){
-
-        }
-
-
-    }
-
-
-
-
-
-
-
-
-
     public List<GameItem> getItems() {
         return items;
     }
@@ -147,15 +78,15 @@ public class GameWorld {
     public List<PlayerCharacter> getPlayers() {
         return players;
     }
-
-
-
-
-
-
+    public void addTreasure(GameEntity entity){
+        if (entity instanceof GameItem e){
+            items.add(e);
+        }
+    }
     private List<PlayerCharacter> players;
     private List<Enemy> enemies;
     private List<GameItem> items;
     private GameMap gameMap;
-
+    private CombatSystem combatSystem;
+    private int rows,cols;
 }

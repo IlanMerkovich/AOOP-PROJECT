@@ -10,15 +10,6 @@ import Game.Map.Position;
 import java.util.*;
 
 public class GameMap{
-    private static GameMap instance=null;
-    public static GameMap getInstance(int rows,int cols){
-        if (instance==null){
-            return new GameMap(rows,cols);
-        }
-        return instance;
-    }
-
-    private Map<Position,List<GameEntity>>grid;
     public GameMap(int rows, int cols) {
         this.grid = new HashMap<>();
         Random random = new Random();
@@ -28,11 +19,19 @@ public class GameMap{
             }
         }
     }
-
+    private static GameMap instance=null;
+    public static GameMap getInstance(int rows, int cols){
+        if (instance == null){
+            instance = new GameMap(rows, cols);
+        }
+        return instance;
+    }
+    public static GameMap getInstance() {
+        return instance;
+    }
     public static void resetInstance(){
         instance=null;
     }
-
     public void placeEntity(Position position,GameEntity entity){
         if (!grid.containsKey(position)){
             grid.put(position,new ArrayList<>());
@@ -43,4 +42,6 @@ public class GameMap{
     public Map<Position,List<GameEntity>>getGrid(){
         return grid;
     }
+    private Map<Position,List<GameEntity>>grid;
+
 }

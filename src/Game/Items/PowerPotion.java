@@ -17,6 +17,9 @@ public class PowerPotion extends Potion{
             this.removeBlock();
         }
     }
+    public String toString() {
+        return String.format("💥 PowerPotion | %s", super.toString());
+    }
     public String getDisplaySymbol() {
         return "PP";
     }

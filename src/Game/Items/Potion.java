@@ -42,5 +42,10 @@ public class Potion extends GameItem implements Interactable{
     protected void setUsed(){
         this.isUsed=true;
     }
+    public String toString() {
+        return String.format("🧪 Potion | %s | +%d HP | Used: %s",
+                super.toString(), increaseAmount, isUsed);
+    }
+
 
 }

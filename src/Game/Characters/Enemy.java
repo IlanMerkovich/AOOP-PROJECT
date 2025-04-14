@@ -7,6 +7,7 @@ import java.util.Random;
 
 public abstract class Enemy extends AbstractCharacter{
     private int loot;
+
     public Enemy(int r,int c){
         super(r,c);
         this.setHealth(50);
