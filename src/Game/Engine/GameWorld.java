@@ -6,18 +6,9 @@ import Game.Items.Potion;
 import Game.Items.PowerPotion;
 import Game.Items.Wall;
 import Game.Map.Position;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class GameWorld {
-    private List<PlayerCharacter> players;
-    private List<Enemy> enemies;
-    private List<GameItem> items;
-    private GameMap gameMap;
-
     public GameWorld(int rows, int cols, String name, int type) {
         this.players = new ArrayList<>();
         this.enemies = new ArrayList<>();
@@ -69,7 +60,6 @@ public class GameWorld {
             }
         }
     }
-
     private Position getRandomEmptyPosition(int rows, int cols, Random rand) {
         while (true) {
             Position pos = new Position(rand.nextInt(rows), rand.nextInt(cols));
@@ -78,6 +68,73 @@ public class GameWorld {
             }
         }
     }
+
+    public void playTurn(){
+        Scanner scanner=new Scanner(System.in);
+        PlayerCharacter player=players.get(0);
+
+        System.out.println("Your turn, " + player.getName());
+        System.out.println("1. Move (w/a/s/d)");
+        System.out.println("2. Attack enemy near you");
+        System.out.println("3. Use health potion");
+
+        System.out.print("Choose action (1-5): ");
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+
+        switch(choice){
+            case 1->{
+                System.out.println("Direction W/S/A/D");
+                String direction=scanner.nextLine();
+            }
+        }
+    }
+
+    private void movePlayer(Position from,Position to){
+        PlayerCharacter player=players.get(0);
+        gameMap.getGrid().get(from).remove(player);
+        player.setPosition(to);
+        gameMap.getGrid().get(to).add(player);
+    }
+    private void moveDirection(String direction){
+        Position current=players.get(0).getPosition();
+        int newRow=current.getRow();
+        int newCol=current.getCol();
+
+        switch (direction.toLowerCase()){
+            case "w"->newRow++;
+            case "s"->newRow--;
+            case "a"->newCol--;
+            case "d"->newCol++;
+            default -> {
+                System.out.println("Invalid Direction");
+                return;
+            }
+        }
+        Position newPos=new Position(newRow,newCol);
+        if (!(gameMap.getGrid().containsKey(newPos))){
+            System.out.println("Out of border ERROR");
+            return;
+        }
+        List<GameEntity>cell=gameMap.getGrid().get(newPos);
+        if (cell.isEmpty()){
+            movePlayer(current,newPos);
+        }
+        if (cell.getFirst() instanceof Enemy e){
+
+        }
+
+
+    }
+
+
+
+
+
+
+
+
+
     public List<GameItem> getItems() {
         return items;
     }
@@ -90,5 +147,15 @@ public class GameWorld {
     public List<PlayerCharacter> getPlayers() {
         return players;
     }
+
+
+
+
+
+
+    private List<PlayerCharacter> players;
+    private List<Enemy> enemies;
+    private List<GameItem> items;
+    private GameMap gameMap;
 
 }

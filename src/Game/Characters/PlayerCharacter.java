@@ -66,6 +66,12 @@ public abstract class PlayerCharacter extends AbstractCharacter{
         return "";
     }
     public abstract MagicElement getElement();
+    public String toString() {
+        return String.format("🧑‍💼 %s | Name: %s | Treasure: %d",
+                super.toString(),
+                getName(),
+                getTreasurePoints());
+    }
     private String name;
     private Inventory inventory;
     private int treasurePoints;

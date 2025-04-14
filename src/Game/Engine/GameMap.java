@@ -28,6 +28,11 @@ public class GameMap{
             }
         }
     }
+
+    public static void resetInstance(){
+        instance=null;
+    }
+
     public void placeEntity(Position position,GameEntity entity){
         if (!grid.containsKey(position)){
             grid.put(position,new ArrayList<>());

@@ -1,9 +1,6 @@
 package Game.Characters;
 
-import Game.Combat.Combatant;
-import Game.Combat.MagicElement;
-import Game.Combat.MeleeFighter;
-import Game.Combat.PhysicalAttacker;
+import Game.Combat.*;
 import Game.Map.Position;
 
 import java.util.Random;
@@ -43,6 +40,11 @@ public class Orc extends Enemy implements PhysicalAttacker, MeleeFighter{
             damageReceived*=(1-this.resistance);
         }
         this.setHealth(this.getHealth()-damageReceived);
+    }
+    public String toString() {
+        return String.format("👹 %s | Resistance: %.2f",
+                super.toString(),
+                resistance);
     }
     public String getDisplaySymbol() {
         return "O";

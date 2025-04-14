@@ -11,6 +11,7 @@ public abstract class AbstractCharacter implements Combatant, GameEntity{
         Health=100;
         Power=new Random().nextInt(11) + 4;
         evasionChance=0.25;
+        visibility=false;
 
     }
     public boolean equals(Object obj){
@@ -23,7 +24,6 @@ public abstract class AbstractCharacter implements Combatant, GameEntity{
     public void setVisible(boolean visible) {
         this.visibility=visible;
     }
-
     public void Heal(int amount){
         if (this.Health+amount>100){
             this.Health=100;
@@ -65,17 +65,36 @@ public abstract class AbstractCharacter implements Combatant, GameEntity{
     public void setPosition(Position position) {
         this.position = position; //position is immutable
     }
-    public boolean tryEvade(){
-        return (new Random().nextDouble()<=evasionChance);
+    public boolean tryEvade(Combatant attacker) {
+        double accuracyFactor = 1.0;
+        if (attacker instanceof Archer archer) {
+            accuracyFactor = 1 - archer.getAccuracy();
+        }
+        double evadeChance = this.evasionChance * accuracyFactor;
+        double roll = new Random().nextDouble();
+        return roll < evadeChance;
     }
-    public void receiveDamage(int amount,Combatant source){
-        if (tryEvade()){
+    public void receiveDamage(int amount, Combatant source){
+        if (tryEvade(source)){
             System.out.println("You have evaded the strike");
-        }
-        else{
-            this.setHealth(this.getHealth()-amount);
+        } else {
+            this.setHealth(this.getHealth() - amount);
         }
     }
+    protected double getEvasionChance(){
+        return evasionChance;
+    }
+    public String toString() {
+        return String.format("%s | HP: %d | Power: %d | Evasion: %.2f | Position: (%d,%d)",
+                getClass().getSimpleName(),
+                getHealth(),
+                getPower(),
+                evasionChance,
+                getPosition().getRow(),
+                getPosition().getCol());
+    }
+
+
     private Position position;
     private int Health,Power;
     private double evasionChance;

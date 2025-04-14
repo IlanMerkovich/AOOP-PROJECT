@@ -1,9 +1,6 @@
 package Game.Characters;
 
-import Game.Combat.Combatant;
-import Game.Combat.MagicElement;
-import Game.Combat.MeleeFighter;
-import Game.Combat.PhysicalAttacker;
+import Game.Combat.*;
 import Game.Map.Position;
 import java.util.Random;
 import static java.lang.Math.min;
@@ -18,6 +15,10 @@ public class Goblin extends Enemy implements PhysicalAttacker, MeleeFighter{
         double GoblinEvasion=min(0.8,this.agility/100.0);
         return new Random().nextDouble()<GoblinEvasion;
     }
+    public String toString() {
+        return String.format("👺 %s | Agility: %d", super.toString(), agility);
+    }
+
     public MagicElement getElement() {
         return null;
     }

@@ -8,8 +8,10 @@ public interface Combatant{
     public void receiveDamage(int amount,Combatant source);
     public boolean isDead();
     public int getPower();
-    public boolean tryEvade();
+    public boolean tryEvade(Combatant attacker);
     public Position getPosition();
     public MagicElement getElement();
     public double getAccuracy();
+    void attack(Combatant target);
+
 }

@@ -1,9 +1,6 @@
 package Game.Characters;
 
-import Game.Combat.Combatant;
-import Game.Combat.MagicElement;
-import Game.Combat.MeleeFighter;
-import Game.Combat.PhysicalAttacker;
+import Game.Combat.*;
 import Game.Map.Position;
 import java.util.Random;
 import static java.lang.Math.min;
@@ -31,7 +28,7 @@ public class Warrior extends PlayerCharacter implements MeleeFighter, PhysicalAt
     }
     public void receiveDamage(int amount, Combatant source){
         int totaldamage=0;
-        if (tryEvade()){
+        if (tryEvade(source)){
             System.out.println("You have evaded the strike");
         }
         else{

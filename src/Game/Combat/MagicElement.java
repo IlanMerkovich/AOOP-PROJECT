@@ -6,15 +6,19 @@ public enum MagicElement {
     FIRE, ICE, LIGHTNING, ACID;
 
     public boolean isStrongerThan(MagicElement other) {
-        if (this == FIRE) {
+        if (this == FIRE){
             return other == ICE;
-        } else if (this == ICE) {
+        }
+        else if (this == ICE) {
             return other == LIGHTNING;
-        } else if (this == LIGHTNING) {
+        }
+        else if (this == LIGHTNING) {
             return other == ACID;
-        } else if (this == ACID) {
+        }
+        else if (this == ACID) {
             return other == FIRE;
-        } else {
+        }
+        else {
             return false;
         }
     }

@@ -1,9 +1,6 @@
 package Game.Characters;
 
-import Game.Combat.Combatant;
-import Game.Combat.MagicAttacker;
-import Game.Combat.MagicElement;
-import Game.Combat.RangedFighter;
+import Game.Combat.*;
 import Game.Map.Position;
 import java.util.Random;
 
@@ -56,5 +53,8 @@ public class Mage extends PlayerCharacter implements MagicAttacker, RangedFighte
     }
     public String getDisplaySymbol() {
         return "A";
+    }
+    public void attack(Combatant target) {
+        castSpell(target);
     }
 }

@@ -14,10 +14,10 @@ public abstract class Enemy extends AbstractCharacter{
     }
     public boolean setHealth(int health) {
         if (health < 0) {
-            return false;
+            return super.setHealth(0);
         }
         if (health > 50) {
-            return super.setHealth(0);
+            return super.setHealth(50);
         }
         return super.setHealth(health);
     }
@@ -29,7 +29,12 @@ public abstract class Enemy extends AbstractCharacter{
             this.setHealth(this.getHealth()+amount);
         }
     }
-    public void Defeat(){
-        Treasure treasure=new Treasure(this.getPosition().getRow(),this.getPosition().getCol(),loot);
+    public String toString() {
+        return String.format("👾 %s | Loot: %d",
+                super.toString(),
+                loot);
+    }
+    public Treasure Defeat(){
+        return new Treasure(this.getPosition().getRow(),this.getPosition().getCol(),loot);
     }
 }

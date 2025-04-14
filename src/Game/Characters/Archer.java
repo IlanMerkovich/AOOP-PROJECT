@@ -1,9 +1,6 @@
 package Game.Characters;
 
-import Game.Combat.Combatant;
-import Game.Combat.MagicElement;
-import Game.Combat.PhysicalAttacker;
-import Game.Combat.RangedFighter;
+import Game.Combat.*;
 import Game.Map.Position;
 
 import java.util.Random;
@@ -12,15 +9,12 @@ public class Archer extends PlayerCharacter implements RangedFighter, PhysicalAt
 
     public Archer(int r,int c,String name){
         super(r,c,name);
-        accuracy=new Random().nextDouble(0.8);
+        accuracy=new Random().nextDouble()*0.8;
     }
     public boolean equals(Object obj) {
         if (!(obj instanceof Archer) || !super.equals(obj)) return false;
         Archer other = (Archer) obj;
         return this.accuracy==other.getAccuracy();
-    }
-    public MagicElement getElement() {
-        return null;
     }
     public double getAccuracy() {
         return accuracy;
@@ -39,6 +33,9 @@ public class Archer extends PlayerCharacter implements RangedFighter, PhysicalAt
             }
             target.receiveDamage(damage,this);
         }
+        else{
+            System.out.println("Target out of range");
+        }
     }
     public int getRange() {
         return 2;
@@ -46,9 +43,18 @@ public class Archer extends PlayerCharacter implements RangedFighter, PhysicalAt
     public String getDisplaySymbol() {
         return "A";
     }
+    public MagicElement getElement() {
+        return null;
+    }
     public boolean isInRange(Position self, Position target) {
         return self.distanceTo(target)<=getRange();
     }
+    public String toString() {
+        return String.format("🏹 %s | Accuracy: %.2f",
+                super.toString(),
+                getAccuracy());
+    }
+
     private double accuracy;
 
 }
