@@ -1,12 +1,11 @@
 package Game.Items;
-
 import Game.Characters.PlayerCharacter;
-
 import java.util.Random;
 
 public class Potion extends GameItem implements Interactable{
     private int increaseAmount;
     private boolean isUsed;
+
     public Potion(int r,int c){
         super(r,c);
         this.increaseAmount=new Random().nextInt(41)+10;
@@ -14,12 +13,11 @@ public class Potion extends GameItem implements Interactable{
         this.setDescription("This is a health Potion.By using this potion,you can heal yourself between 10 and 50 health points.limited for 1 use only");
     }
     public String getDisplaySymbol() {
-        return "P";
+        return "PT";
     }
     public void interact(PlayerCharacter c){
-        if (!isUsed) {
-            c.Heal(increaseAmount);
-            isUsed = true;
+        if (!this.CheckisUsed()){
+            c.addToInventory(this);
             this.removeBlock();
         }
     }
@@ -30,16 +28,16 @@ public class Potion extends GameItem implements Interactable{
         Potion other=(Potion) obj;
         return this.isUsed==other.CheckisUsed() && this.increaseAmount==other.getAmount();
     }
-    protected void setAmount(int amount){
+    public void setAmount(int amount){
         this.increaseAmount=amount;
     }
-    protected int getAmount(){
+    public int getAmount(){
         return increaseAmount;
     }
-    protected boolean CheckisUsed(){
+    public boolean CheckisUsed(){
         return isUsed;
     }
-    protected void setUsed(){
+    public void setUsed(){
         this.isUsed=true;
     }
     public String toString() {

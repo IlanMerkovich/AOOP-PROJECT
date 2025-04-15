@@ -52,7 +52,7 @@ public class Mage extends PlayerCharacter implements MagicAttacker, RangedFighte
         return self.distanceTo(target)<=getRange();
     }
     public String getDisplaySymbol() {
-        return "A";
+        return "MA";
     }
     public void attack(Combatant target) {
         castSpell(target);

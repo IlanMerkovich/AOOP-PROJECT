@@ -44,6 +44,6 @@ public class Goblin extends Enemy implements PhysicalAttacker, MeleeFighter{
         return new Random().nextDouble()<0.1;
     }
     public String getDisplaySymbol() {
-        return "G";
+        return "GO";
     }
 }

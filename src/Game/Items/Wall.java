@@ -8,12 +8,12 @@ public class Wall extends GameItem{
         this.setDescription("This is a wall,you cant go threw here! You must bypass this wall.");
     }
     public String toString() {
-        return String.format("🧱 Wall | %s", super.toString());
+        return String.format("Wall | %s", super.toString());
     }
-    public void interact(PlayerCharacter c) {
+    public void interact(PlayerCharacter c){
 
     }
     public String getDisplaySymbol() {
-        return "W";
+        return "WL";
     }
 }

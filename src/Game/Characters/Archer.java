@@ -41,7 +41,7 @@ public class Archer extends PlayerCharacter implements RangedFighter, PhysicalAt
         return 2;
     }
     public String getDisplaySymbol() {
-        return "A";
+        return "AR";
     }
     public MagicElement getElement() {
         return null;

@@ -10,13 +10,6 @@ public class PowerPotion extends Potion{
         this.setAmount(new Random().nextInt(4)+1);
         this.setDescription("This is a power Potion.By using this potion,you can add to yourself between 1 and 5 power points.limited for 1 use only");;
     }
-    public void interact(PlayerCharacter c) {
-        if (!this.CheckisUsed()){
-            c.addPower(this.getAmount());
-            this.setUsed();
-            this.removeBlock();
-        }
-    }
     public String toString() {
         return String.format("💥 PowerPotion | %s", super.toString());
     }

@@ -11,8 +11,29 @@
     public class CombatSystem {
         public CombatSystem() {
         }
-        public void resolveCombat(Combatant attacker, Combatant defender){
-
+        public void resolveCombat(Combatant attacker, Combatant defender) {
+            if (isInRange(attacker, defender)) {
+                attacker.attack(defender);
+                if (defender.isDead()){
+                    if (defender instanceof Enemy e) {
+                        System.out.println("Enemy was defeated!");
+                    }
+                    else {
+                        System.out.println("You are dead. You lost!");
+                    }
+                    return;
+                }
+            }
+            else {
+                System.out.println("Defender is out of range!");
+                return;
+            }
+            if (isInRange(defender, attacker)) {
+                defender.attack(attacker);
+                if (attacker.isDead()) {
+                    System.out.println("You are dead. You lost!");
+                }
+            }
         }
         private boolean isInRange(Combatant source, Combatant target){
             Position srcPos=source.getPosition();

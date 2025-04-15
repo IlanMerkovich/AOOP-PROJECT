@@ -1,9 +1,12 @@
 package Game.Characters;
 import Game.Combat.MagicElement;
+import Game.Core.GameEntity;
 import Game.Core.Inventory;
 import Game.Items.GameItem;
 import Game.Items.Potion;
 import Game.Items.PowerPotion;
+
+import java.util.Iterator;
 
 public abstract class PlayerCharacter extends AbstractCharacter{
     public PlayerCharacter(int r,int c,String name){
@@ -30,21 +33,31 @@ public abstract class PlayerCharacter extends AbstractCharacter{
         return true;
     }
     public boolean usePotion(){
-        for (GameItem item:inventory.getItems()){
-            if (item instanceof Potion && !(item instanceof PowerPotion)){
-                item.interact(this);
-                inventory.removeItem(item);
-                return true;
+        Iterator<GameItem> it = inventory.getItems().iterator();
+        while (it.hasNext()) {
+            GameItem item = it.next();
+            if (item instanceof Potion potion && !(potion instanceof PowerPotion)) {
+                if (!potion.CheckisUsed()) {
+                    this.Heal(potion.getAmount());
+                    potion.setUsed();
+                    it.remove();
+                    return true;
+                }
             }
         }
         return false;
     }
-    public boolean userPowerPotion(){
-        for (GameItem item:inventory.getItems()){
-            if (item instanceof PowerPotion){
-                item.interact(this);
-                inventory.removeItem(item);
-                return true;
+    public boolean usePowerPotion(){
+        Iterator<GameItem> it = inventory.getItems().iterator();
+        while (it.hasNext()){
+            GameItem item = it.next();
+            if (item instanceof PowerPotion potion){
+                if (!potion.CheckisUsed()){
+                    this.addPower(potion.getAmount());
+                    potion.setUsed();
+                    it.remove();
+                    return true;
+                }
             }
         }
         return false;

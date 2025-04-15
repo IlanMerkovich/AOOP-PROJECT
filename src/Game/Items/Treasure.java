@@ -41,7 +41,7 @@ public class Treasure extends GameItem implements Interactable{
     }
 
     public String getDisplaySymbol() {
-        return "T";
+        return "TR";
     }
 
     private int value;

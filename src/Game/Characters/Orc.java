@@ -47,7 +47,7 @@ public class Orc extends Enemy implements PhysicalAttacker, MeleeFighter{
                 resistance);
     }
     public String getDisplaySymbol() {
-        return "O";
+        return "OR";
     }
     private double resistance;
 }

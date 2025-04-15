@@ -32,6 +32,9 @@ public abstract class GameItem implements GameEntity{
     protected void removeBlock(){
         this.blocksMovement=false;
     }
+    public boolean isBlocksMovement(){
+        return blocksMovement;
+    }
     public void setVisible(boolean visible){
         this.visibility=visible;
 

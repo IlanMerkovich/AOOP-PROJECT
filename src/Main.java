@@ -8,6 +8,8 @@ import Game.Map.Position;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args){
+        GameWorld gameWorld=new GameWorld(10,10,"Ilan",1);
+        gameWorld.gameLoop();
     }
 }

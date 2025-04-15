@@ -9,14 +9,12 @@ import Game.Map.Position;
 import java.util.*;
 
 public class GameWorld {
-    private GameWorld(int rows, int cols, String name, int type){
+    public GameWorld(int rows, int cols, String name, int type){
         this.players = new ArrayList<>();
         this.enemies = new ArrayList<>();
         this.items = new ArrayList<>();
-        this.gameMap = GameMap.getInstance(rows, cols);
+        this.gameMap = new GameMap(rows,cols);
         this.combatSystem = new CombatSystem();
-        this.rows=rows;
-        this.cols=cols;
         Random random = new Random();
 
         Position playerPosition = getRandomEmptyPosition(rows, cols, random);
@@ -59,34 +57,149 @@ public class GameWorld {
         }
     }
     private Position getRandomEmptyPosition(int rows, int cols, Random rand) {
-        while (true) {
+        while (true){
             Position pos = new Position(rand.nextInt(rows), rand.nextInt(cols));
             if (gameMap.getGrid().get(pos).isEmpty()) {
                 return pos;
             }
         }
     }
-    public List<GameItem> getItems() {
-        return items;
-    }
-    public GameMap getGameMap() {
-        return gameMap;
-    }
-    public List<Enemy> getEnemies() {
-        return enemies;
-    }
-    public List<PlayerCharacter> getPlayers() {
-        return players;
-    }
-    public void addTreasure(GameEntity entity){
-        if (entity instanceof GameItem e){
-            items.add(e);
+    private void playTurn(PlayerCharacter player) {
+        Scanner scanner = new Scanner(System.in);
+        Position playerPosition = player.getPosition();
+        int curX = playerPosition.getRow();
+        int curY = playerPosition.getCol();
+
+        System.out.println("Choose an action:");
+        System.out.println("1. Move Up");
+        System.out.println("2. Move Down");
+        System.out.println("3. Move Left");
+        System.out.println("4. Move Right");
+        System.out.println("5. Use Potion");
+        System.out.println("6. Use Power Potion");
+        int choice;
+
+        try {
+            choice = scanner.nextInt();
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid input! Please enter a number between 1 and 6.");
+            scanner.nextLine();
+            return;
+        }
+
+        switch (choice) {
+            case 1 -> curX--;
+            case 2 -> curX++;
+            case 3 -> curY--;
+            case 4 -> curY++;
+            case 5 -> {
+                if (player.usePotion()) {
+                    System.out.println("You have used a Potion!");
+                } else {
+                    System.out.println("No Potion found!");
+                }
+                return;
+            }
+            case 6 -> {
+                if (player.usePowerPotion()) {
+                    System.out.println("You have used a Power Potion");
+                } else {
+                    System.out.println("No Power Potion found!");
+                }
+                return;
+            }
+            default -> {
+                System.out.println("Invalid Choice!");
+                return;
+            }
+        }
+
+        Position newPos = new Position(curX, curY);
+        if (!gameMap.getGrid().containsKey(newPos)) {
+            System.out.println("Out of game bounds! - Invalid move");
+            return;
+        }
+
+        List<GameEntity> entitiesAtnewPos = gameMap.getGrid().get(newPos);
+        if (entitiesAtnewPos == null) {
+            System.out.println("Internal error: No data for the target cell.");
+            return;
+        }
+
+        if (entitiesAtnewPos.isEmpty() && !gameMap.isBlocked(newPos)) {
+            gameMap.getGrid().get(playerPosition).remove(player);
+            player.setPosition(newPos);
+            gameMap.placeEntity(newPos, player);
+            System.out.println("Player moved from " + playerPosition + " to " + newPos);
+            return;
+        }
+
+        Iterator<GameEntity> it = entitiesAtnewPos.iterator();
+        while (it.hasNext()) {
+            GameEntity entity = it.next();
+            if (entity instanceof Enemy e) {
+                System.out.println("Enemy found, Starting Combat!");
+                while (!player.isDead() && !e.isDead()) {
+                    combatSystem.resolveCombat(player,e);
+                }
+                if (e.isDead()){
+                    Treasure treasure=e.Defeat();
+                    this.addItem(treasure);
+                    gameMap.placeEntity(e.getPosition(),treasure);
+                    gameMap.removeEntity(e.getPosition(),e);
+                }
+                return;
+            }
+            if (entity instanceof GameItem p) {
+                p.interact(player);
+                if (!p.isBlocksMovement()){
+                    it.remove();
+                }
+            }
+
         }
     }
+    public void gameLoop(){
+        System.out.println("Welcome to AOOP Turn-Based Game!");
+        PlayerCharacter player=this.getPlayer();
+        while (true){
+            if (player.isDead()){
+                System.out.println("GAME OVER!");
+                return;
+            }
+            boolean allEnemiesDead = true;
+            for (Enemy e : enemies) {
+                if (!e.isDead()) {
+                    allEnemiesDead = false;
+                    break;
+                }
+            }
+            if (allEnemiesDead) {
+                System.out.println("🏆Victory! All enemies have been defeated.");
+                break;
+            }
+            gameMap.displayMap();
+            System.out.println(player);
+            this.playTurn(player);
+        }
+    }
+
+    private PlayerCharacter getPlayer(){
+        return players.get(0);
+    }
+    private boolean addItem(GameEntity entity){
+        if (entity instanceof GameItem e){
+            items.add(e);
+            return true;
+        }
+        return false;
+    }
+
+
+
     private List<PlayerCharacter> players;
     private List<Enemy> enemies;
     private List<GameItem> items;
     private GameMap gameMap;
     private CombatSystem combatSystem;
-    private int rows,cols;
 }
