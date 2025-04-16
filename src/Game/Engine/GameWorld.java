@@ -178,12 +178,12 @@ public class GameWorld {
                 System.out.println("🏆Victory! All enemies have been defeated.");
                 break;
             }
-            gameMap.displayMap();
+            this.updateVisibility(player.getPosition());
+            gameMap.displayMap(player.getPosition());
             System.out.println(player);
             this.playTurn(player);
         }
     }
-
     private PlayerCharacter getPlayer(){
         return players.get(0);
     }
@@ -194,8 +194,14 @@ public class GameWorld {
         }
         return false;
     }
-
-
+    private void updateVisibility(Position playerPos) {
+        for (List<GameEntity> cell : gameMap.getGrid().values()) {
+            for (GameEntity entity : cell) {
+                boolean visible = playerPos.distanceTo(entity.getPosition()) <= 2;
+                entity.setVisible(visible);
+            }
+        }
+    }
 
     private List<PlayerCharacter> players;
     private List<Enemy> enemies;

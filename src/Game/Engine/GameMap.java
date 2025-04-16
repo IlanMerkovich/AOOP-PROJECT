@@ -35,31 +35,42 @@ public class GameMap{
     public Map<Position,List<GameEntity>>getGrid(){
         return grid;
     }
-    public void displayMap(){
+    public void displayMap(Position playerPos) {
         final String RESET = "\u001B[0m";
         final String BLUE = "\u001B[34m";
 
-        for (int i = 0; i < rows; i++){
-            for (int j = 0; j < cols; j++){
-                Position position=new Position(i,j);
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                Position position = new Position(i, j);
                 List<GameEntity> cell = grid.getOrDefault(position, new ArrayList<>());
-                if (cell.isEmpty()){
-                    System.out.print("  **  ");
-                }
-                else{
-                    GameEntity entity=cell.get(0);
-                    if (entity instanceof PlayerCharacter){
-                        System.out.print(" "+BLUE+entity.getDisplaySymbol()+RESET+" ");
+                int distance = playerPos.distanceTo(position);
+
+                if (cell.isEmpty()) {
+                    if (distance <= 2) {
+                        System.out.print("  **  ");
                     }
                     else {
-                        System.out.print("  "+entity.getDisplaySymbol()+"  ");
+                        System.out.print("  ??  ");
                     }
-
+                } else {
+                    GameEntity entity = cell.get(0);
+                    if (entity instanceof PlayerCharacter){
+                        System.out.print("  " + BLUE + entity.getDisplaySymbol() + RESET + "  ");
+                    }
+                    else {
+                        if (entity.getVisibility()){
+                            System.out.print("  " + entity.getDisplaySymbol() + "  ");
+                        }
+                        else{
+                            System.out.print("  ??  ");
+                        }
+                    }
                 }
             }
             System.out.println("\n");
         }
     }
+
     public boolean isBlocked(Position pos) {
         List<GameEntity> entities = grid.get(pos);
         for (GameEntity entity : entities) {

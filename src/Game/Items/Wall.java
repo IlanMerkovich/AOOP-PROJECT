@@ -11,6 +11,7 @@ public class Wall extends GameItem{
         return String.format("Wall | %s", super.toString());
     }
     public void interact(PlayerCharacter c){
+        System.out.println("You hit a Wall at: "+this.getPosition());
 
     }
     public String getDisplaySymbol() {

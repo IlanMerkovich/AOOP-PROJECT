@@ -93,7 +93,9 @@ public abstract class AbstractCharacter implements Combatant, GameEntity{
                 getPosition().getRow(),
                 getPosition().getCol());
     }
-
+    public boolean getVisibility() {
+        return visibility;
+    }
 
     private Position position;
     private int Health,Power;

@@ -11,7 +11,8 @@
     public class CombatSystem {
         public CombatSystem() {
         }
-        public void resolveCombat(Combatant attacker, Combatant defender) {
+        public void resolveCombat(Combatant attacker, Combatant defender){
+
             if (isInRange(attacker, defender)) {
                 attacker.attack(defender);
                 if (defender.isDead()){

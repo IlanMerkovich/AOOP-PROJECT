@@ -5,6 +5,8 @@ import Game.Engine.GameMap;
 import Game.Engine.GameWorld;
 import Game.Map.Position;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {

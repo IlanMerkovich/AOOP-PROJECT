@@ -39,6 +39,9 @@ public abstract class GameItem implements GameEntity{
         this.visibility=visible;
 
     }
+    public boolean getVisibility() {
+        return visibility;
+    }
     public String toString() {
         return String.format("📦 GameItem | Pos: %s | Desc: %s | Blocks: %s",
                 position, description, blocksMovement);

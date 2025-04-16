@@ -7,4 +7,5 @@ public interface GameEntity {
     public void setPosition(Position newPos);
     public String getDisplaySymbol();
     public void setVisible(boolean visible);
+    public boolean getVisibility();
 }
