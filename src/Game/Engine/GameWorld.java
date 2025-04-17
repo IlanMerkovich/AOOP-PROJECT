@@ -64,7 +64,7 @@ public class GameWorld {
             }
         }
     }
-    private void playTurn(PlayerCharacter player) {
+    private void playTurn(PlayerCharacter player){
         Scanner scanner = new Scanner(System.in);
         Position playerPosition = player.getPosition();
         int curX = playerPosition.getRow();
@@ -93,39 +93,43 @@ public class GameWorld {
             case 3 -> curY--;
             case 4 -> curY++;
             case 5 -> {
-                if (player.usePotion()) {
-                    System.out.println("You have used a Potion!");
-                } else {
-                    System.out.println("No Potion found!");
+                for (GameItem item:player.getInventory().getItems()){
+                    if (item instanceof Potion p && !(p instanceof PowerPotion)){
+                        p.interact(player);
+                        return;
+                    }
+                    else{
+                        System.out.println("No health potion found!");
+                        return;
+                    }
                 }
-                return;
             }
             case 6 -> {
-                if (player.usePowerPotion()) {
-                    System.out.println("You have used a Power Potion");
-                } else {
-                    System.out.println("No Power Potion found!");
+                for (GameItem item:player.getInventory().getItems()){
+                    if (item instanceof PowerPotion p){
+                        p.interact(player);
+                    }
+                    else{
+                        System.out.println("No power potion found!");
+                        return;
+                    }
                 }
-                return;
             }
             default -> {
                 System.out.println("Invalid Choice!");
                 return;
             }
         }
-
         Position newPos = new Position(curX, curY);
         if (!gameMap.getGrid().containsKey(newPos)) {
             System.out.println("Out of game bounds! - Invalid move");
             return;
         }
-
         List<GameEntity> entitiesAtnewPos = gameMap.getGrid().get(newPos);
         if (entitiesAtnewPos == null) {
             System.out.println("Internal error: No data for the target cell.");
             return;
         }
-
         if (entitiesAtnewPos.isEmpty() && !gameMap.isBlocked(newPos)) {
             gameMap.getGrid().get(playerPosition).remove(player);
             player.setPosition(newPos);
@@ -133,7 +137,6 @@ public class GameWorld {
             System.out.println("Player moved from " + playerPosition + " to " + newPos);
             return;
         }
-
         Iterator<GameEntity> it = entitiesAtnewPos.iterator();
         while (it.hasNext()) {
             GameEntity entity = it.next();
@@ -150,11 +153,14 @@ public class GameWorld {
                 }
                 return;
             }
-            if (entity instanceof GameItem p) {
-                p.interact(player);
-                if (!p.isBlocksMovement()){
-                    it.remove();
-                }
+            if (entity instanceof Pickupable pickupable){
+                pickupable.pickup(player);
+                it.remove();
+                return;
+            }
+            if (entity instanceof Interactable interactable){
+                interactable.interact(player);
+                it.remove();
             }
 
         }
@@ -165,6 +171,7 @@ public class GameWorld {
         while (true){
             if (player.isDead()){
                 System.out.println("GAME OVER!");
+                System.out.println("Your treasure points are: "+player.getTreasurePoints());
                 return;
             }
             boolean allEnemiesDead = true;
@@ -176,6 +183,7 @@ public class GameWorld {
             }
             if (allEnemiesDead) {
                 System.out.println("🏆Victory! All enemies have been defeated.");
+                System.out.println("Your treasure points are: "+player.getTreasurePoints());
                 break;
             }
             this.updateVisibility(player.getPosition());
@@ -202,7 +210,6 @@ public class GameWorld {
             }
         }
     }
-
     private List<PlayerCharacter> players;
     private List<Enemy> enemies;
     private List<GameItem> items;

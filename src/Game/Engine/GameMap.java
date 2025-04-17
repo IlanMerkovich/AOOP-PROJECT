@@ -3,9 +3,6 @@ package Game.Engine;
 import Game.Characters.*;
 import Game.Core.GameEntity;
 import Game.Items.GameItem;
-import Game.Items.Potion;
-import Game.Items.PowerPotion;
-import Game.Items.Wall;
 import Game.Map.Position;
 
 import java.util.*;
@@ -23,9 +20,10 @@ public class GameMap{
             }
         }
     }
-
-
     public void placeEntity(Position position,GameEntity entity){
+        if (position==null || entity==null){
+            return;
+        }
         if (!grid.containsKey(position)){
             grid.put(position,new ArrayList<>());
         }
@@ -70,7 +68,6 @@ public class GameMap{
             System.out.println("\n");
         }
     }
-
     public boolean isBlocked(Position pos) {
         List<GameEntity> entities = grid.get(pos);
         for (GameEntity entity : entities) {

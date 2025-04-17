@@ -62,29 +62,27 @@ public abstract class PlayerCharacter extends AbstractCharacter{
         }
         return false;
     }
-    public boolean updateTreasurePoints(int amount){
-        if (amount<0){
-            return false;
-        }
-        this.treasurePoints+=amount;
-        return true;
-    }
     public int getTreasurePoints() {
         return treasurePoints;
     }
     public void addTreasurePoint(int amount){
         this.treasurePoints+=amount;
     }
-    public String getDisplaySymbol() {
-        return "";
-    }
     public abstract MagicElement getElement();
     public String toString() {
-        return String.format("🧑‍💼 %s | Name: %s | Treasure: %d",
+        return String.format(
+                "🧑‍💼 %s | Name: %s | Treasure: %d\n%s",
                 super.toString(),
                 getName(),
-                getTreasurePoints());
+                getTreasurePoints(),
+                inventory.toString()
+        );
     }
+    public Inventory getInventory(){
+        return inventory;
+    }
+
+
     private String name;
     private Inventory inventory;
     private int treasurePoints;

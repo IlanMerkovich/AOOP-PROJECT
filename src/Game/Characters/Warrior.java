@@ -18,13 +18,11 @@ public class Warrior extends PlayerCharacter implements MeleeFighter, PhysicalAt
         return this.getName().equals(other.getName()) && this.defence==other.getDefence();
     }
     public void fightClose(Combatant target){
-        if (isInMeleeRange(this.getPosition(),target.getPosition())){
-            int damage=this.getPower();
-            if (isCriticalHit()){
-                damage*=2;
-            }
-            target.receiveDamage(damage,this);
+        int damage=this.getPower();
+        if (isCriticalHit()){
+            damage*=2;
         }
+        target.receiveDamage(damage,this);
     }
     public void receiveDamage(int amount, Combatant source){
         int totaldamage=0;
@@ -33,7 +31,7 @@ public class Warrior extends PlayerCharacter implements MeleeFighter, PhysicalAt
         }
         else{
             totaldamage=(int)(amount*(1-min(0.6,defence/200.0)));
-            this.setHealth(this.getHealth()-totaldamage);
+            this.getDamage(totaldamage);
         }
     }
     public MagicElement getElement() {
