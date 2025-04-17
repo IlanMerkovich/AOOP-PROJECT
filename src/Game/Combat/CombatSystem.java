@@ -1,16 +1,24 @@
     package Game.Combat;
     import Game.Characters.Enemy;
-    import Game.Characters.PlayerCharacter;
-    import Game.Core.GameEntity;
-    import Game.Engine.GameMap;
-    import Game.Engine.GameWorld;
-    import Game.Items.Potion;
-    import Game.Items.Treasure;
     import Game.Map.Position;
-
+    /**
+     * Handles turn-based combat between two combatants in the game.
+     * Supports checking range and applying attack logic.
+     */
     public class CombatSystem {
+        /**
+         * Constructs a new CombatSystem instance.
+         */
         public CombatSystem() {
         }
+        /**
+         * Executes a full combat round between two combatants.
+         * The attacker attacks first. If the defender survives and is in range,
+         * they counterattack.
+         *
+         * @param attacker the combatant initiating the attack
+         * @param defender the combatant being attacked
+         */
         public void resolveCombat(Combatant attacker, Combatant defender){
 
             if (isInRange(attacker, defender)) {
@@ -38,6 +46,14 @@
                 }
             }
         }
+        /**
+         * Checks if the target is within the attack range of the source.
+         * Supports both melee and ranged fighters.
+         *
+         * @param source the attacking combatant
+         * @param target the target combatant
+         * @return true if in range, false otherwise
+         */
         private boolean isInRange(Combatant source, Combatant target){
             Position srcPos=source.getPosition();
             Position trgPos=target.getPosition();

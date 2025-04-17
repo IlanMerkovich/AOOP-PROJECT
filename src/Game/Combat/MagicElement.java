@@ -1,7 +1,10 @@
 package Game.Combat;
 
 import java.util.Random;
-
+/**
+ * Enum representing magical elements used in combat.
+ * Each element has a defined strength relationship over another.
+ */
 public enum MagicElement {
     FIRE, ICE, LIGHTNING, ACID;
 
