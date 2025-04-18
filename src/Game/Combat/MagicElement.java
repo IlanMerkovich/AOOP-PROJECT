@@ -7,7 +7,6 @@ import java.util.Random;
  */
 public enum MagicElement {
     FIRE, ICE, LIGHTNING, ACID;
-
     public boolean isStrongerThan(MagicElement other) {
         if (this == FIRE){
             return other == ICE;
@@ -27,5 +26,13 @@ public enum MagicElement {
     }
     public static MagicElement getRandomElement(){
         return values()[new Random().nextInt(values().length)];
+    }
+    public String toString() {
+        return switch (this) {
+            case FIRE -> "Fire";
+            case ICE -> "Ice";
+            case LIGHTNING -> "Lightning";
+            case ACID -> "Acid";
+        };
     }
 }

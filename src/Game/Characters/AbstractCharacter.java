@@ -84,9 +84,15 @@ public abstract class AbstractCharacter implements Combatant, GameEntity{
         this.Health=health;
         return true;
     }
+    /**
+     *@return players health
+     */
     public int getHealth(){
         return this.Health;
     }
+    /**
+     * @return players power
+     */
     public int getPower() {
         return Power;
     }
@@ -100,9 +106,16 @@ public abstract class AbstractCharacter implements Combatant, GameEntity{
         }
         return false;
     }
+    /**
+     * @return player position
+     */
     public Position getPosition(){
         return position;
     }
+    /**
+     * sets player position
+     * @param position the new position to set
+     */
     public void setPosition(Position position) {
         this.position = position; //position is immutable
     }
@@ -165,6 +178,10 @@ public abstract class AbstractCharacter implements Combatant, GameEntity{
     public boolean getVisibility() {
         return visibility;
     }
+    /**
+     * sets player new health after getting damaged
+     * @param amount of damage
+     */
     protected void getDamage(int amount){
         this.Health-=amount;
     }

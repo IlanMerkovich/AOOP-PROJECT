@@ -4,12 +4,26 @@ import Game.Combat.*;
 import Game.Map.Position;
 import java.util.Random;
 import static java.lang.Math.min;
-
+/**
+ * Represents a Warrior character, a melee fighter with defensive capabilities.
+ * Extends PlayerCharacter and implements MeleeFighter and PhysicalAttacker.
+ * Warriors can perform close-range attacks and mitigate damage using their defense stat.
+ */
 public class Warrior extends PlayerCharacter implements MeleeFighter, PhysicalAttacker{
+    /**
+     * Constructs a Warrior with a random defense value between 0 and 120.
+     *
+     * @param r    the row position on the map
+     * @param c    the column position on the map
+     * @param name the name of the player
+     */
     public Warrior(int r,int c,String name){
         super(r,c,name);
         defence=new Random().nextInt(121);
     }
+    /**
+     * Checks equality based on name, defense, and inherited fields.
+     */
     public boolean equals(Object obj){
         if (!(obj instanceof Warrior) || !(super.equals(obj))){
             return false;
@@ -17,6 +31,10 @@ public class Warrior extends PlayerCharacter implements MeleeFighter, PhysicalAt
         Warrior other=(Warrior) obj;
         return this.getName().equals(other.getName()) && this.defence==other.getDefence();
     }
+    /**
+     * Performs a melee attack on the given target.
+     * Can result in critical hit (double damage) with 10% probability.
+     */
     public void fightClose(Combatant target){
         int damage=this.getPower();
         if (isCriticalHit()){
@@ -24,6 +42,10 @@ public class Warrior extends PlayerCharacter implements MeleeFighter, PhysicalAt
         }
         target.receiveDamage(damage,this);
     }
+    /**
+     * Overrides receiveDamage to apply defense-based mitigation.
+     * Reduces incoming damage up to 60% depending on defense stat.
+     */
     public void receiveDamage(int amount, Combatant source){
         int totaldamage=0;
         if (tryEvade(source)){
@@ -34,15 +56,27 @@ public class Warrior extends PlayerCharacter implements MeleeFighter, PhysicalAt
             this.getDamage(totaldamage);
         }
     }
+    /**
+     * Returns null as Warriors do not have a magic element.
+     */
     public MagicElement getElement() {
         return null;
     }
+    /**
+     * Returns 0 since Warriors do not use accuracy.
+     */
     public double getAccuracy() {
         return 0;
     }
+    /**
+     * Checks if a target is in melee range (distance = 1).
+     */
     public boolean isInMeleeRange(Position self, Position target) {
         return self.distanceTo(target)==1;
     }
+    /**
+     * Attacks the target if within melee range.
+     */
     public void attack(Combatant target){
         if (isInMeleeRange(this.getPosition(),target.getPosition())){
             fightClose(target);
@@ -51,14 +85,33 @@ public class Warrior extends PlayerCharacter implements MeleeFighter, PhysicalAt
             System.out.println("Target out of range");
         }
     }
+    /**
+     * Returns true with 10% chance to simulate a critical hit.
+     */
     public boolean isCriticalHit() {
         return new Random().nextDouble()<0.1;
     }
+    /**
+     * Returns the warrior’s defense value.
+     */
     public int getDefence() {
         return defence;
     }
+    /**
+     * Returns the symbol used to represent the warrior on the map.
+     */
     public String getDisplaySymbol() {
         return "WR";
+    }
+    /**
+     * Returns a string representation of the Warrior, including defense value.
+     *
+     * @return a formatted string with Warrior details
+     */
+    public String toString() {
+        return String.format("🛡️%s | Defense: %d",
+                super.toString(),
+                defence);
     }
 
     private int defence;

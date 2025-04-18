@@ -1,7 +1,5 @@
 package Game.Items;
-
 import Game.Characters.PlayerCharacter;
-
 import java.util.Random;
 /**
  * Represents a treasure chest in the game.

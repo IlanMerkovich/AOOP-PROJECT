@@ -156,6 +156,28 @@ public class Dragon extends Enemy implements PhysicalAttacker,MeleeFighter, Magi
     public String getDisplaySymbol() {
         return "DR";
     }
+    /**
+     * Returns a string representation of the dragon, including its element type and loot value.
+     *
+     * @return a formatted string with dragon details
+     */
+    public String toString() {
+        return String.format("🐉 Dragon | Element: %s | %s",
+                element.toString(),
+                super.toString());
+    }
+    /**
+     * Checks if this dragon is equal to another object.
+     * Equality is based on superclass fields and magic element.
+     *
+     * @param obj the object to compare
+     * @return true if the dragons are equal, false otherwise
+     */
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Dragon other))
+            return false;
+        return super.equals(obj) && this.element == other.getElement();
+    }
 
     private final MagicElement element;
 }

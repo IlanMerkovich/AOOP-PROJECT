@@ -71,4 +71,21 @@ public abstract class Enemy extends AbstractCharacter{
     public Treasure Defeat(){
         return new Treasure(this.getPosition().getRow(),this.getPosition().getCol(),loot);
     }
+    /**
+     * Checks if two Enemy objects are equal.
+     * Equality is based on position, health, power, and loot value.
+     *
+     * @param obj the object to compare with
+     * @return true if the objects are equal, false otherwise
+     */
+    public boolean equals(Object obj) {
+        if (obj == null || !(obj instanceof Enemy)) {
+            return false;
+        }
+        Enemy other = (Enemy) obj;
+        return this.getPosition().equals(other.getPosition()) &&
+                this.getHealth() == other.getHealth() &&
+                this.getPower() == other.getPower() &&
+                this.loot == other.loot;
+    }
 }

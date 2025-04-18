@@ -89,4 +89,19 @@ public class Goblin extends Enemy implements PhysicalAttacker, MeleeFighter{
     public String getDisplaySymbol() {
         return "GO";
     }
+    /**
+     * Checks if this Goblin is equal to another object.
+     * Equality is based on inherited Enemy fields and Goblin-specific agility.
+     *
+     * @param obj the object to compare with
+     * @return true if the objects are equal, false otherwise
+     */
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Goblin) || !super.equals(obj)) {
+            return false;
+        }
+        Goblin other = (Goblin) obj;
+        return this.agility == other.agility;
+    }
+
 }

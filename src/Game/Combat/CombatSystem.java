@@ -22,8 +22,6 @@
         public void resolveCombat(Combatant attacker, Combatant defender){
 
             if (isInRange(attacker, defender)) {
-                System.out.println(attacker);
-                System.out.println(defender);
                 attacker.attack(defender);
                 if (defender.isDead()){
                     if (defender instanceof Enemy e) {

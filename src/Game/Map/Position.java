@@ -55,7 +55,8 @@ public class Position {
      */
     public boolean equals(Object obj){
         if (this == obj) return true;
-        if (!(obj instanceof Position)) return false;
+        if (!(obj instanceof Position))
+            return false;
         Position other = (Position) obj;
         return this.getRow() == other.getRow() && this.getCol() == other.getCol();
     }
