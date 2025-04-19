@@ -9,13 +9,49 @@ import Game.Map.Position;
 import java.util.*;
 
 public class GameWorld {
-    public GameWorld(int rows, int cols, String name, int type){
+    public GameWorld(){
         this.players = new ArrayList<>();
         this.enemies = new ArrayList<>();
         this.items = new ArrayList<>();
-        this.gameMap = new GameMap(rows,cols);
         this.combatSystem = new CombatSystem();
+        Scanner sc=new Scanner(System.in);
         Random random = new Random();
+        int rows = 0, cols = 0;
+        while (rows < 10) {
+            System.out.print("Enter number of rows (minimum 10): ");
+            try {
+                rows = sc.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please enter an integer.");
+                sc.nextLine();
+            }
+        }
+
+        while (cols < 10) {
+            System.out.print("Enter number of columns (minimum 10): ");
+            try {
+                cols = sc.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please enter an integer.");
+                sc.nextLine();
+            }
+        }
+
+        sc.nextLine(); // consume leftover newline
+        System.out.print("Enter your character name: ");
+        String name = sc.nextLine().trim();
+
+        int type = 0;
+        while (type < 1 || type > 3) {
+            System.out.print("Choose your class (1 = Warrior, 2 = Mage, 3 = Archer): ");
+            try {
+                type = sc.nextInt();
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input! Please enter 1, 2, or 3.");
+                sc.nextLine();
+            }
+        }
+        this.gameMap = new GameMap(rows,cols);
 
         Position playerPosition = getRandomEmptyPosition(rows, cols, random);
         PlayerCharacter playerCharacter = switch (type) {
@@ -93,27 +129,20 @@ public class GameWorld {
             case 3 -> curY--;
             case 4 -> curY++;
             case 5 -> {
-                for (GameItem item:player.getInventory().getItems()){
-                    if (item instanceof Potion p && !(p instanceof PowerPotion)){
-                        p.interact(player);
-                        return;
-                    }
-                    else{
-                        System.out.println("No health potion found!");
-                        return;
-                    }
+                if (player.usePotion()) {
+                    System.out.println("You have used a health potion!");
+                }
+                else {
+                    System.out.println("No health potion found!");
                 }
             }
             case 6 -> {
-                for (GameItem item:player.getInventory().getItems()){
-                    if (item instanceof PowerPotion p){
-                        p.interact(player);
-                    }
-                    else{
-                        System.out.println("No power potion found!");
-                        return;
-                    }
+                if (player.usePowerPotion()) {
+                    System.out.println("You have used a power potion!");
+                } else {
+                    System.out.println("No power potion found!");
                 }
+                return;
             }
             default -> {
                 System.out.println("Invalid Choice!");
