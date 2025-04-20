@@ -27,7 +27,8 @@ public class Inventory{
         String result = "Inventory Contents:\n";
         int index = 1;
         for (GameItem item : Items) {
-            result += index++ + ". " + item.toString() + "\n";
+            if (!item.isUsed())
+                result += index++ + ". " + item.toString() + "\n";
         }
         return result;
     }

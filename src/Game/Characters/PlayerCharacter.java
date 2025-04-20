@@ -64,13 +64,9 @@ public abstract class PlayerCharacter extends AbstractCharacter{
         Iterator<GameItem> it = inventory.getItems().iterator();
         while (it.hasNext()) {
             GameItem item = it.next();
-            if (item instanceof Potion potion && !(potion instanceof PowerPotion)) {
-                if (!potion.CheckisUsed()) {
-                    this.Heal(potion.getAmount());
-                    potion.setUsed();
-                    it.remove();
-                    return true;
-                }
+            if (item instanceof Potion && !(item instanceof PowerPotion) && !item.isUsed()){
+                item.interact(this);
+                return true;
             }
         }
         return false;
@@ -84,11 +80,9 @@ public abstract class PlayerCharacter extends AbstractCharacter{
         Iterator<GameItem> it = inventory.getItems().iterator();
         while (it.hasNext()){
             GameItem item = it.next();
-            if (item instanceof PowerPotion potion){
-                if (!potion.CheckisUsed()){
-                    this.addPower(potion.getAmount());
-                    potion.setUsed();
-                    it.remove();
+            if (item instanceof PowerPotion){
+                if (!item.isUsed()){
+                    item.interact(this);
                     return true;
                 }
             }

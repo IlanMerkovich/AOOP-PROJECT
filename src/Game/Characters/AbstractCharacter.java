@@ -128,9 +128,7 @@ public abstract class AbstractCharacter implements Combatant, GameEntity{
      */
     public boolean tryEvade(Combatant attacker) {
         double accuracyFactor = 1.0;
-        if (attacker instanceof Archer archer) {
-            accuracyFactor = 1 - archer.getAccuracy();
-        }
+        accuracyFactor = 1 - attacker.getAccuracy();
         double evadeChance = this.evasionChance * accuracyFactor;
         double roll = new Random().nextDouble();
         return roll < evadeChance;

@@ -56,9 +56,8 @@ public class PowerPotion extends Potion{
      * @param c the player character
      */
     public void interact(PlayerCharacter c) {
-        if (c.usePowerPotion()){
-            System.out.print("You have used a power potion");
-        }
+        c.addPower(this.getAmount());
+        this.setUsed();
     }
     /**
      * Picks up the potion from the game board and adds him to the player inventory

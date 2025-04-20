@@ -106,6 +106,13 @@ public abstract class GameItem implements GameEntity{
                 description, blocksMovement);
     }
 
+    /**
+     * @return if this item is used or not
+     */
+    public boolean isUsed(){
+        return true;
+    }
+
 
     private Position position;
     private boolean blocksMovement;

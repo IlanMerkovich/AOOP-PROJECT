@@ -35,9 +35,8 @@ public class Potion extends GameItem implements Interactable,Pickupable{
      * @param c the player character
      */
     public void interact(PlayerCharacter c) {
-        if (c.usePotion()){
-            System.out.print("You have used health potion");
-        }
+        c.Heal(this.getAmount());
+        this.setUsed();
     }
     /**
      * cheacks if the obj compared to is equal to this object
@@ -49,7 +48,7 @@ public class Potion extends GameItem implements Interactable,Pickupable{
             return false;
         }
         Potion other=(Potion) obj;
-        return this.isUsed==other.CheckisUsed() && this.increaseAmount==other.getAmount();
+        return this.isUsed==other.isUsed() && this.increaseAmount==other.getAmount();
     }
     /**
      * sets the amount of the potion
@@ -64,14 +63,6 @@ public class Potion extends GameItem implements Interactable,Pickupable{
      */
     public int getAmount(){
         return increaseAmount;
-    }
-    /**
-     * Checks if the potion has been used.
-     *
-     * @return true if used; false otherwise
-     */
-    public boolean CheckisUsed(){
-        return isUsed;
     }
     /**
      * sets that the potion is used
@@ -95,5 +86,11 @@ public class Potion extends GameItem implements Interactable,Pickupable{
     public void pickup(PlayerCharacter c) {
         c.addToInventory(this);
         System.out.println("You picked up a health potion!");
+    }
+    /**
+     * @return if this item is used or not
+     */
+    public boolean isUsed(){
+        return isUsed;
     }
 }

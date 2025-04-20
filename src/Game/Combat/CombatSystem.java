@@ -20,7 +20,6 @@
          * @param defender the combatant being attacked
          */
         public void resolveCombat(Combatant attacker, Combatant defender){
-
             if (isInRange(attacker, defender)) {
                 attacker.attack(defender);
                 if (defender.isDead()){

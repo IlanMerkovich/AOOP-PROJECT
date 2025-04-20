@@ -24,6 +24,7 @@ public enum MagicElement {
             return false;
         }
     }
+    
     public static MagicElement getRandomElement(){
         return values()[new Random().nextInt(values().length)];
     }

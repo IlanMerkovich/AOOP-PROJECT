@@ -7,8 +7,26 @@ import Game.Items.*;
 import Game.Map.Position;
 
 import java.util.*;
-
+/**
+ * GameWorld is the central controller of the turn-based RPG game.
+ * It initializes the game map, generates all entities (player, enemies, and items),
+ * handles user input, movement, combat, item interaction, and the main game loop.
+ *
+ * This class manages:
+ * - Initial setup of the world and user input
+ * - Populating the grid with enemies and items
+ * - Processing turns and actions from the player
+ * - Combat resolution using CombatSystem
+ * - Visibility logic for entities based on player's position
+ */
 public class GameWorld {
+    /**
+     * Constructs the game world by:
+     * - Collecting input from the user for map size and character choice
+     * - Initializing the game map
+     * - Placing the player at a random empty position
+     * - Randomly populating the map with enemies, walls, and potions
+     */
     public GameWorld(){
         this.players = new ArrayList<>();
         this.enemies = new ArrayList<>();
@@ -79,11 +97,20 @@ public class GameWorld {
                         default -> new Dragon(i, j);
                     };
                     enemies.add((Enemy) entity);
-                } else if (probability < 40) {
+                }
+                else if (probability < 40) {
                     entity = new Wall(i, j);
-                } else if (probability < 60) {
-                    entity = random.nextInt(100) < 25 ? new PowerPotion(i, j) : new Potion(i, j);
-                    items.add((GameItem) entity);
+                }
+                else if (probability < 60) {
+                    int chance = random.nextInt(100);
+                    if (chance < 25) {
+                        entity=new PowerPotion(i,j);
+                        items.add((GameItem) entity);
+                    }
+                    else {
+                        entity=new Potion(i,j);
+                        items.add((GameItem) entity);
+                    }
                 }
 
                 if (entity != null) {
@@ -92,6 +119,14 @@ public class GameWorld {
             }
         }
     }
+    /**
+     * Picks a random empty cell from the map for placing entities (like player).
+     *
+     * @param rows total number of rows on the map
+     * @param cols total number of columns on the map
+     * @param rand Random instance
+     * @return a Position on the map that is currently empty
+     */
     private Position getRandomEmptyPosition(int rows, int cols, Random rand) {
         while (true){
             Position pos = new Position(rand.nextInt(rows), rand.nextInt(cols));
@@ -100,6 +135,13 @@ public class GameWorld {
             }
         }
     }
+    /**
+     * Handles a single turn of the player.
+     * Presents an action menu to the player.
+     * Processes movement, item use (potions), and interaction with enemies/items on the map.
+     *
+     * @param player the active player character
+     */
     private void playTurn(PlayerCharacter player){
         Scanner scanner = new Scanner(System.in);
         Position playerPosition = player.getPosition();
@@ -194,6 +236,15 @@ public class GameWorld {
 
         }
     }
+    /**
+     * Main game loop.
+     * Repeats until the player dies or all enemies are defeated.
+     * On each turn:
+     * - Checks victory/defeat conditions
+     * - Updates visibility around player
+     * - Displays the map and player info
+     * - Lets the player perform an action (movement, item usage, combat)
+     */
     public void gameLoop(){
         System.out.println("Welcome to AOOP Turn-Based Game!");
         PlayerCharacter player=this.getPlayer();
@@ -221,9 +272,20 @@ public class GameWorld {
             this.playTurn(player);
         }
     }
+    /**
+     * Returns the first (and currently only) player in the world.
+     *
+     * @return the main player character
+     */
     private PlayerCharacter getPlayer(){
         return players.get(0);
     }
+    /**
+     * Adds a game item to the world's item list.
+     *
+     * @param entity the GameEntity to add (must be GameItem)
+     * @return true if the item was added successfully, false otherwise
+     */
     private boolean addItem(GameEntity entity){
         if (entity instanceof GameItem e){
             items.add(e);
@@ -231,6 +293,12 @@ public class GameWorld {
         }
         return false;
     }
+    /**
+     * Updates visibility of entities on the map.
+     * Entities within a Manhattan distance of 2 from the player are visible.
+     *
+     * @param playerPos the current position of the player
+     */
     private void updateVisibility(Position playerPos) {
         for (List<GameEntity> cell : gameMap.getGrid().values()) {
             for (GameEntity entity : cell) {
@@ -239,6 +307,7 @@ public class GameWorld {
             }
         }
     }
+
     private List<PlayerCharacter> players;
     private List<Enemy> enemies;
     private List<GameItem> items;
