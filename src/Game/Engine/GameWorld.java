@@ -2,6 +2,8 @@ package Game.Engine;
 
 import Game.Characters.*;
 import Game.Combat.CombatSystem;
+import Game.Combat.Combatant;
+import Game.Combat.RangedFighter;
 import Game.Core.GameEntity;
 import Game.Items.*;
 import Game.Map.Position;
@@ -55,7 +57,7 @@ public class GameWorld {
             }
         }
 
-        sc.nextLine(); // consume leftover newline
+        sc.nextLine();
         System.out.print("Enter your character name: ");
         String name = sc.nextLine().trim();
 
@@ -155,11 +157,13 @@ public class GameWorld {
         System.out.println("4. Move Right");
         System.out.println("5. Use Potion");
         System.out.println("6. Use Power Potion");
+        System.out.println("7. Fight ranged");
         int choice;
 
         try {
             choice = scanner.nextInt();
-        } catch (InputMismatchException e) {
+        }
+        catch (InputMismatchException e) {
             System.out.println("Invalid input! Please enter a number between 1 and 6.");
             scanner.nextLine();
             return;
@@ -185,6 +189,23 @@ public class GameWorld {
                     System.out.println("No power potion found!");
                 }
                 return;
+            }
+            case 7->{
+                if (!(player instanceof RangedFighter)){
+                    System.out.println("You cant fight ranged!");
+                    return;
+                }
+                Iterator<Enemy> enemyIterator = enemies.iterator();
+                while (enemyIterator.hasNext()) {
+                    Enemy enemy = enemyIterator.next();
+                    if (enemy.getPosition().distanceTo(playerPosition) == 2) {
+                        ManageFight(player, enemy);
+                        if (enemy.isDead()){
+                            enemyIterator.remove();
+                        }
+                    }
+                }
+
             }
             default -> {
                 System.out.println("Invalid Choice!");
@@ -213,16 +234,7 @@ public class GameWorld {
             GameEntity entity = it.next();
             if (entity instanceof Enemy e) {
                 System.out.println("Enemy found, Starting Combat!");
-                while (!player.isDead() && !e.isDead()) {
-                    combatSystem.resolveCombat(player,e);
-                }
-                if (e.isDead()){
-                    Treasure treasure=e.Defeat();
-                    this.addItem(treasure);
-                    gameMap.placeEntity(e.getPosition(),treasure);
-                    gameMap.removeEntity(e.getPosition(),e);
-                }
-                return;
+                ManageFight(player,e);
             }
             if (entity instanceof Pickupable pickupable){
                 pickupable.pickup(player);
@@ -233,9 +245,29 @@ public class GameWorld {
                 interactable.interact(player);
                 it.remove();
             }
-
         }
     }
+
+    /**
+     * Handles the combat loop between a player character and an enemy.
+     * The method continues to call the combat system until one of the combatants dies.
+     * If the enemy is defeated, it is removed from the map and replaced with a treasure.
+     *
+     * @param player the player character participating in the fight
+     * @param enemy  the enemy the player is fighting against
+     */
+    private void ManageFight(PlayerCharacter player, Enemy enemy) {
+        while (!player.isDead() && !enemy.isDead()){
+            combatSystem.resolveCombat(player,enemy);
+        }
+        if (enemy.isDead()){
+            Treasure treasure=enemy.Defeat();
+            this.addItem(treasure);
+            gameMap.placeEntity(enemy.getPosition(),treasure);
+            gameMap.removeEntity(enemy.getPosition(),enemy);
+        }
+    }
+
     /**
      * Main game loop.
      * Repeats until the player dies or all enemies are defeated.
@@ -246,13 +278,13 @@ public class GameWorld {
      * - Lets the player perform an action (movement, item usage, combat)
      */
     public void gameLoop(){
-        System.out.println("Welcome to AOOP Turn-Based Game!");
+        System.out.println("Welcome to OOP Turn-Based Game!");
         PlayerCharacter player=this.getPlayer();
         while (true){
             if (player.isDead()){
                 System.out.println("GAME OVER!");
                 System.out.println("Your treasure points are: "+player.getTreasurePoints());
-                return;
+                break;
             }
             boolean allEnemiesDead = true;
             for (Enemy e : enemies) {

@@ -102,8 +102,8 @@ public abstract class GameItem implements GameEntity{
      * @return formatted string of item properties
      */
     public String toString() {
-        return String.format("📦 GameItem | Desc: %s | Blocks: %s",
-                description, blocksMovement);
+        return String.format("📦 GameItem | Blocks: %s",
+                blocksMovement);
     }
 
     /**

@@ -36,6 +36,7 @@
                 System.out.println("Defender is out of range!");
                 return;
             }
+
             if (isInRange(defender, attacker)) {
                 defender.attack(attacker);
                 if (attacker.isDead()) {

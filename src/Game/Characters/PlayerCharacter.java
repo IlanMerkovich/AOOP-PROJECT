@@ -61,11 +61,10 @@ public abstract class PlayerCharacter extends AbstractCharacter{
      * @return true if a potion was used, false otherwise
      */
     public boolean usePotion(){
-        Iterator<GameItem> it = inventory.getItems().iterator();
-        while (it.hasNext()) {
-            GameItem item = it.next();
+        for (GameItem item:inventory.getItems()){
             if (item instanceof Potion && !(item instanceof PowerPotion) && !item.isUsed()){
                 item.interact(this);
+                inventory.removeItem(item);
                 return true;
             }
         }
@@ -77,12 +76,11 @@ public abstract class PlayerCharacter extends AbstractCharacter{
      * @return true if a power potion was used, false otherwise
      */
     public boolean usePowerPotion(){
-        Iterator<GameItem> it = inventory.getItems().iterator();
-        while (it.hasNext()){
-            GameItem item = it.next();
+        for (GameItem item:inventory.getItems()){
             if (item instanceof PowerPotion){
                 if (!item.isUsed()){
                     item.interact(this);
+                    inventory.removeItem(item);
                     return true;
                 }
             }
