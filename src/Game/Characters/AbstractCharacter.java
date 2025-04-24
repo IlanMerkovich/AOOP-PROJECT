@@ -19,7 +19,7 @@ public abstract class AbstractCharacter implements Combatant, GameEntity{
     public AbstractCharacter(int r,int c){
         position=new Position(r,c);
         Health=100;
-        Power=new Random().nextInt(11) + 4;
+        Power=new Random().nextInt(4,14);
         evasionChance=0.25;
         visibility=false;
 
@@ -126,7 +126,7 @@ public abstract class AbstractCharacter implements Combatant, GameEntity{
      * @param attacker the attacker
      * @return true if the character successfully evades, false otherwise
      */
-    public boolean tryEvade(Combatant attacker) {
+    public boolean tryEvade(Combatant attacker){
         double accuracyFactor = 1.0;
         accuracyFactor = 1 - attacker.getAccuracy();
         double evadeChance = this.evasionChance * accuracyFactor;

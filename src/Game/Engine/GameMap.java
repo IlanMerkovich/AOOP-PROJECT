@@ -77,22 +77,22 @@ public class GameMap{
 
                 if (cell.isEmpty()) {
                     if (distance <= 2) {
-                        System.out.print("  **  ");
+                        System.out.print(" ** ");
                     }
                     else {
-                        System.out.print("  ??  ");
+                        System.out.print(" ?? ");
                     }
                 } else {
                     GameEntity entity = cell.get(0);
                     if (entity instanceof PlayerCharacter){
-                        System.out.print("  " + BLUE + entity.getDisplaySymbol() + RESET + "  ");
+                        System.out.print(" " + BLUE + entity.getDisplaySymbol() + RESET + " ");
                     }
                     else {
                         if (entity.getVisibility()){
-                            System.out.print("  " + entity.getDisplaySymbol() + "  ");
+                            System.out.print(" " + entity.getDisplaySymbol() + " ");
                         }
                         else{
-                            System.out.print("  ??  ");
+                            System.out.print(" ?? ");
                         }
                     }
                 }
