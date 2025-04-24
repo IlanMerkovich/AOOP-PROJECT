@@ -55,11 +55,11 @@
         private boolean isInRange(Combatant source, Combatant target){
             Position srcPos=source.getPosition();
             Position trgPos=target.getPosition();
-            if (source instanceof MeleeFighter mf){
-                return mf.isInMeleeRange(srcPos,trgPos);
-            }
-            else if (source instanceof RangedFighter rf){
+            if (source instanceof RangedFighter rf){
                 return rf.isInRange(srcPos,trgPos);
+            }
+            else if (source instanceof MeleeFighter mf){
+                return mf.isInMeleeRange(srcPos,trgPos);
             }
             return false;
         }

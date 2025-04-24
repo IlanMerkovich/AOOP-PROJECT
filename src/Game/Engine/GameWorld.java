@@ -2,7 +2,6 @@ package Game.Engine;
 
 import Game.Characters.*;
 import Game.Combat.CombatSystem;
-import Game.Combat.Combatant;
 import Game.Combat.RangedFighter;
 import Game.Core.GameEntity;
 import Game.Items.*;

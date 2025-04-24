@@ -34,3 +34,9 @@ The project is organized into the following packages:
 - Treasure chests with randomized rewards
 - Fog of war using visibility range
 - Logging system for detailed combat actions
+
+
+## Coming Soon
+This project is still evolving and under development.
+Future updates planned include:
+- GUI - Full graphical interface using JavaSwing

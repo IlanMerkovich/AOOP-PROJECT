@@ -105,7 +105,7 @@ public class Dragon extends Enemy implements PhysicalAttacker,MeleeFighter, Magi
      * @param target the combatant to attack
      */
     public void fightRanged(Combatant target) {
-        if (isInRange(getPosition(),target.getPosition())) {
+        if (isInRange(this.getPosition(),target.getPosition())) {
             castSpell(target);
         }
     }
