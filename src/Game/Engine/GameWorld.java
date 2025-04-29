@@ -227,14 +227,18 @@ public class GameWorld {
             GameEntity ent = it.next();
             if (ent instanceof Interactable inter) {
                 inter.interact(getPlayer());
-                it.remove();                // מסיר מהמפה
+                it.remove();
                 updateVisibility(getPlayer().getPosition());
                 return;
             }
         }
     }
-
-
+    public boolean areAllEnemiesDead() {
+        for (Enemy e : enemies) {
+            if (!e.isDead()) return false;
+        }
+        return true;
+    }
 
 
     private int rows,cols;

@@ -41,7 +41,7 @@ public class MapPanel extends JPanel {
         int rows = world.getRows();
         int cols = world.getCols();
         setLayout(new GridLayout(rows, cols));
-        setBackground(new Color(255, 255, 250));  // soft ivory background
+        setBackground(new Color(255, 255, 250));
 
         cells = new JLabel[rows][cols];
         Color borderColor = new Color(180, 180, 180);
@@ -51,7 +51,7 @@ public class MapPanel extends JPanel {
             for (int c = 0; c < cols; c++) {
                 JLabel lbl = new JLabel();
                 lbl.setOpaque(true);
-                lbl.setBackground(new Color(200, 200, 200));  // uniform light gray
+                lbl.setBackground(new Color(200, 200, 200));
                 lbl.setHorizontalAlignment(SwingConstants.CENTER);
                 lbl.setVerticalAlignment(SwingConstants.CENTER);
                 lbl.setPreferredSize(new Dimension(iconSize, iconSize));
@@ -66,18 +66,18 @@ public class MapPanel extends JPanel {
                         List<GameEntity> list = world.getGameMap().getGrid().get(pos);
 
                         if (SwingUtilities.isLeftMouseButton(e)) {
-                            // Move on empty cell
                             if (list == null || list.isEmpty()) {
                                 if (dist == 1) {
-                                    statusPanel.rebuild();
                                     world.movePlayerTo(pos);
                                     inventoryPanel.rebuild();
                                     statusPanel.rebuild();
-                                } else {
+                                    checkGameEnd();
+                                }
+                                else {
                                     Toolkit.getDefaultToolkit().beep();
                                 }
                             }
-                            // Attack or pick up
+
                             else {
                                 GameEntity ent = list.get(0);
                                 if (ent instanceof Enemy) {
@@ -86,6 +86,7 @@ public class MapPanel extends JPanel {
                                             world.attackEnemyAt(pos);
                                             inventoryPanel.rebuild();
                                             statusPanel.rebuild();
+                                            checkGameEnd();
                                         }
                                         else
                                             Toolkit.getDefaultToolkit().beep();
@@ -96,6 +97,7 @@ public class MapPanel extends JPanel {
                                             world.attackEnemyAt(pos);
                                             inventoryPanel.rebuild();
                                             statusPanel.rebuild();
+                                            checkGameEnd();
                                         }
                                         else
                                             Toolkit.getDefaultToolkit().beep();
@@ -121,7 +123,7 @@ public class MapPanel extends JPanel {
                             }
                             refresh();
                         }
-                        // Right-click: show info
+
                         else if (SwingUtilities.isRightMouseButton(e)) {
                             JPopupMenu menu = new JPopupMenu();
                             menu.setBackground(Color.WHITE);
@@ -130,20 +132,20 @@ public class MapPanel extends JPanel {
                             if (list == null || list.isEmpty()) {
                                 if (world.getGameMap().isBlocked(pos)) {
                                     menu.add(new JMenuItem("Wall – blocks movement"));
-                                } else {
+                                }
+                                else {
                                     menu.add(new JMenuItem("Empty cell"));
                                 }
-                            } else {
+                            }
+                            else {
                                 GameEntity ent = list.get(0);
                                 if (ent instanceof Enemy en) {
-                                    menu.add(new JMenuItem(
-                                            en.getDisplaySymbol() + " – HP: " + en.getHealth()
-                                    ));
-                                } else if (ent instanceof GameItem item) {
-                                    menu.add(new JMenuItem(
-                                            item.getDisplaySymbol() + " – " + item.getDescription()
-                                    ));
-                                } else {
+                                    menu.add(new JMenuItem(en.getDisplaySymbol() + " – HP: " + en.getHealth()));
+                                }
+                                else if (ent instanceof GameItem item) {
+                                    menu.add(new JMenuItem(item.getDisplaySymbol() + " – " + item.getDescription()));
+                                }
+                                else {
                                     menu.add(new JMenuItem(ent.getDisplaySymbol()));
                                 }
                             }
@@ -151,12 +153,11 @@ public class MapPanel extends JPanel {
                         }
                     }
                 });
-
                 cells[r][c] = lbl;
                 add(lbl);
             }
         }
-
+        checkGameEnd();
         refresh();
     }
 
@@ -211,4 +212,22 @@ public class MapPanel extends JPanel {
         }
         return new Position(0, 0);
     }
+    private void checkGameEnd() {
+        PlayerCharacter p = world.getPlayer();
+        if (p.isDead()){
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Game Over – You have died!\nTreasure Points: " + p.getTreasurePoints(),
+                    "Game Over", JOptionPane.INFORMATION_MESSAGE);
+            System.exit(0);
+        }
+        if (world.areAllEnemiesDead()) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Congratulations! All enemies have been defeated.\nTreasure Points: " + p.getTreasurePoints(),
+                    "Victory!", JOptionPane.INFORMATION_MESSAGE);
+            System.exit(0);
+        }
+    }
+
 }
