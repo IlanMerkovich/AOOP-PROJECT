@@ -87,7 +87,7 @@ public class Goblin extends Enemy implements PhysicalAttacker, MeleeFighter{
      * @return "GO"
      */
     public String getDisplaySymbol() {
-        return "GO";
+        return "goblin";
     }
     /**
      * Checks if this Goblin is equal to another object.

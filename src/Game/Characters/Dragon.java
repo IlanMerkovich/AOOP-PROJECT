@@ -154,7 +154,7 @@ public class Dragon extends Enemy implements PhysicalAttacker,MeleeFighter, Magi
      * @return "DR"
      */
     public String getDisplaySymbol() {
-        return "DR";
+        return "dragon";
     }
     /**
      * Returns a string representation of the dragon, including its element type and loot value.

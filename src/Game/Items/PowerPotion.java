@@ -35,7 +35,7 @@ public class PowerPotion extends Potion{
      * @return the string "PP"
      */
     public String getDisplaySymbol() {
-        return "PP";
+        return "power_potion";
     }
     /**
      * Checks whether another object is equal to this power potion.

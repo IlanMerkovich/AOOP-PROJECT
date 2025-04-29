@@ -57,7 +57,7 @@ public class Treasure extends GameItem implements Interactable{
      * @return the string \"TR\"
      */
     public String getDisplaySymbol() {
-        return "TR";
+        return "treasure";
     }
     /**
      * Checks if this treasure is equal to another object.

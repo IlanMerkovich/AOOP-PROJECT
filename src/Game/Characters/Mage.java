@@ -107,7 +107,7 @@ public class Mage extends PlayerCharacter implements MagicAttacker, RangedFighte
      * @return "MA"
      */
     public String getDisplaySymbol() {
-        return "MA";
+        return "mage";
     }
     /**
      * Performs an attack on a target using magic.

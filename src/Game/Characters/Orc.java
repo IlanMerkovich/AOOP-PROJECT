@@ -108,7 +108,7 @@ public class Orc extends Enemy implements PhysicalAttacker, MeleeFighter{
      * @return the display symbol "OR"
      */
     public String getDisplaySymbol() {
-        return "OR";
+        return "orc";
     }
     /**
      * Checks equality between this Orc and another object.

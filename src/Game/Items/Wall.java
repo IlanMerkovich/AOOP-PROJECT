@@ -41,7 +41,7 @@ public class Wall extends GameItem{
      * @return the string "WL" to represent a wall on the map
      */
     public String getDisplaySymbol() {
-        return "WL";
+        return "wall";
     }
     /**
      * Checks if this wall is equal to another object.

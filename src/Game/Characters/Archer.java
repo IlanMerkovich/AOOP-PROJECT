@@ -87,7 +87,7 @@ public class Archer extends PlayerCharacter implements RangedFighter, PhysicalAt
      * @return "AR" (Archer)
      */
     public String getDisplaySymbol() {
-        return "AR";
+        return "archer";
     }
     /**
      * Archers do not use magic; returns null.

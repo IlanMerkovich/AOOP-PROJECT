@@ -101,7 +101,7 @@ public class Warrior extends PlayerCharacter implements MeleeFighter, PhysicalAt
      * Returns the symbol used to represent the warrior on the map.
      */
     public String getDisplaySymbol() {
-        return "WR";
+        return "figther";
     }
     /**
      * Returns a string representation of the Warrior, including defense value.

@@ -27,7 +27,7 @@ public class Potion extends GameItem implements Interactable,Pickupable{
      * @return the string "PT"
      */
     public String getDisplaySymbol() {
-        return "HP";
+        return "life_potion";
     }
     /**
      * Interacts with the player by using the potion and adding health to the player
