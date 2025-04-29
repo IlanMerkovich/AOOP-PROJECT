@@ -15,66 +15,96 @@ public class StartFrame extends JFrame {
     private final JRadioButton warriorButton;
     private final JRadioButton mageButton;
     private final JButton startButton;
+
     public StartFrame() {
         super("Start Game");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        JLabel title = new JLabel("Start game", SwingConstants.CENTER);
+        Color backgroundColor = new Color(34, 34, 59);
+        Color panelColor = new Color(44, 44, 79);
+        Color textColor = new Color(220, 220, 240);
+        Color accentColor = new Color(100, 150, 240);
+        Color buttonColor = new Color(80, 120, 200);
+        UIManager.put("Panel.background", panelColor);
+        UIManager.put("RadioButton.background", panelColor);
+        UIManager.put("Label.foreground", textColor);
+        UIManager.put("RadioButton.foreground", textColor);
+        UIManager.put("TextField.background", new Color(60,60,80));
+        UIManager.put("TextField.foreground", textColor);
+        UIManager.put("Button.background", buttonColor);
+        UIManager.put("Button.foreground", Color.WHITE);
+
+        JLabel title = new JLabel("Welcome To D&D Based Game", SwingConstants.CENTER);
         title.setFont(title.getFont().deriveFont(Font.BOLD, 24f));
+        title.setForeground(textColor);
+        title.setOpaque(true);
+        title.setBackground(backgroundColor);
         title.setBorder(new CompoundBorder(
                 new EmptyBorder(10, 10, 10, 10),
-                new LineBorder(Color.BLACK, 2)
+                new LineBorder(accentColor, 2)
         ));
 
         rowsField = new JTextField(5);
         colsField = new JTextField(5);
         nameField = new JTextField(15);
 
-        archerButton = createCharacterButton("archer",ImageLoader.load("archer.png",64,64));
-        warriorButton = createCharacterButton("warrior",ImageLoader.load("figther.png",64,64));
-        mageButton    = createCharacterButton("mage",ImageLoader.load("Mage.png",64,64));
+        archerButton = createCharacterButton("Archer",ImageLoader.load("archer.png", 64,64));
+        warriorButton = createCharacterButton("Warrior",ImageLoader.load("figther.png",64,64));
+        mageButton = createCharacterButton("Mage",ImageLoader.load("Mage.png", 64,64));
 
         ButtonGroup group = new ButtonGroup();
         group.add(archerButton);
         group.add(warriorButton);
         group.add(mageButton);
 
-        startButton = new JButton("start");
+        startButton = new JButton("Start Game");
 
+        // בניית ה־layout
         JPanel content = new JPanel(new GridBagLayout());
+        content.setBackground(panelColor);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(8, 8, 8, 8);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.weightx = 1;
+        gbc.fill   = GridBagConstraints.HORIZONTAL;
+        gbc.weightx= 1;
 
-        gbc.gridx = 0; gbc.gridy = 0;
-        gbc.gridwidth = 2;
+        // Title
+        gbc.gridx = 0; gbc.gridy = 0; gbc.gridwidth = 2;
         content.add(title, gbc);
 
-        gbc.gridy = 1;
-        gbc.gridwidth = 1;
-        content.add(new JLabel("rows"), gbc);
+        // Rows
+        gbc.gridy = 1; gbc.gridwidth = 1;
+        JLabel rowsLabel = new JLabel("Rows");
+        rowsLabel.setForeground(textColor);
+        content.add(rowsLabel, gbc);
         gbc.gridx = 1;
         content.add(rowsField, gbc);
 
+        // Cols
         gbc.gridx = 0; gbc.gridy = 2;
-        content.add(new JLabel("cols"), gbc);
+        JLabel colsLabel = new JLabel("Cols");
+        colsLabel.setForeground(textColor);
+        content.add(colsLabel, gbc);
         gbc.gridx = 1;
         content.add(colsField, gbc);
 
+        // Name
         gbc.gridx = 0; gbc.gridy = 3;
-        content.add(new JLabel("name"), gbc);
+        JLabel nameLabel = new JLabel("Name");
+        nameLabel.setForeground(textColor);
+        content.add(nameLabel, gbc);
         gbc.gridx = 1;
         content.add(nameField, gbc);
 
-        // choose your character label
-        gbc.gridx = 0; gbc.gridy = 4;
-        gbc.gridwidth = 2;
-        JLabel choose = new JLabel("choose your character", SwingConstants.CENTER);
+        // Choose your character
+        gbc.gridx = 0; gbc.gridy = 4; gbc.gridwidth = 2;
+        JLabel choose = new JLabel("Choose Your Character", SwingConstants.CENTER);
         choose.setFont(choose.getFont().deriveFont(Font.PLAIN, 16f));
+        choose.setForeground(textColor);
         content.add(choose, gbc);
 
+        // Character buttons panel
         JPanel charsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 5));
+        charsPanel.setBackground(panelColor);
         charsPanel.add(archerButton);
         charsPanel.add(warriorButton);
         charsPanel.add(mageButton);
@@ -82,22 +112,25 @@ public class StartFrame extends JFrame {
         gbc.gridy = 5;
         content.add(charsPanel, gbc);
 
+        // Start button
         gbc.gridy = 6;
         startButton.setPreferredSize(new Dimension(120, 30));
         content.add(startButton, gbc);
-        setVisible(true);
+
+        // הצגה
         setContentPane(content);
         pack();
-        setSize(600,600);
+        setSize(600, 600);
         setLocationRelativeTo(null);
+        setVisible(true);
     }
 
     /** יוצר JRadioButton עם אייקון מעל וטקסט מתחת **/
-    private JRadioButton createCharacterButton(String text,ImageIcon icon) {
-        JRadioButton btn = new JRadioButton(text, icon,false);
+    private JRadioButton createCharacterButton(String text, ImageIcon icon) {
+        JRadioButton btn = new JRadioButton(text, icon, false);
         btn.setVerticalTextPosition(SwingConstants.BOTTOM);
         btn.setHorizontalTextPosition(SwingConstants.CENTER);
-        btn.setBorder(new LineBorder(Color.BLACK, 1));
+        btn.setBorder(new LineBorder(Color.GRAY, 1));
         btn.setPreferredSize(new Dimension(100, 120));
         return btn;
     }
@@ -125,4 +158,3 @@ public class StartFrame extends JFrame {
         startButton.addActionListener(al);
     }
 }
-
