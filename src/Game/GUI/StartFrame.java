@@ -19,7 +19,6 @@ public class StartFrame extends JFrame {
         super("Start Game");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        // ראשית – כותרת עם מסגרת
         JLabel title = new JLabel("Start game", SwingConstants.CENTER);
         title.setFont(title.getFont().deriveFont(Font.BOLD, 24f));
         title.setBorder(new CompoundBorder(
@@ -27,50 +26,42 @@ public class StartFrame extends JFrame {
                 new LineBorder(Color.BLACK, 2)
         ));
 
-        // שדות הקלט
         rowsField = new JTextField(5);
         colsField = new JTextField(5);
         nameField = new JTextField(15);
 
-        // כפתורי רדיו לתמונה + טקסט
-        archerButton = createCharacterButton("archer",ImageLoader.load("archer.png",100,120));
-        warriorButton = createCharacterButton("warrior",ImageLoader.load("figther.png",100,120));
-        mageButton    = createCharacterButton("mage",ImageLoader.load("Mage.png",100,120));
+        archerButton = createCharacterButton("archer",ImageLoader.load("archer.png",64,64));
+        warriorButton = createCharacterButton("warrior",ImageLoader.load("figther.png",64,64));
+        mageButton    = createCharacterButton("mage",ImageLoader.load("Mage.png",64,64));
 
         ButtonGroup group = new ButtonGroup();
         group.add(archerButton);
         group.add(warriorButton);
         group.add(mageButton);
 
-        // כפתור התחלה
         startButton = new JButton("start");
 
-        // פריסת המרכיבים
         JPanel content = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(8, 8, 8, 8);
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 1;
 
-        // כותרת
         gbc.gridx = 0; gbc.gridy = 0;
         gbc.gridwidth = 2;
         content.add(title, gbc);
 
-        // rows
         gbc.gridy = 1;
         gbc.gridwidth = 1;
         content.add(new JLabel("rows"), gbc);
         gbc.gridx = 1;
         content.add(rowsField, gbc);
 
-        // cols
         gbc.gridx = 0; gbc.gridy = 2;
         content.add(new JLabel("cols"), gbc);
         gbc.gridx = 1;
         content.add(colsField, gbc);
 
-        // name
         gbc.gridx = 0; gbc.gridy = 3;
         content.add(new JLabel("name"), gbc);
         gbc.gridx = 1;
@@ -83,7 +74,6 @@ public class StartFrame extends JFrame {
         choose.setFont(choose.getFont().deriveFont(Font.PLAIN, 16f));
         content.add(choose, gbc);
 
-        // panel של כפתורי רדיו
         JPanel charsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 5));
         charsPanel.add(archerButton);
         charsPanel.add(warriorButton);
@@ -92,13 +82,13 @@ public class StartFrame extends JFrame {
         gbc.gridy = 5;
         content.add(charsPanel, gbc);
 
-        // כפתור start בתחתית
         gbc.gridy = 6;
         startButton.setPreferredSize(new Dimension(120, 30));
         content.add(startButton, gbc);
         setVisible(true);
         setContentPane(content);
         pack();
+        setSize(600,600);
         setLocationRelativeTo(null);
     }
 
@@ -131,7 +121,6 @@ public class StartFrame extends JFrame {
         return null;
     }
 
-    /** רושם ליסטנר שיפעל כשלוחצים Start **/
     public void setStartAction(ActionListener al) {
         startButton.addActionListener(al);
     }
