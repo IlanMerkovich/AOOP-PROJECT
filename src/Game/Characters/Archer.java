@@ -118,6 +118,6 @@ public class Archer extends PlayerCharacter implements RangedFighter, PhysicalAt
                 getAccuracy());
     }
 
-    private double accuracy;
+    private final double accuracy;
 
 }

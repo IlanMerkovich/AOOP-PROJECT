@@ -122,5 +122,5 @@ public class Orc extends Enemy implements PhysicalAttacker, MeleeFighter{
         return super.equals(obj) && Double.compare(this.resistance, other.resistance) == 0;
     }
 
-    private double resistance;
+    private final double resistance;
 }

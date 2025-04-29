@@ -2,7 +2,7 @@ package Game.Characters;
 
 import Game.Combat.*;
 import Game.Map.Position;
-import java.util.Random;
+
 /**
  * Represents a Mage character that can perform ranged magic attacks
  * using a specific magic element. Mages use elemental strengths and weaknesses

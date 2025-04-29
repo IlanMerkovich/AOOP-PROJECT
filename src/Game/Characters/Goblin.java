@@ -7,7 +7,7 @@ import java.util.Random;
  * Has a chance to evade based on agility. Uses melee attacks.
  */
 public class Goblin extends Enemy implements PhysicalAttacker, MeleeFighter{
-    private int agility;
+    private final int agility;
 
     /**
      * Constructs a Goblin with random agility (0–80).
@@ -24,7 +24,7 @@ public class Goblin extends Enemy implements PhysicalAttacker, MeleeFighter{
      */
     public boolean tryEvade(Combatant attacker) {
         double baseEvasion = Math.min(0.8, agility / 100.0);
-        double accuracyFactor = 1.0;
+        double accuracyFactor;
         accuracyFactor = 1.0 - attacker.getAccuracy();
         double finalEvasion = baseEvasion * accuracyFactor;
         double roll = new Random().nextDouble();

@@ -1,7 +1,5 @@
 package Game.Characters;
 
-import Game.Combat.Combatant;
-import Game.Combat.MagicElement;
 import Game.Items.Treasure;
 import java.util.Random;
 /**
@@ -10,7 +8,7 @@ import java.util.Random;
  * Inherits general character properties from {@link AbstractCharacter}.
  */
 public abstract class Enemy extends AbstractCharacter{
-    private int loot;
+    private final int loot;
     /**
      * Constructs an enemy at a given position with a randomized loot value between 100 and 300.
      *
@@ -79,7 +77,7 @@ public abstract class Enemy extends AbstractCharacter{
      * @return true if the objects are equal, false otherwise
      */
     public boolean equals(Object obj) {
-        if (obj == null || !(obj instanceof Enemy)) {
+        if (!(obj instanceof Enemy)) {
             return false;
         }
         Enemy other = (Enemy) obj;

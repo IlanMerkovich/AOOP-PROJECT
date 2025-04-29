@@ -101,10 +101,7 @@ public abstract class AbstractCharacter implements Combatant, GameEntity{
      * @return true if dead ,false if not
      */
     public boolean isDead() {
-        if (Health<=0){
-            return true;
-        }
-        return false;
+        return Health <= 0;
     }
     /**
      * @return player position

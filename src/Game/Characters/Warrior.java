@@ -47,7 +47,7 @@ public class Warrior extends PlayerCharacter implements MeleeFighter, PhysicalAt
      * Reduces incoming damage up to 60% depending on defense stat.
      */
     public void receiveDamage(int amount, Combatant source){
-        int totaldamage=0;
+        int totaldamage;
         if (tryEvade(source)){
             System.out.println("You have evaded the strike");
         }
@@ -114,5 +114,5 @@ public class Warrior extends PlayerCharacter implements MeleeFighter, PhysicalAt
                 defence);
     }
 
-    private int defence;
+    private final int defence;
 }

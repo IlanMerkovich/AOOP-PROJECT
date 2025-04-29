@@ -4,7 +4,6 @@ import Game.Core.Inventory;
 import Game.Items.GameItem;
 import Game.Items.Potion;
 import Game.Items.PowerPotion;
-import java.util.Iterator;
 
 /**
  * Represents a player-controlled character in the game.
@@ -122,7 +121,7 @@ public abstract class PlayerCharacter extends AbstractCharacter{
         return inventory;
     }
 
-    private String name;
+    private final String name;
     private Inventory inventory;
     private int treasurePoints;
 }

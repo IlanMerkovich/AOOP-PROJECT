@@ -339,6 +339,10 @@ public class GameWorld {
         }
     }
 
+    public GameMap getGameMap() {
+        return gameMap;
+    }
+
     private List<PlayerCharacter> players;
     private List<Enemy> enemies;
     private List<GameItem> items;

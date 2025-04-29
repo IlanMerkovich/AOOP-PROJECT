@@ -76,5 +76,6 @@ public class Position {
         return Objects.hash(getRow(), getCol());
     }
 
-    private int row,col;
+    private final int row;
+    private final int col;
 }
