@@ -116,9 +116,7 @@ public class GameWorld {
      * @param enemy  the enemy the player is fighting against
      */
     private void ManageFight(PlayerCharacter player, Enemy enemy) {
-        while (!player.isDead() && !enemy.isDead()){
-            combatSystem.resolveCombat(player,enemy);
-        }
+        combatSystem.resolveCombat(player,enemy);
         if (enemy.isDead()){
             Treasure treasure=enemy.Defeat();
             this.addItem(treasure);
@@ -198,7 +196,7 @@ public class GameWorld {
     public void attackEnemyAt(Position pos) {
         List<GameEntity> list = gameMap.getGrid().get(pos);
         if (list != null && !list.isEmpty() && list.get(0) instanceof Enemy e) {
-            ManageFight(getPlayer(), e);
+            ManageFight(getPlayer(),e);
             updateVisibility(getPlayer().getPosition());
             notifyListeners();
         }

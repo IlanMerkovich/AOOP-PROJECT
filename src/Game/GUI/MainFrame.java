@@ -16,7 +16,6 @@ public class MainFrame extends JFrame {
         setLayout(new BorderLayout(5,5));
 
 
-        // Status panel as before
         StatusPanel statusPanel = new StatusPanel(gameWorld);
         statusPanel.setBorder(BorderFactory.createTitledBorder("Status"));
 
@@ -27,7 +26,6 @@ public class MainFrame extends JFrame {
         mapPanel.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 2));
         add(mapPanel, BorderLayout.CENTER);
 
-        // Bottom container
         JPanel bottom = new JPanel(new BorderLayout(5,5));
         bottom.add(statusPanel,    BorderLayout.WEST);
         bottom.add(inventoryPanel, BorderLayout.CENTER);

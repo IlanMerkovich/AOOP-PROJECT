@@ -16,7 +16,6 @@ import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.Toolkit;
 import java.util.List;
 
 
@@ -48,7 +47,7 @@ public class MapPanel extends JPanel implements GameWorldListener {
                 lbl.setBorder(cellBorder);
 
                 Position pos = new Position(r, c);
-                lbl.addMouseListener(new MouseAdapter(){
+                lbl.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         PlayerCharacter player = findPlayer();
@@ -59,70 +58,83 @@ public class MapPanel extends JPanel implements GameWorldListener {
                             if (list == null || list.isEmpty()) {
                                 if (dist == 1) {
                                     world.movePlayerTo(pos);
-                                }
-                                else {
+                                } else {
                                     Toolkit.getDefaultToolkit().beep();
                                 }
-                            }
-
-                            else {
+                            } else {
                                 GameEntity ent = list.get(0);
                                 if (ent instanceof Enemy) {
+                                    Enemy enemy = (Enemy) list.get(0);
+                                    int beforeE = enemy.getHealth();
+                                    int beforeP = player.getHealth();
+
                                     if (player instanceof RangedFighter) {
-                                        if (dist <= 2){
+                                        if (dist <= 2) {
                                             world.attackEnemyAt(pos);
-                                        }
-                                        else
+                                            int afterE = enemy.getHealth();
+                                            int afterP = player.getHealth();
+                                            int dmgE = beforeE - afterE;
+                                            int dmgP = beforeP - afterP;
+                                            if (dmgE > 0) {
+                                                showDamagePopup(lbl, dmgE, Color.GREEN);
+                                            }
+                                            if (dmgP > 0) {
+                                                Position playerpos = player.getPosition();
+                                                JLabel pcell = cells[playerpos.getRow()][playerpos.getCol()];
+                                                showDamagePopup(pcell, dmgP, Color.RED);
+                                            }
+                                        } else
+                                            Toolkit.getDefaultToolkit().beep();
+                                    } else {
+                                        if (dist == 1) {
+                                            world.attackEnemyAt(pos);
+                                            int afterE = enemy.getHealth();
+                                            int afterP = player.getHealth();
+                                            int dmgE = beforeE - afterE;
+                                            int dmgP = beforeP - afterP;
+
+                                            if (dmgE > 0) {
+                                                showDamagePopup(lbl, dmgE, Color.GREEN);
+                                            }
+                                            if (dmgP > 0) {
+                                                Position playerpos = player.getPosition();
+                                                JLabel pcell = cells[playerpos.getRow()][playerpos.getCol()];
+                                                showDamagePopup(pcell, dmgP, Color.RED);
+                                            }
+                                        } else
                                             Toolkit.getDefaultToolkit().beep();
                                     }
-                                    else
-                                    {
-                                        if (dist == 1){
-                                            world.attackEnemyAt(pos);
-                                        }
-                                        else
-                                            Toolkit.getDefaultToolkit().beep();
-                                    }
-                                }
-                                else if (ent instanceof GameItem) {
-                                    if (dist == 1){
-                                        if (ent instanceof Potion){
+                                } else if (ent instanceof GameItem) {
+                                    if (dist == 1) {
+                                        if (ent instanceof Potion) {
                                             world.pickupItemAt(pos);
-                                        }
-                                        else if(ent instanceof Treasure){
+                                        } else if (ent instanceof Treasure) {
                                             world.interactWithItemAt(pos);
                                         }
-                                    }
-                                    else {
+                                    } else {
                                         Toolkit.getDefaultToolkit().beep();
                                     }
                                 }
-                                updateCell(ent.getPosition().getRow(),ent.getPosition().getCol());
+                                updateCell(ent.getPosition().getRow(), ent.getPosition().getCol());
                             }
-                        }
-
-                        else if (SwingUtilities.isRightMouseButton(e)) {
+                        } else if (SwingUtilities.isRightMouseButton(e)) {
                             JPopupMenu menu = new JPopupMenu();
                             menu.setBackground(Color.WHITE);
-                            menu.setBorder(BorderFactory.createMatteBorder(1,1,1,1,borderColor));
+                            menu.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, borderColor));
 
                             if (list == null || list.isEmpty()) {
                                 if (world.getGameMap().isBlocked(pos)) {
                                     menu.add(new JMenuItem("Wall – blocks movement"));
-                                }
-                                else {
+                                } else {
                                     menu.add(new JMenuItem("Empty cell"));
                                 }
-                            }
-                            else {
+                            } else {
                                 GameEntity ent = list.get(0);
                                 if (ent instanceof Enemy en) {
                                     menu.add(new JMenuItem(en.getDisplaySymbol() + " – HP: " + en.getHealth()));
-                                }
-                                else if (ent instanceof GameItem item) {
+                                } else if (ent instanceof GameItem item) {
                                     menu.add(new JMenuItem(item.getDisplaySymbol() + " – " + item.getDescription()));
-                                }
-                                else {
+                                } else {
                                     menu.add(new JMenuItem(ent.getDisplaySymbol()));
                                 }
                             }
@@ -134,15 +146,14 @@ public class MapPanel extends JPanel implements GameWorldListener {
                 add(lbl);
             }
         }
+        worldChanged();
+    }
+
+    public void worldChanged() {
         refresh();
         checkGameEnd();
     }
 
-    public void worldChanged(){
-        refresh();
-        checkGameEnd();
-    }
-    /** Redraws the entire grid with up-to-date icons. */
     private void refresh() {
         for (int r = 0; r < cells.length; r++) {
             for (int c = 0; c < cells[r].length; c++) {
@@ -163,14 +174,12 @@ public class MapPanel extends JPanel implements GameWorldListener {
                 String file = ent.getDisplaySymbol() + ".png";
                 icon = ImageLoader.load(file, iconSize, iconSize);
             }
-        }
-        else {
+        } else {
             icon = ImageLoader.load("empty.png", iconSize, iconSize);
         }
         lbl.setIcon(icon);
     }
 
-    /** Finds the current player object on the map. */
     private PlayerCharacter findPlayer() {
         for (List<GameEntity> cell : world.getGameMap().getGrid().values()) {
             for (GameEntity ent : cell) {
@@ -184,16 +193,40 @@ public class MapPanel extends JPanel implements GameWorldListener {
 
     private void checkGameEnd() {
         PlayerCharacter p = world.getPlayer();
-        if (p.isDead()){
-            JOptionPane.showMessageDialog(
-                    this, "Game Over – You have died!\nTreasure Points: " + p.getTreasurePoints(), "Game Over", JOptionPane.INFORMATION_MESSAGE);
+        if (p.isDead()) {
+            JOptionPane.showMessageDialog(this, "Game Over – You have died!\nTreasure Points: " + p.getTreasurePoints(), "Game Over", JOptionPane.INFORMATION_MESSAGE);
             System.exit(0);
         }
         if (world.areAllEnemiesDead()) {
-            JOptionPane.showMessageDialog(
-                    this, "Congratulations! All enemies have been defeated.\nTreasure Points: " + p.getTreasurePoints(), "Victory!", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Congratulations! All enemies have been defeated.\nTreasure Points: " + p.getTreasurePoints(), "Victory!", JOptionPane.INFORMATION_MESSAGE);
             System.exit(0);
         }
     }
+
+    private void showDamagePopup(JLabel cell, int damage, Color baseColor) {
+        cell.setText("-" + damage);
+        cell.setHorizontalTextPosition(SwingConstants.CENTER);
+        cell.setVerticalTextPosition(SwingConstants.CENTER);
+        cell.setFont(cell.getFont().deriveFont(Font.BOLD, 18f));
+
+        final float[] alpha = {1f};
+        Timer fade = new Timer(50, null);
+        fade.addActionListener(evt -> {
+            alpha[0] -= 0.1f;
+            if (alpha[0] <= 0f) {
+                fade.stop();
+                cell.setText("");
+            }
+            else {
+                float r = baseColor.getRed() / 255f;
+                float g = baseColor.getGreen() / 255f;
+                float b = baseColor.getBlue() / 255f;
+                cell.setForeground(new Color(r, g, b, alpha[0]));
+            }
+        });
+        fade.setInitialDelay(100);
+        fade.start();
+    }
+
 
 }
