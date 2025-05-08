@@ -34,7 +34,6 @@ public class GameWorld {
         this.enemies = new ArrayList<>();
         this.items = new ArrayList<>();
         this.combatSystem = new CombatSystem();
-        Scanner sc=new Scanner(System.in);
         Random random = new Random();
         this.rows=rows;
         this.cols=cols;
@@ -220,7 +219,8 @@ public class GameWorld {
     }
     public void interactWithItemAt(Position pos) {
         List<GameEntity> cell = gameMap.getGrid().get(pos);
-        if (cell == null) return;
+        if (cell == null)
+            return;
 
         Iterator<GameEntity> it = cell.iterator();
         while (it.hasNext()) {
@@ -235,7 +235,8 @@ public class GameWorld {
     }
     public boolean areAllEnemiesDead() {
         for (Enemy e : enemies) {
-            if (!e.isDead()) return false;
+            if (!e.isDead())
+                return false;
         }
         return true;
     }
