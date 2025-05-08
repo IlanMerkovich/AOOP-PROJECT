@@ -34,10 +34,10 @@ public class GameWorld {
         this.enemies = new ArrayList<>();
         this.items = new ArrayList<>();
         this.combatSystem = new CombatSystem();
-        Random random = new Random();
         this.rows=rows;
         this.cols=cols;
         this.gameMap = new GameMap(rows,cols);
+        Random random = new Random();
 
 
         Position playerPosition = getRandomEmptyPosition(rows, cols, random);
@@ -88,6 +88,7 @@ public class GameWorld {
             }
         }
         updateVisibility(playerPosition);
+        notifyListeners();
     }
     /**
      * Picks a random empty cell from the map for placing entities (like player).
@@ -175,18 +176,13 @@ public class GameWorld {
     public GameMap getGameMap() {
         return gameMap;
     }
-
     public int getCols() {
         return cols;
     }
-
     public int getRows() {
         return rows;
     }
 
-    // inside GameWorld
-
-    /** Attempt to move the player to `dest`, respecting walls and visibility. */
     public void movePlayerTo(Position dest) {
         PlayerCharacter p = players.get(0);
         // only if not blocked:
@@ -196,25 +192,24 @@ public class GameWorld {
             p.setPosition(dest);
             gameMap.placeEntity(dest, p);
             updateVisibility(dest);
+            notifyListeners();
         }
     }
-
-    /** If there’s an enemy at `pos`, run the fight to completion. */
     public void attackEnemyAt(Position pos) {
         List<GameEntity> list = gameMap.getGrid().get(pos);
         if (list != null && !list.isEmpty() && list.get(0) instanceof Enemy e) {
             ManageFight(getPlayer(), e);
             updateVisibility(getPlayer().getPosition());
+            notifyListeners();
         }
     }
-
-    /** If there’s a pickupable item at `pos`, pick it up and remove from map. */
     public void pickupItemAt(Position pos) {
         List<GameEntity> list = gameMap.getGrid().get(pos);
         if (list != null && !list.isEmpty() && list.get(0) instanceof Pickupable pick) {
             pick.pickup(getPlayer());
             list.remove(0);
             updateVisibility(getPlayer().getPosition());
+            notifyListeners();
         }
     }
     public void interactWithItemAt(Position pos) {
@@ -229,16 +224,34 @@ public class GameWorld {
                 inter.interact(getPlayer());
                 it.remove();
                 updateVisibility(getPlayer().getPosition());
+                notifyListeners();
                 return;
             }
         }
     }
+
     public boolean areAllEnemiesDead() {
         for (Enemy e : enemies) {
             if (!e.isDead())
                 return false;
         }
         return true;
+    }
+    public boolean isPlayerDead(){
+        return getPlayer().isDead();
+    }
+
+
+    public void addListener(GameWorldListener l){
+        listeners.add(l);
+    }
+    public void removeListener(GameWorldListener l){
+        listeners.remove(l);
+    }
+    private void notifyListeners(){
+        for (GameWorldListener l:listeners){
+            l.worldChanged();
+        }
     }
 
 
@@ -248,4 +261,5 @@ public class GameWorld {
     private List<GameItem> items;
     private GameMap gameMap;
     private CombatSystem combatSystem;
+    private final List<GameWorldListener> listeners = new ArrayList<>();
 }
