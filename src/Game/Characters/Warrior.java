@@ -49,7 +49,6 @@ public class Warrior extends PlayerCharacter implements MeleeFighter, PhysicalAt
     public void receiveDamage(int amount, Combatant source){
         int totaldamage;
         if (tryEvade(source)){
-            System.out.println("You have evaded the strike");
         }
         else{
             totaldamage=(int)(amount*(1-min(0.6,defence/200.0)));

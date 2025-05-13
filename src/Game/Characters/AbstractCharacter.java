@@ -138,7 +138,6 @@ public abstract class AbstractCharacter implements Combatant, GameEntity{
      */
     public void receiveDamage(int amount, Combatant source){
         if (tryEvade(source)){
-            System.out.println("You have evaded the strike");
         } else {
             this.getDamage(amount);
         }

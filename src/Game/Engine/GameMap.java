@@ -6,6 +6,9 @@ import Game.Items.GameItem;
 import Game.Map.Position;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReentrantLock;
+
 /**
  * GameMap represents the 2D game board that holds all entities in the world,
  * including players, enemies, and items.
@@ -29,6 +32,12 @@ public class GameMap{
         for (int i = 0; i < rows; i++){
             for (int j = 0; j < cols; j++){
                 grid.put(new Position(i,j),new ArrayList<>());
+            }
+        }
+        cellLocks = new ReentrantLock[rows][cols];
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                cellLocks[i][j] = new ReentrantLock(true);
             }
         }
     }
@@ -88,7 +97,24 @@ public class GameMap{
         }
         return false;
     }
-
+    public boolean tryLockCell(Position pos, long timeoutMillis) {
+        ReentrantLock lock = cellLocks[pos.getRow()][pos.getCol()];
+        try {
+            return lock.tryLock(timeoutMillis, TimeUnit.MILLISECONDS);
+        }
+        catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            return false;
+        }
+    }
+    public void unlockCell(Position pos) {
+        ReentrantLock lock = cellLocks[pos.getRow()][pos.getCol()];
+        if (lock.isHeldByCurrentThread()) {
+            lock.unlock();
+        }
+    }
     private Map<Position,List<GameEntity>>grid;
+    private ReentrantLock[][] cellLocks;
+
 
 }

@@ -85,7 +85,6 @@ public class Potion extends GameItem implements Interactable,Pickupable{
      */
     public void pickup(PlayerCharacter c) {
         c.addToInventory(this);
-        System.out.println("You picked up a health potion!");
     }
     /**
      * @return if this item is used or not

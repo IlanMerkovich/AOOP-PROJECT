@@ -15,7 +15,7 @@ public class StartFrame extends JFrame {
     private final JRadioButton archerButton;
     private final JRadioButton warriorButton;
     private final JRadioButton mageButton;
-    private final JButton startButton;
+    private final int iconSize=64;
 
     public StartFrame() {
         super("Start Game");
@@ -41,24 +41,22 @@ public class StartFrame extends JFrame {
         title.setForeground(textColor);
         title.setOpaque(true);
         title.setBackground(backgroundColor);
-        title.setBorder(new CompoundBorder(
-                new EmptyBorder(12, 12, 12, 12), new LineBorder(accentColor, 3)
-        ));
+        title.setBorder(new CompoundBorder(new EmptyBorder(12, 12, 12, 12), new LineBorder(accentColor, 3)));
 
         rowsField = new JTextField(5);
         colsField = new JTextField(5);
         nameField = new JTextField(15);
 
-        archerButton = createCharacterButton("Archer", ImageLoader.load("archer.png", 64, 64));
-        warriorButton = createCharacterButton("Warrior", ImageLoader.load("figther.png", 64, 64));
-        mageButton = createCharacterButton("Mage", ImageLoader.load("mage.png", 64, 64));
+        archerButton = createCharacterButton("Archer", ImageLoader.load("archer.png", iconSize, iconSize));
+        warriorButton = createCharacterButton("Warrior", ImageLoader.load("figther.png", iconSize, iconSize));
+        mageButton = createCharacterButton("Mage", ImageLoader.load("mage.png", iconSize, iconSize));
 
         ButtonGroup group = new ButtonGroup();
         group.add(archerButton);
         group.add(warriorButton);
         group.add(mageButton);
 
-        startButton = new JButton("Start Game");
+        JButton startButton = new JButton("Start Game");
         startButton.setFont(startButton.getFont().deriveFont(Font.BOLD, 16f));
         startButton.addActionListener(e -> {
             try {
@@ -74,12 +72,11 @@ public class StartFrame extends JFrame {
                     JOptionPane.showMessageDialog(this, "Please select a character class.", "No Character Selected", JOptionPane.WARNING_MESSAGE);
                     return;
                 }
-
-                GameWorld gameWorld = new GameWorld(row, col, name, type);
+                GameWorld world = new GameWorld(row, col, name, type);
                 dispose();
-                new MainFrame(gameWorld);
-
-            } catch (NumberFormatException ex) {
+                SwingUtilities.invokeLater(() -> new MainFrame(world));
+            }
+            catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "Please enter valid integers for Rows and Columns.", "Input Error", JOptionPane.ERROR_MESSAGE);
             }
         });
@@ -129,7 +126,6 @@ public class StartFrame extends JFrame {
         gbc.gridy = 5;
         content.add(charsPanel, gbc);
 
-        // Start button
         gbc.gridy = 6;
         gbc.gridwidth = 2;
         startButton.setPreferredSize(new Dimension(140, 40));
@@ -164,8 +160,8 @@ public class StartFrame extends JFrame {
     public String getSelectedCharacter() {
         if (archerButton.isSelected())
             return "Archer";
-        if (warriorButton.isSelected()) return
-                "Warrior";
+        if (warriorButton.isSelected())
+            return "Warrior";
         if (mageButton.isSelected())
             return "Mage";
         return null;

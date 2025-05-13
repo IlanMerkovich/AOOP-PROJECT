@@ -1,14 +1,21 @@
 package Game.Engine;
+import Game.GUI.MapPanel;
 import Game.Items.Interactable;
 
 import Game.Characters.*;
 import Game.Combat.CombatSystem;
-import Game.Combat.RangedFighter;
 import Game.Core.GameEntity;
 import Game.Items.*;
 import Game.Map.Position;
 
+import javax.swing.*;
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReentrantLock;
+
 /**
  * GameWorld is the central controller of the turn-based RPG game.
  * It initializes the game map, generates all entities (player, enemies, and items),
@@ -37,8 +44,8 @@ public class GameWorld {
         this.rows=rows;
         this.cols=cols;
         this.gameMap = new GameMap(rows,cols);
-        Random random = new Random();
-
+        this.worldLock=new ReentrantLock(true);
+        this.random=new Random();
 
         Position playerPosition = getRandomEmptyPosition(rows, cols, random);
         PlayerCharacter playerCharacter = switch (type) {
@@ -53,7 +60,8 @@ public class GameWorld {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 Position newPos = new Position(i, j);
-                if (!gameMap.getGrid().get(newPos).isEmpty()) continue;
+                if (!gameMap.getGrid().get(newPos).isEmpty())
+                    continue;
 
                 int probability = random.nextInt(100);
                 GameEntity entity = null;
@@ -65,6 +73,8 @@ public class GameWorld {
                         case 1 -> new Orc(i, j);
                         default -> new Dragon(i, j);
                     };
+                    Enemy enemy=(Enemy) entity;
+                    enemy.init(this);
                     enemies.add((Enemy) entity);
                 }
                 else if (probability < 40) {
@@ -87,6 +97,8 @@ public class GameWorld {
                 }
             }
         }
+        this.scheduler = Executors.newScheduledThreadPool(10);
+        scheduleAllEnemies();
         updateVisibility(playerPosition);
         notifyListeners();
     }
@@ -106,7 +118,6 @@ public class GameWorld {
             }
         }
     }
-
     /**
      * Handles the combat loop between a player character and an enemy.
      * The method continues to call the combat system until one of the combatants dies.
@@ -124,17 +135,6 @@ public class GameWorld {
             gameMap.removeEntity(enemy.getPosition(),enemy);
         }
     }
-
-    /**
-     * Main game loop.
-     * Repeats until the player dies or all enemies are defeated.
-     * On each turn:
-     * - Checks victory/defeat conditions
-     * - Updates visibility around player
-     * - Displays the map and player info
-     * - Lets the player perform an action (movement, item usage, combat)
-     */
-
     /**
      * Returns the first (and currently only) player in the world.
      *
@@ -170,7 +170,6 @@ public class GameWorld {
             }
         }
     }
-
     public GameMap getGameMap() {
         return gameMap;
     }
@@ -180,10 +179,8 @@ public class GameWorld {
     public int getRows() {
         return rows;
     }
-
-    public void movePlayerTo(Position dest) {
+    public void movePlayerTo(Position dest){
         PlayerCharacter p = players.get(0);
-        // only if not blocked:
         if (!gameMap.isBlocked(dest)) {
             Position src = p.getPosition();
             gameMap.removeEntity(src, p);
@@ -227,7 +224,6 @@ public class GameWorld {
             }
         }
     }
-
     public boolean areAllEnemiesDead() {
         for (Enemy e : enemies) {
             if (!e.isDead())
@@ -235,11 +231,6 @@ public class GameWorld {
         }
         return true;
     }
-    public boolean isPlayerDead(){
-        return getPlayer().isDead();
-    }
-
-
     public void addListener(GameWorldListener l){
         listeners.add(l);
     }
@@ -251,8 +242,75 @@ public class GameWorld {
             l.worldChanged();
         }
     }
+    private void notifyMapChange(){
+        for (GameWorldListener l:listeners){
+            if (listeners instanceof MapPanel mapPanel){
+                mapPanel.worldChanged();
+            }
+        }
+    }
+    private Position getStepPosition(Position enemyPos){
+        int r=enemyPos.getRow();
+        int c=enemyPos.getCol();
+        ArrayList<Position>positionAvailable=new ArrayList<>(4);
+        if (r>0){
+            positionAvailable.add(new Position(r-1,c));
+        }
+        if (r<rows-1){
+            positionAvailable.add(new Position(r+1,c));
+        }
+        if (c>0){
+            positionAvailable.add(new Position(r,c-1));
+        }
+        if (c<cols-1){
+            positionAvailable.add(new Position(r,c+1));
+        }
+        if (positionAvailable.isEmpty()){
+            return null;
+        }
+        return positionAvailable.get(random.nextInt(positionAvailable.size()));
+    }
+    public void attemptToMove(Enemy enemy){
+        Position enemyPos=enemy.getPosition();
+        Position targetPos=getStepPosition(enemyPos);
+        try {
+            if (gameMap.tryLockCell(targetPos, 50)) ;
+            try {
+                if (gameMap.getGrid().get(targetPos).isEmpty() && !gameMap.isBlocked(targetPos)) {
+                    gameMap.removeEntity(enemyPos, enemy);
+                    enemy.setPosition(targetPos);
+                    gameMap.placeEntity(targetPos, enemy);
+                }
+            } finally {
+                gameMap.unlockCell(targetPos);
+            }
+        }
+        finally {
+            updateVisibility(getPlayer().getPosition());
+            if (enemy.getVisibility()){
+                notifyMapChange();
+            }
+        }
+    }
+    private void scheduleOneEnemy(Enemy enemy) {
+        long delay = 500 + random.nextInt(1501);
+        scheduler.schedule(() -> {
+            enemy.run();
+            scheduleOneEnemy(enemy);
+        }, delay, TimeUnit.MILLISECONDS);
+    }
+    private void scheduleAllEnemies() {
+        for (Enemy enemy : enemies) {
+            scheduleOneEnemy(enemy);
+        }
+    }
+    public void shutdown() {
+        scheduler.shutdownNow();
+    }
 
-
+    private ReentrantLock worldLock;
+    private ScheduledExecutorService scheduler;
+    private Random random;
     private int rows,cols;
     private List<PlayerCharacter> players;
     private List<Enemy> enemies;

@@ -65,6 +65,5 @@ public class PowerPotion extends Potion{
      */
     public void pickup(PlayerCharacter c) {
         c.addToInventory(this);
-        System.out.println("You picked up a power potion!");
     }
 }

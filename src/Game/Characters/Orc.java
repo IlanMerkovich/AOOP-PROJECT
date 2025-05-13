@@ -84,7 +84,6 @@ public class Orc extends Enemy implements PhysicalAttacker, MeleeFighter{
     public void receiveDamage(int amount, Combatant source) {
         int damageReceived=amount;
         if (tryEvade(source)){
-            System.out.println("You have evaded the strike");
             return;
         }
         if (source.getElement()!=null){

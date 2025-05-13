@@ -1,14 +1,17 @@
 package Game.Characters;
 
+import Game.Engine.GameWorld;
 import Game.Items.Treasure;
+
 import java.util.Random;
 /**
  * Abstract class representing an enemy character in the game.
  * Each enemy has a fixed max health of 50 and contains loot that becomes treasure upon defeat.
  * Inherits general character properties from {@link AbstractCharacter}.
  */
-public abstract class Enemy extends AbstractCharacter{
+public abstract class Enemy extends AbstractCharacter implements Runnable{
     private final int loot;
+    private GameWorld gameWorld;
     /**
      * Constructs an enemy at a given position with a randomized loot value between 100 and 300.
      *
@@ -85,5 +88,17 @@ public abstract class Enemy extends AbstractCharacter{
                 this.getHealth() == other.getHealth() &&
                 this.getPower() == other.getPower() &&
                 this.loot == other.loot;
+    }
+
+    public void init(GameWorld gw) {
+        this.gameWorld = gw;
+    }
+
+    @Override
+    public void run() {
+        int probability=new Random().nextInt(0,101);
+        if (probability<=50){
+            gameWorld.attemptToMove(this);
+        }
     }
 }
