@@ -1,20 +1,16 @@
 package Game.Engine;
 import Game.GUI.MapPanel;
 import Game.Items.Interactable;
-
 import Game.Characters.*;
 import Game.Combat.CombatSystem;
 import Game.Core.GameEntity;
 import Game.Items.*;
 import Game.Map.Position;
-
-import javax.swing.*;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * GameWorld is the central controller of the turn-based RPG game.
@@ -44,7 +40,6 @@ public class GameWorld {
         this.rows=rows;
         this.cols=cols;
         this.gameMap = new GameMap(rows,cols);
-        this.worldLock=new ReentrantLock(true);
         this.random=new Random();
 
         Position playerPosition = getRandomEmptyPosition(rows, cols, random);
@@ -74,7 +69,7 @@ public class GameWorld {
                         default -> new Dragon(i, j);
                     };
                     Enemy enemy=(Enemy) entity;
-                    enemy.init(this);
+                    enemy.init(this,isRunning);
                     enemies.add((Enemy) entity);
                 }
                 else if (probability < 40) {
@@ -181,13 +176,22 @@ public class GameWorld {
     }
     public void movePlayerTo(Position dest){
         PlayerCharacter p = players.get(0);
-        if (!gameMap.isBlocked(dest)) {
-            Position src = p.getPosition();
-            gameMap.removeEntity(src, p);
-            p.setPosition(dest);
-            gameMap.placeEntity(dest, p);
+        if (!gameMap.isBlocked(dest)){
+            try{
+                if (gameMap.tryLockCell(dest,50)){
+                    if (gameMap.getGrid().get(dest).isEmpty() && !gameMap.isBlocked(dest)){
+                        Position src = p.getPosition();
+                        gameMap.removeEntity(src,p);
+                        p.setPosition(dest);
+                        gameMap.placeEntity(dest,p);
+                    }
+                }
             updateVisibility(dest);
             notifyListeners();
+            }
+            finally {
+                gameMap.unlockCell(dest);
+            }
         }
     }
     public void attackEnemyAt(Position pos) {
@@ -271,17 +275,19 @@ public class GameWorld {
         return positionAvailable.get(random.nextInt(positionAvailable.size()));
     }
     public void attemptToMove(Enemy enemy){
+        if (enemy.isDead()){
+            return;
+        }
         Position enemyPos=enemy.getPosition();
         Position targetPos=getStepPosition(enemyPos);
         try {
             if (gameMap.tryLockCell(targetPos, 50)) ;
             try {
                 if (gameMap.getGrid().get(targetPos).isEmpty() && !gameMap.isBlocked(targetPos)) {
-                    gameMap.removeEntity(enemyPos, enemy);
-                    enemy.setPosition(targetPos);
-                    gameMap.placeEntity(targetPos, enemy);
+                    moveEntity(enemy,targetPos);
                 }
-            } finally {
+            }
+            finally {
                 gameMap.unlockCell(targetPos);
             }
         }
@@ -292,12 +298,17 @@ public class GameWorld {
             }
         }
     }
+    private void moveEntity(GameEntity entity,Position newPosition){
+        gameMap.removeEntity(entity.getPosition(),entity);
+        entity.setPosition(newPosition);
+        gameMap.placeEntity(newPosition,entity);
+    }
     private void scheduleOneEnemy(Enemy enemy) {
-        long delay = 500 + random.nextInt(1501);
+        long delay = 500 + random.nextInt(1001);
         scheduler.schedule(() -> {
             enemy.run();
             scheduleOneEnemy(enemy);
-        }, delay, TimeUnit.MILLISECONDS);
+            },delay,TimeUnit.MILLISECONDS);
     }
     private void scheduleAllEnemies() {
         for (Enemy enemy : enemies) {
@@ -305,11 +316,12 @@ public class GameWorld {
         }
     }
     public void shutdown() {
+        isRunning.set(false);
         scheduler.shutdownNow();
     }
 
-    private ReentrantLock worldLock;
     private ScheduledExecutorService scheduler;
+    private final AtomicBoolean isRunning = new AtomicBoolean(true);
     private Random random;
     private int rows,cols;
     private List<PlayerCharacter> players;

@@ -1,9 +1,12 @@
 package Game.Characters;
 
+import Game.Audio.SoundManager;
 import Game.Engine.GameWorld;
 import Game.Items.Treasure;
 
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 /**
  * Abstract class representing an enemy character in the game.
  * Each enemy has a fixed max health of 50 and contains loot that becomes treasure upon defeat.
@@ -12,6 +15,8 @@ import java.util.Random;
 public abstract class Enemy extends AbstractCharacter implements Runnable{
     private final int loot;
     private GameWorld gameWorld;
+    private AtomicBoolean isRunning;
+
     /**
      * Constructs an enemy at a given position with a randomized loot value between 100 and 300.
      *
@@ -70,6 +75,7 @@ public abstract class Enemy extends AbstractCharacter implements Runnable{
      * @return a {@link Treasure} item with the enemy's loot value
      */
     public Treasure Defeat(){
+        SoundManager.playEffect("enemykill.wav");
         return new Treasure(this.getPosition().getRow(),this.getPosition().getCol(),loot);
     }
     /**
@@ -90,14 +96,18 @@ public abstract class Enemy extends AbstractCharacter implements Runnable{
                 this.loot == other.loot;
     }
 
-    public void init(GameWorld gw) {
+    public void init(GameWorld gw,AtomicBoolean isRunning) {
         this.gameWorld = gw;
+        this.isRunning=isRunning;
     }
 
     @Override
     public void run() {
-        int probability=new Random().nextInt(0,101);
-        if (probability<=50){
+        Random random=new Random();
+        if (!isRunning.get() || this.isDead()){
+            return;
+        }
+        if (random.nextInt(100)<20){
             gameWorld.attemptToMove(this);
         }
     }

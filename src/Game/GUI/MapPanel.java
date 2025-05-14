@@ -1,4 +1,5 @@
 package Game.GUI;
+import Game.Audio.SoundManager;
 import Game.Characters.Enemy;
 import Game.Characters.PlayerCharacter;
 import Game.Combat.MagicAttacker;
@@ -119,6 +120,7 @@ public class MapPanel extends JPanel implements GameWorldListener {
                                             world.pickupItemAt(pos);
                                             addClickFlash(lbl,100,Color.green);
                                         } else if (ent instanceof Treasure) {
+                                            SoundManager.playEffect("point.wav");
                                             world.interactWithItemAt(pos);
                                             addClickFlash(lbl,100,Color.green);
                                         }
@@ -169,11 +171,7 @@ public class MapPanel extends JPanel implements GameWorldListener {
             }
         }
         refresh();
-        /*
-        int fps = 10;
-        int delay = 1000 / fps;
-        new javax.swing.Timer(delay, e -> {this.refresh();}).start();
-        worldChanged();*/
+        SoundManager.playEffect("welcome.wav");
     }
 
     public void worldChanged() {
@@ -219,11 +217,13 @@ public class MapPanel extends JPanel implements GameWorldListener {
     private void checkGameEnd() {
         PlayerCharacter p = world.getPlayer();
         if (p.isDead()) {
+            SoundManager.playEffect("playerdead.wav");
             JOptionPane.showMessageDialog(this, "Game Over – You have died!\nTreasure Points: " + p.getTreasurePoints(), "Game Over", JOptionPane.INFORMATION_MESSAGE);
             world.shutdown();
             System.exit(0);
         }
         if (world.areAllEnemiesDead()) {
+            SoundManager.playEffect("victory.wav");
             JOptionPane.showMessageDialog(this, "Congratulations! All enemies have been defeated.\nTreasure Points: " + p.getTreasurePoints(), "Victory!", JOptionPane.INFORMATION_MESSAGE);
             world.shutdown();
             System.exit(0);
