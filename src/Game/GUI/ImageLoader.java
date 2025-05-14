@@ -22,7 +22,6 @@ public class ImageLoader {
         ImageIcon original = load(fileName);
         if (original == null)
             return null;
-
         Image scaledImage = original.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
         return new ImageIcon(scaledImage);
     }

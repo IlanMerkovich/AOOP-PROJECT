@@ -22,7 +22,6 @@ public abstract class AbstractCharacter implements Combatant, GameEntity{
         Power=new Random().nextInt(4,14);
         evasionChance=0.25;
         visibility=false;
-
     }
     /**
      * Checks equality by comparing position, health, and power.

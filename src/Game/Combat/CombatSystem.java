@@ -1,5 +1,6 @@
     package Game.Combat;
     import Game.Characters.Enemy;
+    import Game.Logs.LogManager;
     import Game.Map.Position;
     /**
      * Handles turn-based combat between two combatants in the game.
@@ -22,12 +23,15 @@
         public void resolveCombat(Combatant attacker, Combatant defender){
             if (isInRange(attacker, defender)) {
                 attacker.attack(defender);
+                LogManager.addLog("Player attacked enemy at: "+defender.getPosition());
                 if (defender.isDead()){
                     if (defender instanceof Enemy e) {
                         System.out.println("Enemy was defeated!");
+                        LogManager.addLog("Enemy was killed by player at: "+defender.getPosition());
                     }
                     else {
                         System.out.println("You are dead. You lost!");
+                        LogManager.addLog("Player was killed. End game");
                     }
                     return;
                 }
@@ -39,9 +43,14 @@
 
             if (isInRange(defender, attacker)) {
                 defender.attack(attacker);
+                LogManager.addLog("Enemy attacked player at: "+attacker.getPosition());
                 if (attacker.isDead()) {
                     System.out.println("You are dead. You lost!");
+                    LogManager.addLog("Player was killed. End game");
                 }
+            }
+            else{
+                LogManager.addLog("Enemy tried to attack but was out of range");
             }
         }
         /**

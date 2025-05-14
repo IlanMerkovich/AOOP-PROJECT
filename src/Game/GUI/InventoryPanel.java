@@ -2,23 +2,19 @@ package Game.GUI;
 
 import Game.Characters.PlayerCharacter;
 import Game.Engine.GameWorld;
-import Game.Engine.GameWorldListener;
+import Game.Engine.GameListener;
 import Game.Items.GameItem;
-import Game.Items.Potion;
-import Game.Items.PowerPotion;
-import Game.Items.Interactable;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.Toolkit;
 import java.util.List;
 
 /**
  * Shows the player’s current items; click to view/use.
  */
-public class InventoryPanel extends JPanel implements GameWorldListener {
+public class InventoryPanel extends JPanel implements GameListener {
     private final GameWorld world;
     private StatusPanel statusPanel;
     private final int iconSize = 32;
@@ -59,25 +55,11 @@ public class InventoryPanel extends JPanel implements GameWorldListener {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         if (SwingUtilities.isLeftMouseButton(e)) {
-                            if (item instanceof Potion && !(item instanceof PowerPotion)) {
-                                p.usePotion();
-                                statusPanel.rebuild();
-                            }
-                            else if (item instanceof PowerPotion) {
-                                p.usePowerPotion();
-                                statusPanel.rebuild();
-                            }
-
+                            world.useItem(item);
                         }
                         else {
-                            JOptionPane.showMessageDialog(
-                                    InventoryPanel.this,
-                                    item.getDescription(),
-                                    item.getDisplaySymbol(),
-                                    JOptionPane.INFORMATION_MESSAGE
-                            );
+                            JOptionPane.showMessageDialog(InventoryPanel.this, item.getDescription(), item.getDisplaySymbol(), JOptionPane.INFORMATION_MESSAGE);
                         }
-                        rebuild();
                     }
                 });
                 add(lbl);
@@ -87,7 +69,7 @@ public class InventoryPanel extends JPanel implements GameWorldListener {
         repaint();
     }
 
-    public void worldChanged() {
+    public void changeDetected() {
         rebuild();
     }
 }

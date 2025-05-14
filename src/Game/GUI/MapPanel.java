@@ -6,10 +6,11 @@ import Game.Combat.MagicAttacker;
 import Game.Combat.RangedFighter;
 import Game.Core.GameEntity;
 import Game.Engine.GameWorld;
-import Game.Engine.GameWorldListener;
+import Game.Engine.GameListener;
 import Game.Items.GameItem;
 import Game.Items.Potion;
 import Game.Items.Treasure;
+import Game.Logs.LogManager;
 import Game.Map.Position;
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -21,7 +22,7 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 
 
-public class MapPanel extends JPanel implements GameWorldListener {
+public class MapPanel extends JPanel implements GameListener {
     private final GameWorld world;
     private final JLabel[][] cells;
     private final int iconSize = 64;
@@ -32,10 +33,10 @@ public class MapPanel extends JPanel implements GameWorldListener {
         int rows = world.getRows();
         int cols = world.getCols();
         setLayout(new GridLayout(rows, cols));
-        setBackground(new Color(255, 255, 250));
+        setBackground(new Color(0, 0, 0));
 
         cells = new JLabel[rows][cols];
-        Color borderColor = new Color(180, 180, 180);
+        Color borderColor = new Color(255, 255, 255);
         MatteBorder cellBorder = BorderFactory.createMatteBorder(1, 1, 1, 1, borderColor);
 
         for (int r = 0; r < rows; r++) {
@@ -75,6 +76,7 @@ public class MapPanel extends JPanel implements GameWorldListener {
                                     if (player instanceof RangedFighter) {
                                         if (dist <= 2) {
                                             world.attackEnemyAt(pos);
+                                            addClickFlash(cells[player.getPosition().getRow()][player.getPosition().getCol()],250,Color.red);
                                             addClickFlash(lbl,250,Color.red);
                                             int afterE = enemy.getHealth();
                                             int afterP = player.getHealth();
@@ -96,6 +98,7 @@ public class MapPanel extends JPanel implements GameWorldListener {
                                         if (dist == 1) {
                                             world.attackEnemyAt(pos);
                                             addClickFlash(lbl,250,Color.red);
+                                            addClickFlash(cells[player.getPosition().getRow()][player.getPosition().getCol()],250,Color.red);
                                             int afterE = enemy.getHealth();
                                             int afterP = player.getHealth();
                                             int dmgE = beforeE - afterE;
@@ -119,7 +122,8 @@ public class MapPanel extends JPanel implements GameWorldListener {
                                         if (ent instanceof Potion) {
                                             world.pickupItemAt(pos);
                                             addClickFlash(lbl,100,Color.green);
-                                        } else if (ent instanceof Treasure) {
+                                        }
+                                        else if (ent instanceof Treasure) {
                                             SoundManager.playEffect("point.wav");
                                             world.interactWithItemAt(pos);
                                             addClickFlash(lbl,100,Color.green);
@@ -166,15 +170,21 @@ public class MapPanel extends JPanel implements GameWorldListener {
                         }
                     }
                 });
+                lbl.setBackground(new Color(100, 100, 110));
                 cells[r][c] = lbl;
                 add(lbl);
             }
         }
         refresh();
+        int fps = 1;
+        int delay = 1000 / fps;
+        new javax.swing.Timer(delay, e -> {
+            this.refresh();}).start();
+        changeDetected();
         SoundManager.playEffect("welcome.wav");
     }
 
-    public void worldChanged() {
+    public void changeDetected() {
         refresh();
         checkGameEnd();
     }
@@ -220,12 +230,14 @@ public class MapPanel extends JPanel implements GameWorldListener {
             SoundManager.playEffect("playerdead.wav");
             JOptionPane.showMessageDialog(this, "Game Over – You have died!\nTreasure Points: " + p.getTreasurePoints(), "Game Over", JOptionPane.INFORMATION_MESSAGE);
             world.shutdown();
+            LogManager.stop();
             System.exit(0);
         }
         if (world.areAllEnemiesDead()) {
             SoundManager.playEffect("victory.wav");
             JOptionPane.showMessageDialog(this, "Congratulations! All enemies have been defeated.\nTreasure Points: " + p.getTreasurePoints(), "Victory!", JOptionPane.INFORMATION_MESSAGE);
             world.shutdown();
+            LogManager.stop();
             System.exit(0);
         }
     }

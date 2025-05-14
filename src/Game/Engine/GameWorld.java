@@ -5,6 +5,7 @@ import Game.Characters.*;
 import Game.Combat.CombatSystem;
 import Game.Core.GameEntity;
 import Game.Items.*;
+import Game.Logs.LogManager;
 import Game.Map.Position;
 import java.util.*;
 import java.util.concurrent.Executors;
@@ -92,6 +93,8 @@ public class GameWorld {
                 }
             }
         }
+        LogManager.startLogger();
+        LogManager.addLog("Start");
         this.scheduler = Executors.newScheduledThreadPool(10);
         scheduleAllEnemies();
         updateVisibility(playerPosition);
@@ -126,6 +129,7 @@ public class GameWorld {
         if (enemy.isDead()){
             Treasure treasure=enemy.Defeat();
             this.addItem(treasure);
+            LogManager.addLog("Treasure was created at: "+treasure.getPosition());
             gameMap.placeEntity(enemy.getPosition(),treasure);
             gameMap.removeEntity(enemy.getPosition(),enemy);
         }
@@ -184,6 +188,7 @@ public class GameWorld {
                         gameMap.removeEntity(src,p);
                         p.setPosition(dest);
                         gameMap.placeEntity(dest,p);
+                        LogManager.addLog("Player moved from "+src +" to "+dest);
                     }
                 }
             updateVisibility(dest);
@@ -209,6 +214,7 @@ public class GameWorld {
             list.remove(0);
             updateVisibility(getPlayer().getPosition());
             notifyListeners();
+            LogManager.addLog("Player picked up an item at: "+pos);
         }
     }
     public void interactWithItemAt(Position pos) {
@@ -221,6 +227,7 @@ public class GameWorld {
             GameEntity ent = it.next();
             if (ent instanceof Interactable inter) {
                 inter.interact(getPlayer());
+                LogManager.addLog("Player interacted with a treasure at: "+pos );
                 it.remove();
                 updateVisibility(getPlayer().getPosition());
                 notifyListeners();
@@ -235,21 +242,31 @@ public class GameWorld {
         }
         return true;
     }
-    public void addListener(GameWorldListener l){
+    public void useItem(GameItem item) {
+        PlayerCharacter p = getPlayer();
+        if (item instanceof PowerPotion) {
+            p.usePowerPotion();
+        } else if (item instanceof Potion) {
+            p.usePotion();
+        }
+        p.getInventory().getItems().remove(item);
+        notifyListeners();
+    }
+    public void addListener(GameListener l){
         listeners.add(l);
     }
-    public void removeListener(GameWorldListener l){
+    public void removeListener(GameListener l){
         listeners.remove(l);
     }
     private void notifyListeners(){
-        for (GameWorldListener l:listeners){
-            l.worldChanged();
+        for (GameListener l:listeners){
+            l.changeDetected();
         }
     }
     private void notifyMapChange(){
-        for (GameWorldListener l:listeners){
+        for (GameListener l:listeners){
             if (listeners instanceof MapPanel mapPanel){
-                mapPanel.worldChanged();
+                mapPanel.changeDetected();
             }
         }
     }
@@ -285,6 +302,10 @@ public class GameWorld {
             try {
                 if (gameMap.getGrid().get(targetPos).isEmpty() && !gameMap.isBlocked(targetPos)) {
                     moveEntity(enemy,targetPos);
+                    if (enemy.getVisibility()){
+                        notifyMapChange();
+                        updateVisibility(getPlayer().getPosition());
+                    }
                 }
             }
             finally {
@@ -292,25 +313,22 @@ public class GameWorld {
             }
         }
         finally {
-            updateVisibility(getPlayer().getPosition());
-            if (enemy.getVisibility()){
-                notifyMapChange();
-            }
-        }
+            notifyMapChange();}
     }
-    private void moveEntity(GameEntity entity,Position newPosition){
-        gameMap.removeEntity(entity.getPosition(),entity);
-        entity.setPosition(newPosition);
-        gameMap.placeEntity(newPosition,entity);
+    private void moveEntity(GameEntity entity,Position newPos){
+        Position oldPos=entity.getPosition();
+        gameMap.removeEntity(oldPos,entity);
+        entity.setPosition(newPos);
+        gameMap.placeEntity(newPos,entity);
+        LogManager.addLog("Enemy moved from "+oldPos+" to "+newPos);
     }
     private void scheduleOneEnemy(Enemy enemy) {
-        long delay = 500 + random.nextInt(1001);
         scheduler.schedule(() -> {
             enemy.run();
             scheduleOneEnemy(enemy);
-            },delay,TimeUnit.MILLISECONDS);
+            },100,TimeUnit.MILLISECONDS);
     }
-    private void scheduleAllEnemies() {
+    private void scheduleAllEnemies(){
         for (Enemy enemy : enemies) {
             scheduleOneEnemy(enemy);
         }
@@ -329,5 +347,5 @@ public class GameWorld {
     private List<GameItem> items;
     private GameMap gameMap;
     private CombatSystem combatSystem;
-    private final List<GameWorldListener> listeners = new ArrayList<>();
+    private final List<GameListener> listeners = new ArrayList<>();
 }

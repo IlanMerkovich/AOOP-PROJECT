@@ -3,13 +3,13 @@ package Game.GUI;
 import Game.Characters.PlayerCharacter;
 import Game.Combat.MagicElement;
 import Game.Engine.GameWorld;
-import Game.Engine.GameWorldListener;
+import Game.Engine.GameListener;
 
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 
-public class StatusPanel extends JPanel implements GameWorldListener {
+public class StatusPanel extends JPanel implements GameListener {
     private final GameWorld world;
     private final int elementIconSize=16;
     private final JLabel nameLabel;
@@ -74,7 +74,7 @@ public class StatusPanel extends JPanel implements GameWorldListener {
         }
     }
 
-    public void worldChanged() {
+    public void changeDetected() {
         rebuild();
     }
 }

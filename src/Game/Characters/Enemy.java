@@ -6,6 +6,7 @@ import Game.Items.Treasure;
 
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * Abstract class representing an enemy character in the game.
@@ -16,6 +17,8 @@ public abstract class Enemy extends AbstractCharacter implements Runnable{
     private final int loot;
     private GameWorld gameWorld;
     private AtomicBoolean isRunning;
+    private final ReentrantLock lock = new ReentrantLock(true);
+
 
     /**
      * Constructs an enemy at a given position with a randomized loot value between 100 and 300.
@@ -103,12 +106,28 @@ public abstract class Enemy extends AbstractCharacter implements Runnable{
 
     @Override
     public void run() {
-        Random random=new Random();
-        if (!isRunning.get() || this.isDead()){
+        if (!isRunning.get() || this.isDead()) {
             return;
         }
-        if (random.nextInt(100)<20){
-            gameWorld.attemptToMove(this);
+        if (!lock.tryLock()){
+            return;
+        }
+        try{
+            Random random = new Random();
+            if (random.nextInt(100) < 25) {
+                gameWorld.attemptToMove(this);
+            }
+            else{
+                try {
+                    Thread.sleep(500+random.nextInt(1001));
+                }
+                catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        }
+        finally {
+            lock.unlock();
         }
     }
 }

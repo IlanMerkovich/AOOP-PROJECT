@@ -4,6 +4,7 @@ import Game.Core.Inventory;
 import Game.Items.GameItem;
 import Game.Items.Potion;
 import Game.Items.PowerPotion;
+import Game.Logs.LogManager;
 
 /**
  * Represents a player-controlled character in the game.
@@ -64,6 +65,7 @@ public abstract class PlayerCharacter extends AbstractCharacter{
             if (item instanceof Potion && !(item instanceof PowerPotion) && !item.isUsed()){
                 item.interact(this);
                 inventory.removeItem(item);
+                LogManager.addLog("Player used a health potion");
                 return true;
             }
         }
@@ -80,6 +82,7 @@ public abstract class PlayerCharacter extends AbstractCharacter{
                 if (!item.isUsed()){
                     item.interact(this);
                     inventory.removeItem(item);
+                    LogManager.addLog("Player used a power potion");
                     return true;
                 }
             }
