@@ -44,4 +44,5 @@ public class SoundManager {
         vol.setValue(20f * (float)Math.log10(volume));
         clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
+    
 }

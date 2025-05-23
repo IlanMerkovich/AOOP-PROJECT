@@ -15,7 +15,6 @@ import Game.Map.Position;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
-import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -26,6 +25,7 @@ public class MapPanel extends JPanel implements GameListener {
     private final GameWorld world;
     private final JLabel[][] cells;
     private final int iconSize = 64;
+    private static final Color color1=new Color(0x3A, 0x3A, 0x3A);
 
     public MapPanel(GameWorld world) {
         this.world = world;
@@ -33,11 +33,10 @@ public class MapPanel extends JPanel implements GameListener {
         int rows = world.getRows();
         int cols = world.getCols();
         setLayout(new GridLayout(rows, cols));
-        setBackground(new Color(0, 0, 0));
 
         cells = new JLabel[rows][cols];
         Color borderColor = new Color(255, 255, 255);
-        MatteBorder cellBorder = BorderFactory.createMatteBorder(1, 1, 1, 1, borderColor);
+        Border cellBorder = BorderFactory.createLineBorder(color1, 2);
 
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < cols; c++) {
@@ -53,6 +52,7 @@ public class MapPanel extends JPanel implements GameListener {
                 lbl.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
+
                         PlayerCharacter player = findPlayer();
                         int dist = player.getPosition().distanceTo(pos);
                         List<GameEntity> list = world.getGameMap().getGrid().get(pos);
@@ -137,36 +137,7 @@ public class MapPanel extends JPanel implements GameListener {
                             }
                         }
                         else if (SwingUtilities.isRightMouseButton(e)) {
-                            JPopupMenu menu = new JPopupMenu();
-                            menu.setBackground(Color.WHITE);
-                            menu.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, borderColor));
-
-                            if (list == null || list.isEmpty()) {
-                                if (world.getGameMap().isBlocked(pos)) {
-                                    menu.add(new JMenuItem("Wall – blocks movement"));
-                                }
-                                else {
-                                    menu.add(new JMenuItem("Empty cell"));
-                                }
-                            }
-                            else {
-                                GameEntity ent = list.get(0);
-                                if (ent instanceof Enemy en) {
-                                    if (en instanceof MagicAttacker){
-                                        menu.add(new JMenuItem(en.getDisplaySymbol() + " – HP: " + en.getHealth() + " ,Element: " +en.getElement()));
-                                    }
-                                    else{
-                                        menu.add(new JMenuItem(en.getDisplaySymbol()+ " - HP: "+en.getHealth()));
-                                    }
-                                }
-                                else if (ent instanceof GameItem item) {
-                                    menu.add(new JMenuItem(item.getDisplaySymbol() + " – " + item.getDescription()));
-                                }
-                                else if (ent instanceof PlayerCharacter pl){
-                                    menu.add(new JMenuItem(pl.getName()));
-                                }
-                            }
-                            menu.show(lbl, e.getX(), e.getY());
+                            leftClickPopMenu(e,list,borderColor,world,pos,lbl);
                         }
                     }
                 });
@@ -184,11 +155,47 @@ public class MapPanel extends JPanel implements GameListener {
         SoundManager.playEffect("welcome.wav");
     }
 
+    private void leftClickPopMenu(MouseEvent e, List<GameEntity> list, Color borderColor, GameWorld world, Position pos, JLabel lbl) {
+        JPopupMenu menu = new JPopupMenu();
+        menu.setBackground(Color.WHITE);
+        menu.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, borderColor));
+
+        if (list == null || list.isEmpty()) {
+            if (world.getGameMap().isBlocked(pos)) {
+                menu.add(new JMenuItem("Wall – blocks movement"));
+            }
+            else {
+                menu.add(new JMenuItem("Empty cell"));
+            }
+        }
+        else {
+            GameEntity ent = list.get(0);
+            if (ent instanceof Enemy en) {
+                if (en instanceof MagicAttacker){
+                    menu.add(new JMenuItem(en.getDisplaySymbol() + " – HP: " + en.getHealth() + " ,Element: " +en.getElement()));
+                }
+                else{
+                    menu.add(new JMenuItem(en.getDisplaySymbol()+ " - HP: "+en.getHealth()));
+                }
+            }
+            else if (ent instanceof GameItem item) {
+                menu.add(new JMenuItem(item.getDisplaySymbol() + " – " + item.getDescription()));
+            }
+            else if (ent instanceof PlayerCharacter pl){
+                menu.add(new JMenuItem(pl.getName()));
+            }
+        }
+        menu.show(lbl, e.getX(), e.getY());
+    }
+
+    public void onMapChange() {
+        refresh();
+        checkGameEnd();
+    }
     public void changeDetected() {
         refresh();
         checkGameEnd();
     }
-
     private void refresh() {
         for (int r = 0; r < cells.length; r++) {
             for (int c = 0; c < cells[r].length; c++) {
@@ -196,7 +203,6 @@ public class MapPanel extends JPanel implements GameListener {
             }
         }
     }
-
     private void updateCell(int r, int c) {
         Position pos = new Position(r, c);
         List<GameEntity> list = world.getGameMap().getGrid().get(pos);
@@ -212,7 +218,6 @@ public class MapPanel extends JPanel implements GameListener {
         }
         lbl.setIcon(icon);
     }
-
     private PlayerCharacter findPlayer() {
         for (List<GameEntity> cell : world.getGameMap().getGrid().values()) {
             for (GameEntity ent : cell) {
@@ -223,20 +228,19 @@ public class MapPanel extends JPanel implements GameListener {
         }
         throw new IllegalStateException("No player on map!");
     }
-
     private void checkGameEnd() {
         PlayerCharacter p = world.getPlayer();
-        if (p.isDead()) {
+        if (p.isDead()){
+            world.shutdown();
             SoundManager.playEffect("playerdead.wav");
             JOptionPane.showMessageDialog(this, "Game Over – You have died!\nTreasure Points: " + p.getTreasurePoints(), "Game Over", JOptionPane.INFORMATION_MESSAGE);
-            world.shutdown();
             LogManager.stop();
             System.exit(0);
         }
         if (world.areAllEnemiesDead()) {
+            world.shutdown();
             SoundManager.playEffect("victory.wav");
             JOptionPane.showMessageDialog(this, "Congratulations! All enemies have been defeated.\nTreasure Points: " + p.getTreasurePoints(), "Victory!", JOptionPane.INFORMATION_MESSAGE);
-            world.shutdown();
             LogManager.stop();
             System.exit(0);
         }
@@ -265,4 +269,5 @@ public class MapPanel extends JPanel implements GameListener {
              label.setBorder(original);
          }).start();
     }
+
 }

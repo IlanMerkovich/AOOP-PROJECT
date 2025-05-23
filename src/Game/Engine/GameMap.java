@@ -1,6 +1,5 @@
 package Game.Engine;
 
-import Game.Characters.*;
 import Game.Core.GameEntity;
 import Game.Items.GameItem;
 import Game.Map.Position;
@@ -52,11 +51,18 @@ public class GameMap{
         if (position==null || entity==null){
             return;
         }
-        if (!grid.containsKey(position)){
-            grid.put(position,new ArrayList<>());
+        ReentrantLock lock=new ReentrantLock(true);
+        lock.lock();
+        try {
+            if (!grid.containsKey(position)) {
+                grid.put(position, new ArrayList<>());
+            }
+            entity.setPosition(position);
+            grid.get(position).add(entity);
         }
-        entity.setPosition(position);
-        grid.get(position).add(entity);
+        finally {
+            lock.unlock();
+        }
     }
     /**
      * Returns the full map grid containing all entities on the board.
@@ -75,13 +81,20 @@ public class GameMap{
      * @return true if movement is blocked, false otherwise
      */
     public boolean isBlocked(Position pos) {
-        List<GameEntity> entities = grid.get(pos);
-        for (GameEntity entity : entities) {
-            if (entity instanceof GameItem item && item.isBlocksMovement()) {
-                return true;
+        ReentrantLock lock=new ReentrantLock(true);
+        lock.lock();
+        try {
+            List<GameEntity> entities = grid.get(pos);
+            for (GameEntity entity : entities) {
+                if (entity instanceof GameItem item && item.isBlocksMovement()) {
+                    return true;
+                }
             }
+            return false;
         }
-        return false;
+        finally {
+            lock.unlock();
+        }
     }
     /**
      * Removes the specified entity from the given position on the map.
@@ -91,11 +104,18 @@ public class GameMap{
      * @return true if the entity was found and removed, false otherwise
      */
     public boolean removeEntity(Position pos, GameEntity entity) {
-        List<GameEntity> cell = grid.get(pos);
-        if (cell != null && cell.contains(entity)) {
-            return cell.remove(entity);
+        ReentrantLock lock=new ReentrantLock(true);
+        lock.lock();
+        try{
+            List<GameEntity> cell = grid.get(pos);
+            if (cell != null && cell.contains(entity)) {
+                return cell.remove(entity);
+            }
+            return false;
         }
-        return false;
+        finally {
+            lock.unlock();
+        }
     }
     public boolean tryLockCell(Position pos, long timeoutMillis) {
         ReentrantLock lock = cellLocks[pos.getRow()][pos.getCol()];
@@ -115,6 +135,4 @@ public class GameMap{
     }
     private Map<Position,List<GameEntity>>grid;
     private ReentrantLock[][] cellLocks;
-
-
 }

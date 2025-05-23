@@ -3,6 +3,7 @@ package Game.Characters;
 import Game.Audio.SoundManager;
 import Game.Engine.GameWorld;
 import Game.Items.Treasure;
+import Game.Logs.LogManager;
 
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -78,8 +79,14 @@ public abstract class Enemy extends AbstractCharacter implements Runnable{
      * @return a {@link Treasure} item with the enemy's loot value
      */
     public Treasure Defeat(){
-        SoundManager.playEffect("enemykill.wav");
-        return new Treasure(this.getPosition().getRow(),this.getPosition().getCol(),loot);
+        lock.lock();
+        try {
+            LogManager.addLog("Enemy was killed at "+getPosition());
+            return new Treasure(this.getPosition().getRow(), this.getPosition().getCol(), loot);
+        }
+        finally {
+            lock.unlock();
+        }
     }
     /**
      * Checks if two Enemy objects are equal.

@@ -141,14 +141,6 @@ public class Dragon extends Enemy implements PhysicalAttacker,MeleeFighter, Magi
         }
     }
     /**
-     * Returns true with 10% probability to simulate a critical hit.
-     *
-     * @return true if critical
-     */
-    public boolean isCriticalHit() {
-        return new Random().nextDouble() < 0.1;
-    }
-    /**
      * Returns the map symbol representing the dragon.
      *
      * @return "DR"

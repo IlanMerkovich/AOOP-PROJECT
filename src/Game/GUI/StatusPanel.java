@@ -10,8 +10,13 @@ import javax.swing.border.MatteBorder;
 import java.awt.*;
 
 public class StatusPanel extends JPanel implements GameListener {
+    private static final Color color1 = new Color(0xF5, 0xE6, 0xC8);
+    private static final Color color2 = new Color(0xA8, 0xA8, 0xA8);
+    private static final Color color3 = new Color(0x3A, 0x3A, 0x3A);
+    private static final Color color4 = new Color(0x5C, 0x3A, 0x21);
+
     private final GameWorld world;
-    private final int elementIconSize=16;
+    private final int elementIconSize = 16;
     private final JLabel nameLabel;
     private final JLabel hpLabel;
     private final JLabel powerLabel;
@@ -21,9 +26,9 @@ public class StatusPanel extends JPanel implements GameListener {
     public StatusPanel(GameWorld world) {
         this.world = world;
         world.addListener(this);
-        setPreferredSize(new Dimension(200, 140));
 
-        setBackground(new Color(252, 255, 250));
+        setBackground(color1);
+        setPreferredSize(new Dimension(200, 140));
         setLayout(new GridLayout(5, 1, 5, 5));
         setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
 
@@ -31,9 +36,10 @@ public class StatusPanel extends JPanel implements GameListener {
         hpLabel = createStatLabel();
         powerLabel = createStatLabel();
         treasureLabel = createStatLabel();
-        elementLabel = createStatLabel();
+        elementLabel  = createStatLabel();
 
         nameLabel.setFont(nameLabel.getFont().deriveFont(Font.BOLD, 14f));
+        nameLabel.setForeground(color3);
 
         add(nameLabel);
         add(hpLabel);
@@ -47,34 +53,42 @@ public class StatusPanel extends JPanel implements GameListener {
     private JLabel createStatLabel() {
         JLabel lbl = new JLabel("", SwingConstants.LEFT);
         lbl.setOpaque(true);
-        lbl.setBackground(new Color(200, 200, 200));
-        MatteBorder border = BorderFactory.createMatteBorder(1, 1, 1, 1, new Color(180, 180, 180));
+        lbl.setBackground(color2);
+        MatteBorder border = BorderFactory.createMatteBorder(1, 1, 1, 1, color4);
         lbl.setBorder(border);
-        lbl.setForeground(Color.DARK_GRAY);
+        lbl.setForeground(color3);
         lbl.setPreferredSize(new Dimension(100, 24));
         return lbl;
     }
 
     public void rebuild() {
         PlayerCharacter p = world.getPlayer();
-        nameLabel.setText("Name: " + p.getName());
-        hpLabel.setText("HP:       " + p.getHealth() + " / " + "100");
+
+        nameLabel.setText("Name: "     + p.getName());
+        hpLabel.setText("HP:       "   + p.getHealth() + " / " + "100");
         powerLabel.setText("Power:    " + p.getPower());
         treasureLabel.setText("Treasure: " + p.getTreasurePoints());
-        treasureLabel.setIcon(ImageLoader.load("treasure.png",elementIconSize,elementIconSize));
+        treasureLabel.setIcon(ImageLoader.load("treasure.png", elementIconSize, elementIconSize)
+        );
+
         MagicElement el = p.getElement();
         if (el != null) {
             elementLabel.setText("Element: " + el);
-            ImageIcon icon = ImageLoader.load(el.toString().toLowerCase() + ".png", elementIconSize, elementIconSize);
+            ImageIcon icon = ImageLoader.load(el.toString().toLowerCase() + ".png", elementIconSize,elementIconSize);
             elementLabel.setIcon(icon);
-        }
-        else {
             elementLabel.setText("Element: -");
             elementLabel.setIcon(null);
+            elementLabel.setBackground(color3);
         }
     }
 
+    @Override
     public void changeDetected() {
         rebuild();
+    }
+
+    @Override
+    public void onMapChange() {
+        return;
     }
 }

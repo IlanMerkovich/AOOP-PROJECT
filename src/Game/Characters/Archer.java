@@ -49,14 +49,6 @@ public class Archer extends PlayerCharacter implements RangedFighter, PhysicalAt
         fightRanged(target);
     }
     /**
-     * Determines whether the attack is a critical hit (10% chance).
-     *
-     * @return true if critical hit, false otherwise
-     */
-    public boolean isCriticalHit(){
-        return new Random().nextDouble()<0.1;
-    }
-    /**
      * Executes a ranged attack if the target is within range.
      *
      * @param target the target to attack

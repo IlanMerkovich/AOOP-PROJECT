@@ -77,12 +77,6 @@ public class Goblin extends Enemy implements PhysicalAttacker, MeleeFighter{
         fightClose(target);
     }
     /**
-     * @return 10% critical hit chance.
-     */
-    public boolean isCriticalHit(){
-        return new Random().nextDouble()<0.1;
-    }
-    /**
      * Display symbol for map rendering.
      * @return "GO"
      */

@@ -1,10 +1,7 @@
 package Game.Logs;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URL;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.concurrent.*;
 
@@ -13,13 +10,14 @@ public class LogManager {
     private static ExecutorService Executor;
     private static BufferedWriter writer;
     private static boolean running;
+    private static final String LOG_FILE = "logs.txt";
 
     public static synchronized void startLogger(){
         if (running){
             return;
         }
         try{
-            writer=new BufferedWriter(new FileWriter("logs.txt",true));
+            writer=new BufferedWriter(new FileWriter(LOG_FILE,true));
         }
         catch (IOException e) {
             System.err.println("No file found");
@@ -55,9 +53,10 @@ public class LogManager {
             }
         }
         catch (InterruptedException e) {
+            System.err.println("error");
         }
         catch (IOException e) {
-
+            System.out.println("IO error");
         }
     }
 }

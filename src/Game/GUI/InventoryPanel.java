@@ -16,14 +16,14 @@ import java.util.List;
  */
 public class InventoryPanel extends JPanel implements GameListener {
     private final GameWorld world;
-    private StatusPanel statusPanel;
     private final int iconSize = 32;
+    private static final Color color1 = new Color(0xF5, 0xE6, 0xC8);
 
     public InventoryPanel(GameWorld world,StatusPanel statusPanel) {
         super(new FlowLayout(FlowLayout.LEFT, 5, 5));
         this.world = world;
         world.addListener(this);
-        this.statusPanel=statusPanel;
+        this.setBackground(color1);
         setBorder(BorderFactory.createTitledBorder("Inventory"));
         setPreferredSize(new Dimension(300, 80));
         rebuild();
@@ -71,5 +71,8 @@ public class InventoryPanel extends JPanel implements GameListener {
 
     public void changeDetected() {
         rebuild();
+    }
+    public void onMapChange() {
+        return;
     }
 }

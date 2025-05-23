@@ -9,6 +9,8 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
+import static java.awt.SystemColor.window;
+
 public class StartFrame extends JFrame {
     private final JTextField rowsField;
     private final JTextField colsField;
@@ -105,14 +107,20 @@ public class StartFrame extends JFrame {
                     return;
                 }
                 GameWorld world = new GameWorld(row, col, name, type);
-                dispose();
+                try{
+                    Thread.sleep(1000);
+                }
+                catch (InterruptedException ex) {
+                    System.out.println(ex);;
+                }
                 SwingUtilities.invokeLater(() -> new MainFrame(world));
+                dispose();
             }
             catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this,
-                        "Please enter valid integers for Rows and Columns.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Please enter valid integers for Rows and Columns.", "Input Error", JOptionPane.ERROR_MESSAGE);
             }
         });
+
 
         JPanel content = new JPanel(new GridBagLayout());
         content.setBackground(panelColor);

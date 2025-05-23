@@ -2,6 +2,7 @@ package Game.Characters;
 
 import Game.Combat.Combatant;
 import Game.Core.GameEntity;
+import Game.Logs.LogManager;
 import Game.Map.Position;
 import java.util.Random;
 /**
@@ -137,7 +138,9 @@ public abstract class AbstractCharacter implements Combatant, GameEntity{
      */
     public void receiveDamage(int amount, Combatant source){
         if (tryEvade(source)){
-        } else {
+            LogManager.addLog("Entity evaded attack at: "+source.getPosition());
+        }
+        else {
             this.getDamage(amount);
         }
     }

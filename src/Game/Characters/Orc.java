@@ -1,6 +1,7 @@
 package Game.Characters;
 
 import Game.Combat.*;
+import Game.Logs.LogManager;
 import Game.Map.Position;
 
 import java.util.Random;
@@ -68,14 +69,6 @@ public class Orc extends Enemy implements PhysicalAttacker, MeleeFighter{
         fightClose(target);
     }
     /**
-     * Returns true with a 10% chance to simulate a critical hit.
-     *
-     * @return true if it's a critical hit, false otherwise
-     */
-    public boolean isCriticalHit() {
-        return new Random().nextDouble()<0.1;
-    }
-    /**
      * Applies damage to the Orc after checking for evasion and magical resistance.
      *
      * @param amount the amount of damage to apply
@@ -84,6 +77,7 @@ public class Orc extends Enemy implements PhysicalAttacker, MeleeFighter{
     public void receiveDamage(int amount, Combatant source) {
         int damageReceived=amount;
         if (tryEvade(source)){
+            LogManager.addLog("Entity evaded attack at: "+source.getPosition());
             return;
         }
         if (source.getElement()!=null){

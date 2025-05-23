@@ -1,6 +1,7 @@
 package Game.Characters;
 
 import Game.Combat.*;
+import Game.Logs.LogManager;
 import Game.Map.Position;
 import java.util.Random;
 import static java.lang.Math.min;
@@ -49,6 +50,7 @@ public class Warrior extends PlayerCharacter implements MeleeFighter, PhysicalAt
     public void receiveDamage(int amount, Combatant source){
         int totaldamage;
         if (tryEvade(source)){
+            LogManager.addLog("Entity evaded attack at: "+source.getPosition());
         }
         else{
             totaldamage=(int)(amount*(1-min(0.6,defence/200.0)));
@@ -83,12 +85,6 @@ public class Warrior extends PlayerCharacter implements MeleeFighter, PhysicalAt
         else {
             System.out.println("Target out of range");
         }
-    }
-    /**
-     * Returns true with 10% chance to simulate a critical hit.
-     */
-    public boolean isCriticalHit() {
-        return new Random().nextDouble()<0.1;
     }
     /**
      * Returns the warrior’s defense value.
