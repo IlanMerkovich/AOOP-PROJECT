@@ -168,12 +168,12 @@ public class GameWorld {
     private void placeTreasure(Enemy enemy){
         gameMap.tryLockCell(enemy.getPosition(),50);
         try{
-            if (enemy.isDead()) {
+            if (enemy.isDead()){
                 Treasure treasure = enemy.Defeat();
                 this.addItem(treasure);
                 LogManager.addLog("Treasure was created at: " + treasure.getPosition());
-                gameMap.placeEntity(enemy.getPosition(), treasure);
                 gameMap.removeEntity(enemy.getPosition(), enemy);
+                gameMap.placeEntity(enemy.getPosition(), treasure);
             }
         }
         finally {
@@ -279,13 +279,15 @@ public class GameWorld {
     }
     public void useItem(GameItem item) {
         PlayerCharacter p = getPlayer();
+        boolean used;
         if (item instanceof PowerPotion) {
-            p.usePowerPotion();
-        } else if (item instanceof Potion) {
-            p.usePotion();
+            used = p.usePowerPotion();
+        } else {
+            used = p.usePotion();
         }
-        p.getInventory().getItems().remove(item);
-        notifyListeners();
+        if (used) {
+            notifyListeners();
+        }
     }
     public void addListener(GameListener l){
         listeners.add(l);

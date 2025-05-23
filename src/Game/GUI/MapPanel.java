@@ -3,13 +3,12 @@ import Game.Audio.SoundManager;
 import Game.Characters.Enemy;
 import Game.Characters.PlayerCharacter;
 import Game.Combat.MagicAttacker;
-import Game.Combat.RangedFighter;
+import Game.Engine.ClickResult;
+import Game.Engine.ClickerHandler;
 import Game.Core.GameEntity;
 import Game.Engine.GameWorld;
 import Game.Engine.GameListener;
 import Game.Items.GameItem;
-import Game.Items.Potion;
-import Game.Items.Treasure;
 import Game.Logs.LogManager;
 import Game.Map.Position;
 import javax.swing.*;
@@ -18,13 +17,17 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class MapPanel extends JPanel implements GameListener {
     private final GameWorld world;
     private final JLabel[][] cells;
     private final int iconSize = 64;
+    private final Map<String, ImageIcon> iconCache = new HashMap<>();
     private static final Color color1=new Color(0x3A, 0x3A, 0x3A);
 
     public MapPanel(GameWorld world) {
@@ -36,8 +39,9 @@ public class MapPanel extends JPanel implements GameListener {
 
         cells = new JLabel[rows][cols];
         Color borderColor = new Color(255, 255, 255);
-        Border cellBorder = BorderFactory.createLineBorder(color1, 2);
 
+        Border cellBorder = BorderFactory.createLineBorder(color1, 2);
+        ClickerHandler clickerHandler=new ClickerHandler(world);
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < cols; c++) {
                 JLabel lbl = new JLabel();
@@ -52,88 +56,22 @@ public class MapPanel extends JPanel implements GameListener {
                 lbl.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-
-                        PlayerCharacter player = findPlayer();
-                        int dist = player.getPosition().distanceTo(pos);
+                        Position playerPos=world.getPlayer().getPosition();
                         List<GameEntity> list = world.getGameMap().getGrid().get(pos);
-
-                        if (SwingUtilities.isLeftMouseButton(e)) {
-                            if (list == null || list.isEmpty()) {
-                                if (dist == 1) {
-                                    world.movePlayerTo(pos);
-                                }
-                                else {
-                                    Toolkit.getDefaultToolkit().beep();
-                                }
-                            }
-                            else {
-                                GameEntity ent = list.get(0);
-                                if (ent instanceof Enemy) {
-                                    Enemy enemy = (Enemy) list.get(0);
-                                    int beforeE = enemy.getHealth();
-                                    int beforeP = player.getHealth();
-
-                                    if (player instanceof RangedFighter) {
-                                        if (dist <= 2) {
-                                            world.attackEnemyAt(pos);
-                                            addClickFlash(cells[player.getPosition().getRow()][player.getPosition().getCol()],250,Color.red);
-                                            addClickFlash(lbl,250,Color.red);
-                                            int afterE = enemy.getHealth();
-                                            int afterP = player.getHealth();
-                                            int dmgE = beforeE - afterE;
-                                            int dmgP = beforeP - afterP;
-                                            if (dmgE > 0) {
-                                                showDamagePopup(lbl, dmgE, Color.GREEN);
-                                            }
-                                            if (dmgP > 0) {
-                                                Position playerpos = player.getPosition();
-                                                JLabel pcell = cells[playerpos.getRow()][playerpos.getCol()];
-                                                showDamagePopup(pcell, dmgP, Color.RED);
-                                            }
-                                        }
-                                        else
-                                            Toolkit.getDefaultToolkit().beep();
-                                    }
-                                    else {
-                                        if (dist == 1) {
-                                            world.attackEnemyAt(pos);
-                                            addClickFlash(lbl,250,Color.red);
-                                            addClickFlash(cells[player.getPosition().getRow()][player.getPosition().getCol()],250,Color.red);
-                                            int afterE = enemy.getHealth();
-                                            int afterP = player.getHealth();
-                                            int dmgE = beforeE - afterE;
-                                            int dmgP = beforeP - afterP;
-
-                                            if (dmgE > 0) {
-                                                showDamagePopup(lbl, dmgE, Color.GREEN);
-                                            }
-                                            if (dmgP > 0) {
-                                                Position playerpos = player.getPosition();
-                                                JLabel pcell = cells[playerpos.getRow()][playerpos.getCol()];
-                                                showDamagePopup(pcell, dmgP, Color.RED);
-                                            }
-                                        }
-                                        else
-                                            Toolkit.getDefaultToolkit().beep();
-                                    }
-                                }
-                                else if (ent instanceof GameItem) {
-                                    if (dist == 1) {
-                                        if (ent instanceof Potion) {
-                                            world.pickupItemAt(pos);
-                                            addClickFlash(lbl,100,Color.green);
-                                        }
-                                        else if (ent instanceof Treasure) {
-                                            SoundManager.playEffect("point.wav");
-                                            world.interactWithItemAt(pos);
-                                            addClickFlash(lbl,100,Color.green);
-                                        }
-                                    }
-                                    else {
-                                        Toolkit.getDefaultToolkit().beep();
-                                    }
-                                }
-                                updateCell(ent.getPosition().getRow(), ent.getPosition().getCol());
+                        if (SwingUtilities.isLeftMouseButton(e)){
+                            ClickResult clickResult=clickerHandler.handleLeftClickMap(pos);
+                            switch (clickResult.getType()){
+                                case MOVE, NONE:
+                                    break;
+                                case ATTACK:
+                                    showDamagePopup(cells[playerPos.getRow()][playerPos.getCol()], clickResult.getDamageToPlayer(),Color.RED);
+                                    showDamagePopup(lbl,clickResult.getDamageToEnemy(),Color.RED);
+                                    addClickFlash(lbl,100,Color.RED);
+                                    addClickFlash(cells[playerPos.getRow()][playerPos.getCol()],100,Color.red);
+                                    break;
+                                case PICKUP:
+                                    addClickFlash(cells[pos.getRow()][pos.getCol()],100,Color.GREEN);
+                                    break;
                             }
                         }
                         else if (SwingUtilities.isRightMouseButton(e)) {
@@ -147,18 +85,13 @@ public class MapPanel extends JPanel implements GameListener {
             }
         }
         refresh();
-        int fps = 1;
-        int delay = 1000 / fps;
-        new javax.swing.Timer(delay, e -> {
-            this.refresh();}).start();
         changeDetected();
         SoundManager.playEffect("welcome.wav");
     }
-
     private void leftClickPopMenu(MouseEvent e, List<GameEntity> list, Color borderColor, GameWorld world, Position pos, JLabel lbl) {
         JPopupMenu menu = new JPopupMenu();
         menu.setBackground(Color.WHITE);
-        menu.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, borderColor));
+        menu.setBorder(BorderFactory.createMatteBorder(7, 7, 7, 7, borderColor));
 
         if (list == null || list.isEmpty()) {
             if (world.getGameMap().isBlocked(pos)) {
@@ -169,7 +102,7 @@ public class MapPanel extends JPanel implements GameListener {
             }
         }
         else {
-            GameEntity ent = list.get(0);
+            GameEntity ent = list.getFirst();
             if (ent instanceof Enemy en) {
                 if (en instanceof MagicAttacker){
                     menu.add(new JMenuItem(en.getDisplaySymbol() + " – HP: " + en.getHealth() + " ,Element: " +en.getElement()));
@@ -187,7 +120,6 @@ public class MapPanel extends JPanel implements GameListener {
         }
         menu.show(lbl, e.getX(), e.getY());
     }
-
     public void onMapChange() {
         refresh();
         checkGameEnd();
@@ -210,23 +142,13 @@ public class MapPanel extends JPanel implements GameListener {
         ImageIcon icon = null;
 
         if (list != null && !list.isEmpty()) {
-            GameEntity ent = list.get(0);
+            GameEntity ent = list.getFirst();
             if (ent instanceof PlayerCharacter || ent.getVisibility()) {
                 String file = ent.getDisplaySymbol() + ".png";
-                icon = ImageLoader.load(file, iconSize, iconSize);
+                icon = getIcon(file);
             }
         }
         lbl.setIcon(icon);
-    }
-    private PlayerCharacter findPlayer() {
-        for (List<GameEntity> cell : world.getGameMap().getGrid().values()) {
-            for (GameEntity ent : cell) {
-                if (ent instanceof PlayerCharacter pc) {
-                    return pc;
-                }
-            }
-        }
-        throw new IllegalStateException("No player on map!");
     }
     private void checkGameEnd() {
         PlayerCharacter p = world.getPlayer();
@@ -246,10 +168,17 @@ public class MapPanel extends JPanel implements GameListener {
         }
     }
     private void showDamagePopup(JLabel cell, int damage, Color color) {
-        cell.setText("-" + damage);
+        Position pos = world.getPlayer().getPosition();
+        if (damage<=0){
+            cell.setText("EVADE!");
+            cell.setFont(new Font("Arial Black", Font.BOLD, 12));
+        }
+        else{
+            cell.setText("-" + damage);
+            cell.setFont(new Font("Arial Black", Font.BOLD, 18));
+        }
         cell.setHorizontalTextPosition(SwingConstants.CENTER);
         cell.setVerticalTextPosition(SwingConstants.CENTER);
-        cell.setFont(new Font("Arial Black", Font.BOLD, 20));
         cell.setForeground(color);
 
         Timer t = new Timer(600, e -> {
@@ -269,5 +198,14 @@ public class MapPanel extends JPanel implements GameListener {
              label.setBorder(original);
          }).start();
     }
-
+    private ImageIcon getIcon(String filename){
+        ImageIcon img = ImageLoader.load(filename, iconSize, iconSize);
+        if (img != null) {
+            iconCache.put(filename, img);
+        }
+        else {
+            System.err.println("error loading image");
+        }
+        return iconCache.get(filename);
+    }
 }

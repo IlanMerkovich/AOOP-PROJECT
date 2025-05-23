@@ -1,10 +1,9 @@
-package Game.Control;
+package Game.Engine;
 import Game.Audio.SoundManager;
 import Game.Characters.Enemy;
 import Game.Characters.PlayerCharacter;
 import Game.Combat.RangedFighter;
 import Game.Core.GameEntity;
-import Game.Engine.GameWorld;
 import Game.Items.GameItem;
 import Game.Items.Potion;
 import Game.Items.Treasure;
@@ -13,12 +12,21 @@ import Game.Map.Position;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * This class handles logic of action listener events such as left click and so
+ */
 public class ClickerHandler{
     GameWorld gameWorld;
     public ClickerHandler(GameWorld gameWorld){
         this.gameWorld=gameWorld;
     }
-    public void handleLeftClick(Position pos){
+
+    /**
+     * this method handles left click event
+     * @param pos position clicked
+     * @return a click result objects contains all data from the event
+     */
+    public ClickResult handleLeftClickMap(Position pos){
         PlayerCharacter playerCharacter=gameWorld.getPlayer();
         Position playerPos=playerCharacter.getPosition();
         List<GameEntity>cell=gameWorld.getGameMap().getGrid().get(pos);
@@ -26,9 +34,11 @@ public class ClickerHandler{
         if (cell==null || cell.isEmpty()){
             if (distance==1){
                 gameWorld.movePlayerTo(pos);
+                return new ClickResult(ClickResult.Type.MOVE,0,0);
             }
             else {
                 Toolkit.getDefaultToolkit().beep();
+                return new ClickResult(ClickResult.Type.NONE,0,0);
             }
         }
         else{
@@ -36,18 +46,20 @@ public class ClickerHandler{
             if (entity instanceof Enemy enemy){
                 if (playerCharacter instanceof RangedFighter){
                     if (distance<=2){
-                        gameWorld.attackEnemyAt(pos);
+                        return attackAndGetClickResult(pos, playerCharacter, enemy);
                     }
                     else {
                         Toolkit.getDefaultToolkit().beep();
+                        return new ClickResult(ClickResult.Type.NONE,0,0);
                     }
                 }
                 else {
                     if (distance==1){
-                        gameWorld.attackEnemyAt(pos);
+                        return attackAndGetClickResult(pos, playerCharacter, enemy);
                     }
                     else{
                         Toolkit.getDefaultToolkit().beep();
+                        return new ClickResult(ClickResult.Type.NONE,0,0);
                     }
                 }
             }
@@ -55,16 +67,28 @@ public class ClickerHandler{
                 if (distance==1){
                     if (item instanceof Potion){
                         gameWorld.pickupItemAt(pos);
+                        return new ClickResult(ClickResult.Type.PICKUP,0,0);
                     }
                     else if (item instanceof Treasure){
                         SoundManager.playEffect("point.wav");
                         gameWorld.interactWithItemAt(pos);
+                        return new ClickResult(ClickResult.Type.PICKUP,0,0);
                     }
                 }
                 else{
                     Toolkit.getDefaultToolkit().beep();
+                    return new ClickResult(ClickResult.Type.NONE,0,0);
                 }
             }
         }
+        return new ClickResult(ClickResult.Type.NONE,0,0);
+    }
+    private ClickResult attackAndGetClickResult(Position pos, PlayerCharacter playerCharacter, Enemy enemy) {
+        int beforeE = enemy.getHealth();
+        int beforeP = playerCharacter.getHealth();
+        gameWorld.attackEnemyAt(pos);
+        int dmgE = beforeE - enemy.getHealth();
+        int dmgP = beforeP - playerCharacter.getHealth();
+        return new ClickResult(ClickResult.Type.ATTACK,dmgE,dmgP);
     }
 }
