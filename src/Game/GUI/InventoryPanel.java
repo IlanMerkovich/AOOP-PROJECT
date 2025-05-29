@@ -4,6 +4,7 @@ import Game.Characters.PlayerCharacter;
 import Game.Engine.GameWorld;
 import Game.Engine.GameListener;
 import Game.Items.GameItem;
+import Game.Items.PowerPotion;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,16 +17,20 @@ import java.util.List;
  */
 public class InventoryPanel extends JPanel implements GameListener {
     private final GameWorld world;
-    private final int iconSize = 32;
+    private final int iconSize = 48;
     private static final Color color1 = new Color(0xF5, 0xE6, 0xC8);
+    private final ImageIcon potionIcon;
+    private final ImageIcon powerPotionIcon;
 
-    public InventoryPanel(GameWorld world,StatusPanel statusPanel) {
+    public InventoryPanel(GameWorld world){
         super(new FlowLayout(FlowLayout.LEFT, 5, 5));
         this.world = world;
         world.addListener(this);
         this.setBackground(color1);
         setBorder(BorderFactory.createTitledBorder("Inventory"));
         setPreferredSize(new Dimension(300, 80));
+        potionIcon=ImageLoader.load("life_potion.png",iconSize,iconSize);
+        powerPotionIcon=ImageLoader.load("power_potion.png",iconSize,iconSize);
         rebuild();
     }
 
@@ -38,9 +43,15 @@ public class InventoryPanel extends JPanel implements GameListener {
             add(new JLabel("(No items)"));
         }
         else {
-            for (GameItem item : inv) {
-                ImageIcon icon = ImageLoader.load(item.getDisplaySymbol() + ".png", iconSize, iconSize);
+            for (GameItem item : inv){
                 JLabel lbl;
+                ImageIcon icon;
+                if (item instanceof PowerPotion){
+                    icon=powerPotionIcon;
+                }
+                else {
+                    icon=potionIcon;
+                }
                 if (icon != null) {
                     lbl = new JLabel(icon);
                 }

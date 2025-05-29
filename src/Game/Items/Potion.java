@@ -19,7 +19,9 @@ public class Potion extends GameItem implements Interactable,Pickupable{
         super(r,c);
         this.increaseAmount=new Random().nextInt(41)+10;
         this.isUsed=false;
-        this.setDescription("This is a health Potion.By using this potion,you can heal yourself between 10 and 50 health points.limited for 1 use only");
+        this.setDescription("This is a health Potion.\n" +
+                "By using this potion,you can heal yourself between 10 and 50 health points.\n" +
+                "limited for 1 use only");
     }
     /**
      * Returns a display symbol for rendering the potion on the map.

@@ -64,12 +64,7 @@ public abstract class AbstractCharacter implements Combatant, GameEntity{
      * @param amount the amount of power to add
      */
     public void addPower(int amount){
-        if (this.Power+amount>14){
-            this.Power=14;
-        }
-        else{
-            this.Power+=amount;
-        }
+        this.Power+=amount;
     }
     /**
      * Attempts to set the character's health.

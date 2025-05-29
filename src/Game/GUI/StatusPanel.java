@@ -68,27 +68,22 @@ public class StatusPanel extends JPanel implements GameListener {
         hpLabel.setText("HP:       "   + p.getHealth() + " / " + "100");
         powerLabel.setText("Power:    " + p.getPower());
         treasureLabel.setText("Treasure: " + p.getTreasurePoints());
-        treasureLabel.setIcon(ImageLoader.load("treasure.png", elementIconSize, elementIconSize)
-        );
+        treasureLabel.setIcon(ImageLoader.load("treasure.png", elementIconSize, elementIconSize));
 
         MagicElement el = p.getElement();
         if (el != null) {
             elementLabel.setText("Element: " + el);
             ImageIcon icon = ImageLoader.load(el.toString().toLowerCase() + ".png", elementIconSize,elementIconSize);
             elementLabel.setIcon(icon);
-            elementLabel.setText("Element: -");
-            elementLabel.setIcon(null);
-            elementLabel.setBackground(color3);
         }
     }
 
-    @Override
     public void changeDetected() {
         rebuild();
     }
 
-    @Override
     public void onMapChange() {
         return;
     }
 }
+

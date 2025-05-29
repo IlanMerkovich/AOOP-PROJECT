@@ -2,7 +2,9 @@ package Game.Logs;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.concurrent.*;
 
 public class LogManager {
@@ -40,8 +42,9 @@ public class LogManager {
         if (!running){
             return;
         }
-        String time= LocalDateTime.now().toString();
-        queue.offer(time+" "+log);
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        String time=LocalDateTime.now().format(dateTimeFormatter);
+        queue.offer("["+time+"]"+log);
     }
     private static void manageWriting(){
         try{

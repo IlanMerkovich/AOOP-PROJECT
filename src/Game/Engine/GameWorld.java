@@ -11,6 +11,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * GameWorld is the central controller of the turn-based RPG game.
@@ -126,9 +127,25 @@ public class GameWorld {
      * @param player the player character participating in the fight
      * @param enemy  the enemy the player is fighting against
      */
-    private void ManageFight(PlayerCharacter player, Enemy enemy) {
-        combatSystem.resolveCombat(player,enemy);
-        placeTreasure(enemy);
+    private void ManageFight(PlayerCharacter player, Enemy enemy){
+        Position playerPos=player.getPosition();
+        Position enemyPos=enemy.getPosition();
+        if(gameMap.tryLockCell(enemyPos,50)){
+            try {
+                if(gameMap.tryLockCell(playerPos,50)){
+                    try {
+                        combatSystem.resolveCombat(player,enemy);
+                        placeTreasure(enemy);
+                    }
+                    finally {
+                        gameMap.unlockCell(playerPos);
+                    }
+                }
+            }
+            finally {
+                gameMap.unlockCell(enemyPos);
+            }
+        }
     }
     /**
      * Returns the first (and currently only) player in the world.
@@ -166,14 +183,14 @@ public class GameWorld {
         }
     }
     private void placeTreasure(Enemy enemy){
-        gameMap.tryLockCell(enemy.getPosition(),50);
-        try{
-            if (enemy.isDead()){
-                Treasure treasure = enemy.Defeat();
-                this.addItem(treasure);
-                LogManager.addLog("Treasure was created at: " + treasure.getPosition());
-                gameMap.removeEntity(enemy.getPosition(), enemy);
-                gameMap.placeEntity(enemy.getPosition(), treasure);
+        if(gameMap.tryLockCell(enemy.getPosition(),50))
+            try{
+                if (enemy.isDead()){
+                    Treasure treasure = enemy.Defeat();
+                   this.addItem(treasure);
+                   LogManager.addLog("Treasure was created at: " + treasure.getPosition());
+                   gameMap.removeEntity(enemy.getPosition(), enemy);
+                   gameMap.placeEntity(enemy.getPosition(), treasure);
             }
         }
         finally {
@@ -364,7 +381,7 @@ public class GameWorld {
         else {
             List<Position> neighbors = getPositionsShuffled(enemyPos);
             for (Position target : neighbors){
-                if (!gameMap.isBlocked(target) && gameMap.tryLockCell(enemyPos, 50)){
+                if (tryMoveto(enemyPos,target) && gameMap.tryLockCell(enemyPos, 50)){
                     try{
                         if (gameMap.tryLockCell(target,50)){
                             try {
@@ -426,7 +443,9 @@ public class GameWorld {
     public void shutdown() {
         isRunning.set(false);
         scheduler.shutdownNow();
+
     }
+
 
     private final ScheduledExecutorService scheduler;
     private final AtomicBoolean isRunning = new AtomicBoolean(true);

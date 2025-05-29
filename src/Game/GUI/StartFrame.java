@@ -9,17 +9,17 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionListener;
 
-import static java.awt.SystemColor.window;
-
 public class StartFrame extends JFrame {
-    private final JTextField rowsField;
-    private final JTextField colsField;
     private final JTextField nameField;
+    private final JButton startButton;
     private final JRadioButton archerButton;
     private final JRadioButton warriorButton;
     private final JRadioButton mageButton;
-    private final JLabel abilityLabel;
-    private final int iconSize = 64;
+    private final JTextArea descArea;
+
+    private static final int DEFAULT_ROWS = 10;
+    private static final int DEFAULT_COLS = 10;
+    private static final int ICON_SIZE = 64;
 
     public StartFrame() {
         super("Start Game");
@@ -30,11 +30,8 @@ public class StartFrame extends JFrame {
         Color textColor = new Color(30, 30, 30);
         Color accentColor = new Color(100, 180, 240);
         Color buttonColor = new Color(100, 200, 120);
-
         UIManager.put("Panel.background", panelColor);
-        UIManager.put("RadioButton.background", panelColor);
         UIManager.put("Label.foreground", textColor);
-        UIManager.put("RadioButton.foreground", textColor);
         UIManager.put("TextField.background", Color.WHITE);
         UIManager.put("TextField.foreground", textColor);
         UIManager.put("Button.background", buttonColor);
@@ -45,138 +42,125 @@ public class StartFrame extends JFrame {
         title.setForeground(textColor);
         title.setOpaque(true);
         title.setBackground(backgroundColor);
-        title.setBorder(new CompoundBorder(new EmptyBorder(12, 12, 12, 12), new LineBorder(accentColor, 10)));
+        title.setBorder(new CompoundBorder(new EmptyBorder(12, 12, 12, 12), new LineBorder(accentColor, 3)));
+        String instructions =
+                "How to play:\n" +
+                        "- Move your character by clicking a cell.\n" +
+                        "- Fight enemies (Goblins, Orcs, Dragons) when you click on them.\n" +
+                        "- Pick up potions to restore health or boost power.\n\n" +
+                        "Characters:\n" +
+                        "- You play as an Archer or Warrior or Mage.\n\n" +
+                        "Enemies:\n" +
+                        "- Goblin: weak but are very agile.\n" +
+                        "- Orc: tougher and deals more damage.\n" +
+                        "- Dragon: very strong enemy,can fight from a far.\n\n" +
+                        "Potions:\n" +
+                        "- Health Potion: restores HP.\n" +
+                        "- Power Potion: increases your attack power once.";
 
-        rowsField = new JTextField(3);
-        colsField = new JTextField(3);
-        nameField = new JTextField(15);
+        JTextArea infoArea = new JTextArea(instructions);
+        infoArea.setEditable(false);
+        infoArea.setLineWrap(true);
+        infoArea.setWrapStyleWord(true);
+        infoArea.setBackground(panelColor);
+        infoArea.setForeground(textColor);
+        JScrollPane infoScroll = new JScrollPane(infoArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        infoScroll.setPreferredSize(new Dimension(400, 120));
+        infoScroll.setBorder(BorderFactory.createLineBorder(accentColor));
 
-        Dimension small = new Dimension(50, rowsField.getPreferredSize().height);
-        rowsField.setPreferredSize(small);
-        colsField.setPreferredSize(small);
-
-        archerButton  = createCharacterButton("Archer",  ImageLoader.load("archer.png", iconSize, iconSize));
-        warriorButton = createCharacterButton("Warrior", ImageLoader.load("figther.png", iconSize, iconSize));
-        mageButton    = createCharacterButton("Mage",    ImageLoader.load("mage.png",    iconSize, iconSize));
-
-        abilityLabel = new JLabel("Select a class to see its abilities.", SwingConstants.CENTER);
-        abilityLabel.setFont(abilityLabel.getFont().deriveFont(Font.BOLD, 14f));
-        abilityLabel.setBorder(new EmptyBorder(8, 8, 8, 8));
-
+        nameField = new JTextField(20);
+        archerButton  = createCharacterButton("Archer",ImageLoader.load("archer.png", ICON_SIZE, ICON_SIZE));
+        warriorButton = createCharacterButton("Warrior",ImageLoader.load("figther.png", ICON_SIZE, ICON_SIZE));
+        mageButton = createCharacterButton("Mage",ImageLoader.load("mage.png",    ICON_SIZE, ICON_SIZE));
         ButtonGroup group = new ButtonGroup();
         group.add(archerButton);
         group.add(warriorButton);
         group.add(mageButton);
 
-        ActionListener updateAbility = e -> {
-            String sel = getSelectedCharacter();
-            if (sel==null){
-                abilityLabel.setText("Select a class to see its abilities");
+        descArea = new JTextArea();
+        descArea.setEditable(false);
+        descArea.setLineWrap(true);
+        descArea.setWrapStyleWord(true);
+        descArea.setBackground(panelColor);
+        descArea.setForeground(textColor);
+        descArea.setFont(descArea.getFont().deriveFont(Font.BOLD,18f));
+        descArea.setPreferredSize(new Dimension(400, 80));
+        descArea.setText("Choose your class to see its abilities.");
+
+        ActionListener updateDesc = e -> {
+            if (archerButton.isSelected()) {
+                descArea.setText("Archer: Ranged attacks up to 2 cells away. Higher accuracy gives higher chance to hit an enemy");
             }
-            else{
-                if (sel.equals("Archer")){
-                    abilityLabel.setText("Archer: Ranged attacks up to 2 cells away. Higher accuracy gives higher chance to hit an enemy");
-                }
-                else if (sel.equals("Mage")){
-                    abilityLabel.setText("Mage: Ranged Magic attacks, Can cast spells.Can have one of 4 elements: FIRE,ICE,ACID,LIGHTNING");
-                }
-                else if (sel.equals("Warrior")){
-                    abilityLabel.setText("Warrior: Melee attacks up to 1 cell away. Higher defense gives better defence against enemy attacks ");
-                }
+            else if (warriorButton.isSelected()) {
+                descArea.setText("Warrior: Melee attacks up to 1 cell away. Higher defense gives better defence against enemy attacks ");
+            }
+            else if (mageButton.isSelected()) {
+                descArea.setText("Mage: Ranged Magic attacks, Can cast spells.Can have one of 4 elements: FIRE,ICE,ACID,LIGHTNING");
             }
         };
-        archerButton.addActionListener(updateAbility);
-        warriorButton.addActionListener(updateAbility);
-        mageButton.addActionListener(updateAbility);
+        archerButton.addActionListener(updateDesc);
+        warriorButton.addActionListener(updateDesc);
+        mageButton.addActionListener(updateDesc);
 
-        JButton startButton = new JButton("Start Game");
+        startButton = new JButton("Start Game");
         startButton.setFont(startButton.getFont().deriveFont(Font.BOLD, 16f));
         startButton.addActionListener(e -> {
-            try {
-                int row = getRows(), col = getCols();
-                if (row < 10 || col < 10) {
-                    JOptionPane.showMessageDialog(this,
-                            "Rows and Columns must each be at least 10.", "Invalid Input", JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-                String name = nameField.getText().trim();
-                String type = getSelectedCharacter();
-                if (type == null) {
-                    JOptionPane.showMessageDialog(this,
-                            "Please select a character class.", "No Character Selected", JOptionPane.WARNING_MESSAGE);
-                    return;
-                }
-                GameWorld world = new GameWorld(row, col, name, type);
-                try{
-                    Thread.sleep(1000);
-                }
-                catch (InterruptedException ex) {
-                    System.out.println(ex);;
-                }
-                SwingUtilities.invokeLater(() -> new MainFrame(world));
-                dispose();
+            String name = nameField.getText().trim();
+            if (name.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter your name.", "Missing Name", JOptionPane.WARNING_MESSAGE);
+                return;
             }
-            catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "Please enter valid integers for Rows and Columns.", "Input Error", JOptionPane.ERROR_MESSAGE);
+            String type = getSelectedCharacter();
+            if (type == null){
+                JOptionPane.showMessageDialog(this, "Please select a character class.", "No Class Selected", JOptionPane.WARNING_MESSAGE);
+                return;
             }
+            GameWorld world = new GameWorld(DEFAULT_ROWS, DEFAULT_COLS, name, type);
+            dispose();
+            SwingUtilities.invokeLater(() -> new MainFrame(world));
         });
-
 
         JPanel content = new JPanel(new GridBagLayout());
         content.setBackground(panelColor);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
-        gbc.fill    = GridBagConstraints.HORIZONTAL;
-        gbc.weightx = 1.0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx  = 1.0;
 
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 2;
+        gbc.gridx = 0; gbc.gridy = 0; gbc.gridwidth = 2;
         content.add(title, gbc);
 
-        gbc.gridy = 1;
-        gbc.gridwidth = 1;
-        content.add(new JLabel("Rows:"), gbc);
-        gbc.gridx = 1;
-        content.add(rowsField, gbc);
+        gbc.gridy = 1; gbc.gridwidth = 2;
+        content.add(infoScroll, gbc);
 
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        content.add(new JLabel("Cols:"), gbc);
-        gbc.gridx = 1;
-        content.add(colsField, gbc);
-
-        gbc.gridx = 0; gbc.gridy = 3;
-        content.add(new JLabel("Enter Your Name:"), gbc);
+        gbc.gridy = 2; gbc.gridwidth = 1;
+        content.add(new JLabel("Your Name:"), gbc);
         gbc.gridx = 1;
         content.add(nameField, gbc);
 
-        gbc.gridx = 0;
-        gbc.gridy = 4;
-        gbc.gridwidth = 2;
-        JLabel choose = new JLabel("Choose Your Class", SwingConstants.CENTER);
-        choose.setFont(choose.getFont().deriveFont(Font.BOLD, 18f));
-        content.add(choose, gbc);
+        gbc.gridx = 0; gbc.gridy = 3; gbc.gridwidth = 2;
+        JLabel chooseLabel = new JLabel("Choose Your Class", SwingConstants.CENTER);
+        chooseLabel.setFont(chooseLabel.getFont().deriveFont(Font.BOLD, 18f));
+        content.add(chooseLabel, gbc);
 
+        gbc.gridy = 4;
         JPanel charsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 5));
         charsPanel.setBackground(panelColor);
         charsPanel.add(archerButton);
         charsPanel.add(warriorButton);
         charsPanel.add(mageButton);
-        gbc.gridy = 5;
         content.add(charsPanel, gbc);
 
-        gbc.gridy = 6;
-        content.add(abilityLabel, gbc);
+        gbc.gridy = 5;
+        content.add(descArea, gbc);
 
-        gbc.gridy = 7;
+        gbc.gridy = 6; gbc.gridwidth = 2;
         startButton.setPreferredSize(new Dimension(140, 40));
-        gbc.fill=GridBagConstraints.NONE;
         content.add(startButton, gbc);
 
         setContentPane(content);
         pack();
-        setSize(900, 700);
+        setSize(1200, 800);
         setLocationRelativeTo(null);
         setVisible(true);
     }
@@ -190,15 +174,13 @@ public class StartFrame extends JFrame {
         btn.setPreferredSize(new Dimension(100, 120));
         return btn;
     }
-
-    public int getRows() {
-        return Integer.parseInt(rowsField.getText().trim()); }
-    public int getCols(){
-        return Integer.parseInt(colsField.getText().trim()); }
-    public String getSelectedCharacter() {
-        if (archerButton.isSelected())  return "Archer";
-        if (warriorButton.isSelected()) return "Warrior";
-        if (mageButton.isSelected())    return "Mage";
+    private String getSelectedCharacter() {
+        if (archerButton.isSelected())
+            return "Archer";
+        if (warriorButton.isSelected())
+            return "Warrior";
+        if (mageButton.isSelected())
+            return "Mage";
         return null;
     }
 }

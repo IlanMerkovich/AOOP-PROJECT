@@ -16,7 +16,7 @@ public class MainFrame extends JFrame {
         StatusPanel statusPanel = new StatusPanel(gameWorld);
         statusPanel.setBorder(BorderFactory.createTitledBorder("Status"));
 
-        InventoryPanel inventoryPanel = new InventoryPanel(gameWorld, statusPanel);
+        InventoryPanel inventoryPanel = new InventoryPanel(gameWorld);
         inventoryPanel.setBorder(BorderFactory.createTitledBorder("Inventory"));
 
         MapPanel mapPanel = new MapPanel(gameWorld);
