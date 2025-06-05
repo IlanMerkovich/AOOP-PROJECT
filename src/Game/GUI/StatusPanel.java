@@ -22,14 +22,16 @@ public class StatusPanel extends JPanel implements GameListener {
     private final JLabel powerLabel;
     private final JLabel treasureLabel;
     private final JLabel elementLabel;
+    private final JButton saveBtn;
+    private final JButton loadBtn;
 
     public StatusPanel(GameWorld world) {
         this.world = world;
         world.addListener(this);
 
         setBackground(color1);
-        setPreferredSize(new Dimension(200, 140));
-        setLayout(new GridLayout(5, 1, 5, 5));
+        setPreferredSize(new Dimension(220, 180));
+        setLayout(new GridLayout(7, 1, 5, 5));
         setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
 
         nameLabel = createStatLabel();
@@ -37,7 +39,9 @@ public class StatusPanel extends JPanel implements GameListener {
         powerLabel = createStatLabel();
         treasureLabel = createStatLabel();
         elementLabel  = createStatLabel();
-
+        saveBtn=new JButton("Save Game");
+        loadBtn=new JButton("Load Last Save");
+        loadBtn.setBackground(Color.ORANGE);
         nameLabel.setFont(nameLabel.getFont().deriveFont(Font.BOLD, 14f));
         nameLabel.setForeground(color3);
 
@@ -46,6 +50,8 @@ public class StatusPanel extends JPanel implements GameListener {
         add(powerLabel);
         add(treasureLabel);
         add(elementLabel);
+        add(saveBtn);
+        add(loadBtn);
 
         rebuild();
     }
@@ -75,6 +81,9 @@ public class StatusPanel extends JPanel implements GameListener {
             elementLabel.setText("Element: " + el);
             ImageIcon icon = ImageLoader.load(el.toString().toLowerCase() + ".png", elementIconSize,elementIconSize);
             elementLabel.setIcon(icon);
+        }
+        else{
+            this.remove(elementLabel);
         }
     }
 

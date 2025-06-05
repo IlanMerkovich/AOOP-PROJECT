@@ -1,6 +1,7 @@
 package Game.GUI;
 
 import Game.Characters.PlayerCharacter;
+import Game.Engine.GameController;
 import Game.Engine.GameWorld;
 import Game.Engine.GameListener;
 import Game.Items.GameItem;
@@ -16,16 +17,18 @@ import java.util.List;
  * Shows the player’s current items; click to view/use.
  */
 public class InventoryPanel extends JPanel implements GameListener {
-    private final GameWorld world;
+    private final GameController gameController;
+    private final GameWorld gameWorld;
     private final int iconSize = 48;
     private static final Color color1 = new Color(0xF5, 0xE6, 0xC8);
     private final ImageIcon potionIcon;
     private final ImageIcon powerPotionIcon;
 
-    public InventoryPanel(GameWorld world){
+    public InventoryPanel(GameController gameController,GameWorld gameWorld){
         super(new FlowLayout(FlowLayout.LEFT, 5, 5));
-        this.world = world;
-        world.addListener(this);
+        this.gameController = gameController;
+        this.gameWorld=gameWorld;
+        gameWorld.addListener(this);
         this.setBackground(color1);
         setBorder(BorderFactory.createTitledBorder("Inventory"));
         setPreferredSize(new Dimension(300, 80));
@@ -36,7 +39,7 @@ public class InventoryPanel extends JPanel implements GameListener {
 
     public void rebuild() {
         removeAll();
-        PlayerCharacter p = world.getPlayer();
+        PlayerCharacter p = gameController.getPlayer();
         List<GameItem> inv = p.getInventory().getItems();
 
         if (inv.isEmpty()) {
@@ -66,7 +69,7 @@ public class InventoryPanel extends JPanel implements GameListener {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         if (SwingUtilities.isLeftMouseButton(e)) {
-                            world.useItem(item);
+                            gameController.useItem(item);
                         }
                         else {
                             JOptionPane.showMessageDialog(InventoryPanel.this, item.getDescription(), item.getDisplaySymbol(), JOptionPane.INFORMATION_MESSAGE);

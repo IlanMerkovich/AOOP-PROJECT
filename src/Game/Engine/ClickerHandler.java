@@ -16,9 +16,9 @@ import java.util.List;
  * This class handles logic of action listener events such as left click and so
  */
 public class ClickerHandler{
-    GameWorld gameWorld;
-    public ClickerHandler(GameWorld gameWorld){
-        this.gameWorld=gameWorld;
+    GameController gameController;
+    public ClickerHandler(GameController gameController){
+        this.gameController=gameController;
     }
 
     /**
@@ -27,13 +27,13 @@ public class ClickerHandler{
      * @return a click result objects contains all data from the event
      */
     public ClickResult handleLeftClickMap(Position pos){
-        PlayerCharacter playerCharacter=gameWorld.getPlayer();
+        PlayerCharacter playerCharacter=gameController.getPlayer();
         Position playerPos=playerCharacter.getPosition();
-        List<GameEntity>cell=gameWorld.getGameMap().getGrid().get(pos);
+        List<GameEntity>cell=gameController.getGameMap().getGrid().get(pos);
         int distance=playerCharacter.getPosition().distanceTo(pos);
         if (cell==null || cell.isEmpty()){
             if (distance==1){
-                gameWorld.movePlayerTo(pos);
+                gameController.movePlayerTo(pos);
                 return new ClickResult(ClickResult.Type.MOVE,0,0);
             }
             else {
@@ -66,12 +66,12 @@ public class ClickerHandler{
             else if (entity instanceof GameItem item){
                 if (distance==1){
                     if (item instanceof Potion){
-                        gameWorld.pickupItemAt(pos);
+                        gameController.pickupItemAt(pos);
                         return new ClickResult(ClickResult.Type.PICKUP,0,0);
                     }
                     else if (item instanceof Treasure){
                         SoundManager.playEffect("point.wav");
-                        gameWorld.interactWithItemAt(pos);
+                        gameController.interactWithItemAt(pos);
                         return new ClickResult(ClickResult.Type.PICKUP,0,0);
                     }
                 }
@@ -86,7 +86,7 @@ public class ClickerHandler{
     private ClickResult attackAndGetClickResult(Position pos, PlayerCharacter playerCharacter, Enemy enemy) {
         int beforeE = enemy.getHealth();
         int beforeP = playerCharacter.getHealth();
-        gameWorld.attackEnemyAt(pos);
+        gameController.attackEnemyAt(pos);
         int dmgE = beforeE - enemy.getHealth();
         int dmgP = beforeP - playerCharacter.getHealth();
         return new ClickResult(ClickResult.Type.ATTACK,dmgE,dmgP);

@@ -2,11 +2,8 @@ package Game.GUI;
 import Game.Audio.SoundManager;
 import Game.Characters.Enemy;
 import Game.Characters.PlayerCharacter;
-import Game.Engine.ClickResult;
-import Game.Engine.ClickerHandler;
+import Game.Engine.*;
 import Game.Core.GameEntity;
-import Game.Engine.GameWorld;
-import Game.Engine.GameListener;
 import Game.Items.GameItem;
 import Game.Items.Potion;
 import Game.Items.Wall;
@@ -24,15 +21,17 @@ import java.util.Map;
 
 
 public class MapPanel extends JPanel implements GameListener {
-    private final GameWorld world;
+    private final GameController gameController;
+    private final GameWorld gameWorld;
     private final JLabel[][] cells;
     private final int iconSize = 64;
     private final Map<String, ImageIcon> iconCache = new HashMap<>();
     private static final Color color1=new Color(0x3A, 0x3A, 0x3A);
 
 
-    public MapPanel(GameWorld world) {
-        this.world = world;
+    public MapPanel(GameController gameController,GameWorld world) {
+        this.gameController = gameController;
+        this.gameWorld=world;
         world.addListener(this);
         int rows = world.getRows();
         int cols = world.getCols();
@@ -42,7 +41,7 @@ public class MapPanel extends JPanel implements GameListener {
         Color borderColor = new Color(255, 255, 255);
 
         Border cellBorder = BorderFactory.createLineBorder(color1, 2);
-        ClickerHandler clickerHandler=new ClickerHandler(world);
+        ClickerHandler clickerHandler=new ClickerHandler(gameController);
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < cols; c++) {
                 JLabel lbl = new JLabel();
@@ -145,7 +144,6 @@ public class MapPanel extends JPanel implements GameListener {
         changeDetected();
         SoundManager.playEffect("welcome.wav");
     }
-
     public void onMapChange() {
         refresh();
         checkGameEnd();
@@ -163,7 +161,7 @@ public class MapPanel extends JPanel implements GameListener {
     }
     private void updateCell(int r, int c) {
         Position pos = new Position(r, c);
-        List<GameEntity> list = world.getGameMap().getGrid().get(pos);
+        List<GameEntity> list = gameWorld.getGameMap().getGrid().get(pos);
         JLabel lbl = cells[r][c];
         lbl.removeAll();
         lbl.setLayout(new BorderLayout());
@@ -172,7 +170,7 @@ public class MapPanel extends JPanel implements GameListener {
             GameEntity ent = list.get(0);
             if (ent instanceof PlayerCharacter || ent.getVisibility()) {
                 String file = ent.getDisplaySymbol() + ".png";
-                ImageIcon icon = ImageLoader.load(file, iconSize, iconSize);
+                ImageIcon icon = iconCache.computeIfAbsent(file, f -> ImageLoader.load(f, iconSize, iconSize));
                 JLabel pic = new JLabel(icon);
                 pic.setHorizontalAlignment(SwingConstants.CENTER);
                 lbl.add(pic, BorderLayout.CENTER);
@@ -192,16 +190,16 @@ public class MapPanel extends JPanel implements GameListener {
         lbl.repaint();
     }
     private void checkGameEnd() {
-        PlayerCharacter p = world.getPlayer();
+        PlayerCharacter p = gameController.getPlayer();
         if (p.isDead()){
-            world.shutdown();
+            gameController.shutdownEnemies();
             SoundManager.playEffect("playerdead.wav");
             JOptionPane.showMessageDialog(this, "Game Over – You have died!\nTreasure Points: " + p.getTreasurePoints(), "Game Over", JOptionPane.INFORMATION_MESSAGE);
             LogManager.stop();
             System.exit(0);
         }
-        if (world.areAllEnemiesDead()) {
-            world.shutdown();
+        if (gameController.areAllEnemiesDead()) {
+            gameController.shutdownEnemies();
             SoundManager.playEffect("victory.wav");
             JOptionPane.showMessageDialog(this, "Congratulations! All enemies have been defeated.\nTreasure Points: " + p.getTreasurePoints(), "Victory!", JOptionPane.INFORMATION_MESSAGE);
             LogManager.stop();
@@ -217,15 +215,5 @@ public class MapPanel extends JPanel implements GameListener {
              ((Timer) evt.getSource()).stop();
              label.setBorder(original);
          }).start();
-    }
-    private ImageIcon getIcon(String filename){
-        ImageIcon img = ImageLoader.load(filename, iconSize, iconSize);
-        if (img != null) {
-            iconCache.put(filename, img);
-        }
-        else {
-            System.err.println("error loading image");
-        }
-        return iconCache.get(filename);
     }
 }

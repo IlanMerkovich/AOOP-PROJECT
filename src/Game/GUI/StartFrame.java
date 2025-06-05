@@ -1,5 +1,6 @@
 package Game.GUI;
 
+import Game.Engine.GameController;
 import Game.Engine.GameWorld;
 
 import javax.swing.*;
@@ -116,8 +117,9 @@ public class StartFrame extends JFrame {
                 return;
             }
             GameWorld world = new GameWorld(DEFAULT_ROWS, DEFAULT_COLS, name, type);
+            GameController gameController=new GameController(world);
             dispose();
-            SwingUtilities.invokeLater(() -> new MainFrame(world));
+            SwingUtilities.invokeLater(() -> new MainFrame(world,gameController));
         });
 
         JPanel content = new JPanel(new GridBagLayout());
@@ -164,7 +166,6 @@ public class StartFrame extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
     }
-
     private JRadioButton createCharacterButton(String text, ImageIcon icon) {
         JRadioButton btn = new JRadioButton(text, icon, false);
         btn.setVerticalTextPosition(SwingConstants.BOTTOM);

@@ -1,6 +1,6 @@
 package Game.Characters;
 
-import Game.Audio.SoundManager;
+import Game.Engine.GameController;
 import Game.Engine.GameWorld;
 import Game.Items.Treasure;
 import Game.Logs.LogManager;
@@ -16,7 +16,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public abstract class Enemy extends AbstractCharacter implements Runnable{
     private final int loot;
-    private GameWorld gameWorld;
+    private GameController gameController;
     private AtomicBoolean isRunning;
     private final ReentrantLock lock = new ReentrantLock(true);
 
@@ -106,8 +106,8 @@ public abstract class Enemy extends AbstractCharacter implements Runnable{
                 this.loot == other.loot;
     }
 
-    public void init(GameWorld gw,AtomicBoolean isRunning) {
-        this.gameWorld = gw;
+    public void init(GameController gameController,AtomicBoolean isRunning) {
+        this.gameController = gameController;
         this.isRunning=isRunning;
     }
 
@@ -122,7 +122,7 @@ public abstract class Enemy extends AbstractCharacter implements Runnable{
         try{
             Random random = new Random();
             if (random.nextInt(100) < 25) {
-                gameWorld.attemptToMove(this);
+                gameController.attemptToMove(this);
             }
             else{
                 try {

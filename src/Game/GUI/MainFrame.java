@@ -1,6 +1,7 @@
 package Game.GUI;
 
 import Game.Audio.SoundManager;
+import Game.Engine.GameController;
 import Game.Engine.GameWorld;
 
 import javax.swing.*;
@@ -8,7 +9,7 @@ import java.awt.*;
 
 public class MainFrame extends JFrame {
 
-    public MainFrame(GameWorld gameWorld) {
+    public MainFrame(GameWorld gameWorld, GameController gameController) {
         super("D&D Based Game");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new BorderLayout(5, 5));
@@ -16,10 +17,10 @@ public class MainFrame extends JFrame {
         StatusPanel statusPanel = new StatusPanel(gameWorld);
         statusPanel.setBorder(BorderFactory.createTitledBorder("Status"));
 
-        InventoryPanel inventoryPanel = new InventoryPanel(gameWorld);
+        InventoryPanel inventoryPanel = new InventoryPanel(gameController,gameWorld);
         inventoryPanel.setBorder(BorderFactory.createTitledBorder("Inventory"));
 
-        MapPanel mapPanel = new MapPanel(gameWorld);
+        MapPanel mapPanel = new MapPanel(gameController,gameWorld);
         mapPanel.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 2));
 
         add(mapPanel, BorderLayout.CENTER);

@@ -1,9 +1,7 @@
 package Game.Engine;
-
 import Game.Core.GameEntity;
 import Game.Items.GameItem;
 import Game.Map.Position;
-
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
@@ -17,6 +15,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class GameMap{
     private int rows,cols;
+    private static volatile GameMap instance=null;
     /**
      * Constructs a new GameMap with the given number of rows and columns.
      * Initializes each cell in the grid as an empty list.
@@ -24,7 +23,19 @@ public class GameMap{
      * @param rows number of rows (height of the map)
      * @param cols number of columns (width of the map)
      */
-    public GameMap(int rows, int cols) {
+    public static GameMap getInstance(int rows, int cols){
+        if (instance==null){
+            instance=new GameMap(rows,cols);
+        }
+        return instance;
+    }
+    public static GameMap getInstance(){
+        if (instance==null){
+            throw new IllegalStateException("Map not created yet,Please create map first.");
+        }
+        return instance;
+    }
+    private GameMap(int rows, int cols) {
         this.rows=rows;
         this.cols=cols;
         this.grid = new HashMap<>();
