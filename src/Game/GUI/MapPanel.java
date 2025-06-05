@@ -5,7 +5,6 @@ import Game.Characters.PlayerCharacter;
 import Game.Engine.*;
 import Game.Core.GameEntity;
 import Game.Items.GameItem;
-import Game.Items.Potion;
 import Game.Items.Wall;
 import Game.Logs.LogManager;
 import Game.Map.Position;
@@ -15,23 +14,21 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class MapPanel extends JPanel implements GameListener {
     private final GameController gameController;
-    private final GameWorld gameWorld;
     private final JLabel[][] cells;
     private final int iconSize = 64;
-    private final Map<String, ImageIcon> iconCache = new HashMap<>();
+    private Map<String, ImageIcon> iconCache = new ConcurrentHashMap<>();
     private static final Color color1=new Color(0x3A, 0x3A, 0x3A);
 
 
     public MapPanel(GameController gameController,GameWorld world) {
         this.gameController = gameController;
-        this.gameWorld=world;
         world.addListener(this);
         int rows = world.getRows();
         int cols = world.getCols();
@@ -161,12 +158,12 @@ public class MapPanel extends JPanel implements GameListener {
     }
     private void updateCell(int r, int c) {
         Position pos = new Position(r, c);
-        List<GameEntity> list = gameWorld.getGameMap().getGrid().get(pos);
+        List<GameEntity> list = gameController.getGameMap().getGrid().get(pos);
         JLabel lbl = cells[r][c];
         lbl.removeAll();
         lbl.setLayout(new BorderLayout());
 
-        if (list != null && !list.isEmpty()) {
+        if (list != null && !list.isEmpty()){
             GameEntity ent = list.get(0);
             if (ent instanceof PlayerCharacter || ent.getVisibility()) {
                 String file = ent.getDisplaySymbol() + ".png";
@@ -185,7 +182,6 @@ public class MapPanel extends JPanel implements GameListener {
         }
         else {
         }
-
         lbl.revalidate();
         lbl.repaint();
     }

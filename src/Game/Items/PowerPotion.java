@@ -66,4 +66,14 @@ public class PowerPotion extends Potion{
     public void pickup(PlayerCharacter c) {
         c.addToInventory(this);
     }
+
+    public PowerPotion clone() {
+        PowerPotion copy = new PowerPotion(getPosition().getRow(), getPosition().getCol());
+        copy.setAmount(this.getAmount());
+        if (this.isUsed()) {
+            copy.setUsed();
+        }
+        copyFieldsTo(copy);
+        return copy;
+    }
 }

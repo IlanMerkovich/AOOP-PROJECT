@@ -74,6 +74,16 @@ public class Treasure extends GameItem implements Interactable{
         return super.equals(other) && this.value == other.value && this.collected == other.collected;
     }
 
+    public Treasure clone() {
+        Treasure copy = new Treasure(getPosition().getRow(), getPosition().getCol(), this.value);
+        if (this.collected) {
+            copy.collected = true;
+            copy.removeBlock();
+        }
+        copyFieldsTo(copy);
+        return copy;
+    }
+
     private int value;
     private boolean collected;
 }

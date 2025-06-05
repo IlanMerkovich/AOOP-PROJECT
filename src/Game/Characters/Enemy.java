@@ -15,7 +15,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * Inherits general character properties from {@link AbstractCharacter}.
  */
 public abstract class Enemy extends AbstractCharacter implements Runnable{
-    private final int loot;
+    private int loot;
     private GameController gameController;
     private AtomicBoolean isRunning;
     private final ReentrantLock lock = new ReentrantLock(true);
@@ -121,7 +121,7 @@ public abstract class Enemy extends AbstractCharacter implements Runnable{
         }
         try{
             Random random = new Random();
-            if (random.nextInt(100) < 25) {
+            if (random.nextInt(100) < 20) {
                 gameController.attemptToMove(this);
             }
             else{
@@ -137,4 +137,11 @@ public abstract class Enemy extends AbstractCharacter implements Runnable{
             lock.unlock();
         }
     }
+    protected void copyEnemyFieldsTo(Enemy target) {
+        this.copyFieldsTo(target);
+        target.loot = this.loot;
+    }
+    @Override
+    public abstract Enemy clone();
+
 }

@@ -5,7 +5,7 @@ import Game.Map.Position;
  * Represents any entity that exists on the game map and has a position and visibility.
  * This interface is implemented by characters, enemies, items, etc.
  */
-public interface GameEntity {
+public interface GameEntity extends Cloneable{
     /**
      * Returns the current position of the entity on the map.
      * @return the entity's position
@@ -32,4 +32,6 @@ public interface GameEntity {
      * @return true if visible, false otherwise
      */
     public boolean getVisibility();
+
+    public GameEntity clone();
 }

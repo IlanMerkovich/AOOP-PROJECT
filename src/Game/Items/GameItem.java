@@ -112,7 +112,14 @@ public abstract class GameItem implements GameEntity{
     public boolean isUsed(){
         return true;
     }
-
+    protected void copyFieldsTo(GameItem target) {
+        target.position = new Position(this.position);
+        target.blocksMovement = this.blocksMovement;
+        target.description = this.description;
+        target.visibility = this.visibility;
+    }
+    @Override
+    public abstract GameEntity clone();
 
     private Position position;
     private boolean blocksMovement;

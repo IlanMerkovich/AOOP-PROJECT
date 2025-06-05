@@ -8,6 +8,9 @@ import Game.Engine.GameListener;
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class StatusPanel extends JPanel implements GameListener {
     private static final Color color1 = new Color(0xF5, 0xE6, 0xC8);
@@ -40,7 +43,18 @@ public class StatusPanel extends JPanel implements GameListener {
         treasureLabel = createStatLabel();
         elementLabel  = createStatLabel();
         saveBtn=new JButton("Save Game");
+        saveBtn.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e){
+                world.save();
+            }
+        });
+
         loadBtn=new JButton("Load Last Save");
+        loadBtn.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e){
+                world.restore();
+            }
+        });
         loadBtn.setBackground(Color.ORANGE);
         nameLabel.setFont(nameLabel.getFont().deriveFont(Font.BOLD, 14f));
         nameLabel.setForeground(color3);
@@ -66,7 +80,6 @@ public class StatusPanel extends JPanel implements GameListener {
         lbl.setPreferredSize(new Dimension(100, 24));
         return lbl;
     }
-
     public void rebuild() {
         PlayerCharacter p = world.getPlayer();
 
@@ -86,11 +99,9 @@ public class StatusPanel extends JPanel implements GameListener {
             this.remove(elementLabel);
         }
     }
-
     public void changeDetected() {
         rebuild();
     }
-
     public void onMapChange() {
         return;
     }

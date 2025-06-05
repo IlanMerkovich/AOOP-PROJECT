@@ -20,6 +20,10 @@ public class Dragon extends Enemy implements PhysicalAttacker,MeleeFighter, Magi
         super(r,c);
         this.element=MagicElement.getRandomElement();
     }
+    public Dragon(int r, int c, MagicElement element) {
+        super(r, c);
+        this.element = element;
+    }
     /**
      * Calculates and applies magic damage to a target.
      * Takes into account elemental advantage or disadvantage.
@@ -170,6 +174,11 @@ public class Dragon extends Enemy implements PhysicalAttacker,MeleeFighter, Magi
             return false;
         return super.equals(obj) && this.element == other.getElement();
     }
+    private MagicElement element;
 
-    private final MagicElement element;
+    public Dragon clone() {
+        Dragon copy = new Dragon(getPosition().getRow(), getPosition().getCol(), this.element);
+        copyEnemyFieldsTo(copy);
+        return copy;
+    }
 }

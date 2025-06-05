@@ -1,6 +1,7 @@
 package Game.Characters;
 
 import Game.Combat.*;
+import Game.Items.GameItem;
 import Game.Map.Position;
 
 /**
@@ -9,7 +10,7 @@ import Game.Map.Position;
  * to enhance or reduce damage.
  */
 public class Mage extends PlayerCharacter implements MagicAttacker, RangedFighter{
-    private final MagicElement element;
+    private MagicElement element;
     /**
      * Constructs a Mage at a specific position with a given name.
      * @param r the row position
@@ -122,5 +123,17 @@ public class Mage extends PlayerCharacter implements MagicAttacker, RangedFighte
      */
     public String toString() {
         return String.format("🧙 %s | Element: %s", super.toString(), element);
+    }
+
+    public Mage clone() {
+        Mage copy = new Mage(getPosition().getRow(), getPosition().getCol(), getName());
+        copy.addTreasurePoint(getTreasurePoints());
+        copyFieldsTo(copy);
+        copy.element = this.element;
+        copy.getInventory().getItems().clear();
+        for (var item : getInventory().getItems()) {
+            copy.addToInventory((GameItem) item.clone());
+        }
+        return copy;
     }
 }

@@ -1,6 +1,7 @@
 package Game.Characters;
 
 import Game.Combat.*;
+import Game.Items.GameItem;
 import Game.Logs.LogManager;
 import Game.Map.Position;
 import java.util.Random;
@@ -108,6 +109,16 @@ public class Warrior extends PlayerCharacter implements MeleeFighter, PhysicalAt
                 super.toString(),
                 defence);
     }
+    public Warrior clone() {
+        Warrior copy = new Warrior(getPosition().getRow(), getPosition().getCol(), getName());
+        copy.addTreasurePoint(getTreasurePoints());
+        copyFieldsTo(copy);
+        copy.getInventory().getItems().clear();
+        for (var item : getInventory().getItems()) {
+            copy.addToInventory((GameItem) item.clone());
+        }
+        return copy;
+    }
 
-    private final int defence;
+    private int defence;
 }

@@ -1,6 +1,7 @@
 package Game.Characters;
 
 import Game.Combat.*;
+import Game.Items.GameItem;
 import Game.Map.Position;
 
 import java.util.Random;
@@ -109,7 +110,16 @@ public class Archer extends PlayerCharacter implements RangedFighter, PhysicalAt
                 super.toString(),
                 getAccuracy());
     }
-
-    private final double accuracy;
-
+    private double accuracy;
+    public Archer clone() {
+        Archer copy = new Archer(getPosition().getRow(), getPosition().getCol(), getName());
+        copy.addTreasurePoint(getTreasurePoints());
+        copyFieldsTo(copy);
+        copy.accuracy = this.accuracy;
+        copy.getInventory().getItems().clear();
+        for (GameItem item : getInventory().getItems()) {
+            copy.addToInventory((GameItem) item.clone());
+        }
+        return copy;
+    }
 }

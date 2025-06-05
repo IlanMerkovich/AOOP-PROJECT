@@ -114,6 +114,13 @@ public class Orc extends Enemy implements PhysicalAttacker, MeleeFighter{
         if (!(obj instanceof Orc other)) return false;
         return super.equals(obj) && Double.compare(this.resistance, other.resistance) == 0;
     }
+    @Override
+    public Orc clone() {
+        Orc copy = new Orc(getPosition().getRow(), getPosition().getCol());
+        copyEnemyFieldsTo(copy);
+        copy.resistance = this.resistance;
+        return copy;
+    }
 
-    private final double resistance;
+    private double resistance;
 }

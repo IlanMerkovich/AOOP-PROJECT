@@ -6,17 +6,17 @@ import Game.Items.*;
 import Game.Logs.LogManager;
 import Game.Map.Position;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class GameController {
-    private final GameWorld world;
+    private static GameWorld world;
     private final EnemyManager enemyManager;
 
     public GameController(GameWorld world) {
         this.world = world;
-        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(3);
+        ExecutorService scheduler = Executors.newFixedThreadPool(3);
         AtomicBoolean isRunning = new AtomicBoolean(true);
         this.enemyManager = new EnemyManager(scheduler, isRunning, world.getEnemies());
         this.enemyManager.startAllEnemies();
@@ -133,7 +133,7 @@ public class GameController {
                 if (nextStep.equals(enemyPos)) {
                     continue;
                 }
-                if (tryMoveto(enemyPos, nextStep)) {
+                if (tryMoveto(enemyPos,nextStep)) {
                     if (world.getGameMap().tryLockCell(enemyPos, 50)) {
                         try {
                             if (world.getGameMap().tryLockCell(nextStep, 50)) {
@@ -190,7 +190,7 @@ public class GameController {
     private void updateVisibility(Position playerPos) {
         for (List<GameEntity> cell : world.getGameMap().getGrid().values()) {
             for (GameEntity entity : cell) {
-                boolean visible = playerPos.distanceTo(entity.getPosition()) <= 2;
+                boolean visible = playerPos.distanceTo(entity.getPosition()) <= 15;
                 entity.setVisible(visible);
             }
         }
@@ -242,5 +242,8 @@ public class GameController {
                 return false;
         }
         return true;
+    }
+    public static void setNewWorld(GameWorld gameWorld){
+        world=gameWorld;
     }
 }

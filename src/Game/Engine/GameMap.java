@@ -146,4 +146,8 @@ public class GameMap{
     }
     private Map<Position,List<GameEntity>>grid;
     private ReentrantLock[][] cellLocks;
+
+    public void setGrid(Map<Position, List<GameEntity>> grid){
+        this.grid=grid;
+    }
 }

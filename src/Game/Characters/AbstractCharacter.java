@@ -176,6 +176,14 @@ public abstract class AbstractCharacter implements Combatant, GameEntity{
     protected void getDamage(int amount){
         this.Health-=amount;
     }
+    protected void copyFieldsTo(AbstractCharacter target) {
+        target.position = new Position(this.position);
+        target.Health = this.Health;
+        target.Power = this.Power;
+        target.evasionChance = this.evasionChance;
+        target.visibility = this.visibility;
+    }
+    public abstract GameEntity clone();
 
     private Position position;
     private int Health,Power;

@@ -123,8 +123,16 @@ public abstract class PlayerCharacter extends AbstractCharacter{
     public Inventory getInventory(){
         return inventory;
     }
+    protected PlayerCharacter(PlayerCharacter source) {
+        super(source.getPosition().getRow(), source.getPosition().getCol());
+        this.name = source.name;
+        this.inventory = source.inventory.clone();
+        this.treasurePoints = source.treasurePoints;
+        this.copyFieldsTo(this);
+    }
+    public abstract PlayerCharacter clone();
 
-    private final String name;
+    private String name;
     private Inventory inventory;
     private int treasurePoints;
 }

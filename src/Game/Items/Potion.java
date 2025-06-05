@@ -94,4 +94,14 @@ public class Potion extends GameItem implements Interactable,Pickupable{
     public boolean isUsed(){
         return isUsed;
     }
+
+    public Potion clone() {
+        Potion copy = new Potion(getPosition().getRow(), getPosition().getCol());
+        copy.setAmount(this.getAmount());
+        if (this.isUsed()) {
+            copy.setUsed();
+        }
+        copyFieldsTo(copy); // from GameItem to clone position, visibility, description
+        return copy;
+    }
 }

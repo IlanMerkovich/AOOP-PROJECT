@@ -56,4 +56,9 @@ public class Wall extends GameItem{
             return false;
         return super.equals(obj);
     }
+    public Wall clone() {
+        Wall copy = new Wall(getPosition().getRow(), getPosition().getCol());
+        copyFieldsTo(copy);
+        return copy;
+    }
 }

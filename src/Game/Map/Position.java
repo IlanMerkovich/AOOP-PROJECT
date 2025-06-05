@@ -7,7 +7,7 @@ import static java.lang.Math.abs;
  * Represents a position on a 2D grid with a row and column.
  * Supports distance calculation, comparison, and printing.
  */
-public class Position {
+public class Position implements Cloneable{
     /**
      * Creates a new position with given row and column.
      * @param r the row
@@ -75,7 +75,9 @@ public class Position {
     public int hashCode() {
         return Objects.hash(getRow(), getCol());
     }
-
+    public Position clone(){
+        return new Position(row,col);
+    }
     private final int row;
     private final int col;
 }

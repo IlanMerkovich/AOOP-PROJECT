@@ -18,7 +18,6 @@ import java.util.List;
  */
 public class InventoryPanel extends JPanel implements GameListener {
     private final GameController gameController;
-    private final GameWorld gameWorld;
     private final int iconSize = 48;
     private static final Color color1 = new Color(0xF5, 0xE6, 0xC8);
     private final ImageIcon potionIcon;
@@ -27,7 +26,6 @@ public class InventoryPanel extends JPanel implements GameListener {
     public InventoryPanel(GameController gameController,GameWorld gameWorld){
         super(new FlowLayout(FlowLayout.LEFT, 5, 5));
         this.gameController = gameController;
-        this.gameWorld=gameWorld;
         gameWorld.addListener(this);
         this.setBackground(color1);
         setBorder(BorderFactory.createTitledBorder("Inventory"));

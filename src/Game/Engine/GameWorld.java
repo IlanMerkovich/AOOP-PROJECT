@@ -6,7 +6,9 @@ import Game.Core.GameEntity;
 import Game.Items.*;
 import Game.Logs.LogManager;
 import Game.Map.Position;
+import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 public class GameWorld {
     private static final int ENEMY_SPAWN_CHANCE=30;
@@ -21,6 +23,7 @@ public class GameWorld {
         this.combatSystem = new CombatSystem();
         this.gameMap = GameMap.getInstance(rows, cols);
         this.random = new Random();
+        this.careTaker=new GameWorldCareTaker();
 
         Position playerPosition = getRandomEmptyPosition(rows, cols, random);
         PlayerCharacter playerCharacter = switch (type) {
@@ -141,15 +144,58 @@ public class GameWorld {
     List<Enemy> getEnemies() {
         return enemies;
     }
+    public GameWorldMemento createMemento() {
+        return new GameWorldMemento(players, enemies, items, gameMap.getGrid());
+    }
 
+    private void restoreMemento(GameWorldMemento memento){
+        this.players = new ArrayList<>(memento.getPlayers());
+        this.enemies = new ArrayList<>(memento.getEnemies());
+        this.items = new ArrayList<>(memento.getItems());
+        this.gameMap.setGrid(memento.getGrid());
 
+    }
+    public void restore() {
+        if (!careTaker.previousLoads()) {
+            clearGameWorld();
+            restoreMemento(careTaker.loadMemento());
+            GameController.setNewWorld(this);
+
+            PlayerCharacter restoredPlayer = getPlayer();
+            Position playerPos = restoredPlayer.getPosition();
+
+            for (List<GameEntity> cell : getGameMap().getGrid().values()) {
+                cell.removeIf(e -> e instanceof PlayerCharacter);
+            }
+
+            getGameMap().getGrid().computeIfAbsent(playerPos,k -> new ArrayList<>()).add(restoredPlayer);
+            notifyListeners();
+        }
+        else {
+            Toolkit.getDefaultToolkit().beep();
+            notifyListeners();
+        }
+    }
+
+    private void clearGameWorld() {
+        this.players.clear();
+        this.enemies.clear();
+        this.items.clear();
+        gameMap.getGrid().clear();
+    }
+
+    public void save(){
+        careTaker.saveMemento(createMemento());
+    }
+
+    private GameWorldCareTaker careTaker;
     private Random random;
     private int rows = 10;
     private int cols = 10;
     private List<PlayerCharacter> players;
     private List<Enemy> enemies;
     private List<GameItem> items;
-    private final GameMap gameMap;
+    private GameMap gameMap;
     private final CombatSystem combatSystem;
     private final List<GameListener> listeners = new ArrayList<>();
 }

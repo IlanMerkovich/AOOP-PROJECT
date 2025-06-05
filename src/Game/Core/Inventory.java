@@ -67,6 +67,14 @@ public class Inventory{
         Inventory other = (Inventory) obj;
         return this.Items.equals(other.getItems());
     }
+    public Inventory clone() {
+        Inventory copy = new Inventory();
+        for (GameItem item : this.Items) {
+            copy.addItem((GameItem) item.clone());
+        }
+        return copy;
+    }
+
 
     private List<GameItem> Items;
 }
