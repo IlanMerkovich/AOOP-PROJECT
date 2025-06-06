@@ -1,7 +1,6 @@
 package Game.Characters;
 
 import Game.Engine.GameController;
-import Game.Engine.GameWorld;
 import Game.Items.Treasure;
 import Game.Logs.LogManager;
 

@@ -17,6 +17,8 @@ public class GameWorld {
     private static final int POWER_POTION_CHANCE=25;
 
     public GameWorld(int rows, int cols, String name, String type) {
+        this.rows=rows;
+        this.cols=cols;
         this.players = new ArrayList<>();
         this.enemies = new ArrayList<>();
         this.items = new ArrayList<>();
@@ -76,7 +78,7 @@ public class GameWorld {
         notifyListeners();
         notifyMapChange();
     }
-    private Position getRandomEmptyPosition(int rows, int cols, Random rand) {
+    public Position getRandomEmptyPosition(int rows, int cols, Random rand) {
         while (true) {
             Position pos = new Position(rand.nextInt(rows), rand.nextInt(cols));
             if (gameMap.getGrid().get(pos).isEmpty()) {
@@ -147,12 +149,12 @@ public class GameWorld {
     public GameWorldMemento createMemento() {
         return new GameWorldMemento(players, enemies, items, gameMap.getGrid());
     }
-
     private void restoreMemento(GameWorldMemento memento){
         this.players = new ArrayList<>(memento.getPlayers());
         this.enemies = new ArrayList<>(memento.getEnemies());
         this.items = new ArrayList<>(memento.getItems());
         this.gameMap.setGrid(memento.getGrid());
+        LogManager.addLog("Game was restored to last saving point");
 
     }
     public void restore() {
@@ -160,6 +162,8 @@ public class GameWorld {
             clearGameWorld();
             restoreMemento(careTaker.loadMemento());
             GameController.setNewWorld(this);
+            GameController controller = new GameController(this);
+            controller.restoreEnemyThreads();
 
             PlayerCharacter restoredPlayer = getPlayer();
             Position playerPos = restoredPlayer.getPosition();
@@ -176,22 +180,24 @@ public class GameWorld {
             notifyListeners();
         }
     }
-
     private void clearGameWorld() {
         this.players.clear();
         this.enemies.clear();
         this.items.clear();
         gameMap.getGrid().clear();
     }
-
     public void save(){
         careTaker.saveMemento(createMemento());
+    }
+    public void placeNewEnemy(Enemy enemy,Position position){
+        gameMap.placeEntity(position,enemy);
+        System.out.println(enemy+" created");
     }
 
     private GameWorldCareTaker careTaker;
     private Random random;
-    private int rows = 10;
-    private int cols = 10;
+    private int rows;
+    private int cols;
     private List<PlayerCharacter> players;
     private List<Enemy> enemies;
     private List<GameItem> items;

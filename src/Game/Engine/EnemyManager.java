@@ -6,9 +6,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class EnemyManager {
-    private final ExecutorService scheduler;
-    private final AtomicBoolean isRunning;
-    private final List<Enemy> enemies;
+    private ExecutorService scheduler;
+    private AtomicBoolean isRunning;
+    private List<Enemy> enemies;
 
     public EnemyManager(ExecutorService scheduler, AtomicBoolean isRunning, List<Enemy> enemies) {
         this.scheduler = scheduler;
@@ -20,7 +20,7 @@ public class EnemyManager {
             scheduleEnemy(enemy);
         }
     }
-    private void scheduleEnemy(Enemy enemy) {
+    void scheduleEnemy(Enemy enemy) {
         scheduler.submit(()->{
             if(isRunning.get()){
                 enemy.run();
@@ -29,7 +29,14 @@ public class EnemyManager {
         });
     }
     public void shutdown() {
-        isRunning.set(false);
-        scheduler.shutdownNow();
+        if (scheduler != null && !scheduler.isShutdown()) {
+            scheduler.shutdownNow();
+        }
+    }
+    public void restart(ExecutorService scheduler, AtomicBoolean isRunning, List<Enemy> enemies) {
+        shutdown();
+        this.scheduler = scheduler;
+        this.isRunning = isRunning;
+        this.enemies = enemies;
     }
 }

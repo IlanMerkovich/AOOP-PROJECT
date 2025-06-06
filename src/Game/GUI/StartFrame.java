@@ -17,9 +17,8 @@ public class StartFrame extends JFrame {
     private final JRadioButton warriorButton;
     private final JRadioButton mageButton;
     private final JTextArea descArea;
+    private final JComboBox<String> sizeSelector;
 
-    private static final int DEFAULT_ROWS = 10;
-    private static final int DEFAULT_COLS = 10;
     private static final int ICON_SIZE = 64;
 
     public StartFrame() {
@@ -44,6 +43,7 @@ public class StartFrame extends JFrame {
         title.setOpaque(true);
         title.setBackground(backgroundColor);
         title.setBorder(new CompoundBorder(new EmptyBorder(12, 12, 12, 12), new LineBorder(accentColor, 3)));
+
         String instructions =
                 "How to play:\n" +
                         "- Move your character by clicking a cell.\n" +
@@ -70,9 +70,10 @@ public class StartFrame extends JFrame {
         infoScroll.setBorder(BorderFactory.createLineBorder(accentColor));
 
         nameField = new JTextField(20);
-        archerButton  = createCharacterButton("Archer",ImageLoader.load("archer.png", ICON_SIZE, ICON_SIZE));
-        warriorButton = createCharacterButton("Warrior",ImageLoader.load("figther.png", ICON_SIZE, ICON_SIZE));
-        mageButton = createCharacterButton("Mage",ImageLoader.load("mage.png",    ICON_SIZE, ICON_SIZE));
+
+        archerButton  = createCharacterButton("Archer", ImageLoader.load("archer.png", ICON_SIZE, ICON_SIZE));
+        warriorButton = createCharacterButton("Warrior", ImageLoader.load("figther.png", ICON_SIZE, ICON_SIZE));
+        mageButton    = createCharacterButton("Mage", ImageLoader.load("mage.png", ICON_SIZE, ICON_SIZE));
         ButtonGroup group = new ButtonGroup();
         group.add(archerButton);
         group.add(warriorButton);
@@ -84,18 +85,16 @@ public class StartFrame extends JFrame {
         descArea.setWrapStyleWord(true);
         descArea.setBackground(panelColor);
         descArea.setForeground(textColor);
-        descArea.setFont(descArea.getFont().deriveFont(Font.BOLD,18f));
+        descArea.setFont(descArea.getFont().deriveFont(Font.BOLD, 18f));
         descArea.setPreferredSize(new Dimension(400, 80));
         descArea.setText("Choose your class to see its abilities.");
 
         ActionListener updateDesc = e -> {
             if (archerButton.isSelected()) {
                 descArea.setText("Archer: Ranged attacks up to 2 cells away. Higher accuracy gives higher chance to hit an enemy");
-            }
-            else if (warriorButton.isSelected()) {
+            } else if (warriorButton.isSelected()) {
                 descArea.setText("Warrior: Melee attacks up to 1 cell away. Higher defense gives better defence against enemy attacks ");
-            }
-            else if (mageButton.isSelected()) {
+            } else if (mageButton.isSelected()) {
                 descArea.setText("Mage: Ranged Magic attacks, Can cast spells.Can have one of 4 elements: FIRE,ICE,ACID,LIGHTNING");
             }
         };
@@ -103,8 +102,17 @@ public class StartFrame extends JFrame {
         warriorButton.addActionListener(updateDesc);
         mageButton.addActionListener(updateDesc);
 
+        // Create size selector
+        String[] sizes = new String[10];
+        for (int i = 1; i <= 10; i++) {
+            sizes[i - 1] = (i * 10) + " x " + (i * 10);
+        }
+        sizeSelector = new JComboBox<>(sizes);
+        sizeSelector.setSelectedIndex(0);
+
         startButton = new JButton("Start Game");
         startButton.setFont(startButton.getFont().deriveFont(Font.BOLD, 16f));
+        startButton.setPreferredSize(new Dimension(140, 40));
         startButton.addActionListener(e -> {
             String name = nameField.getText().trim();
             if (name.isEmpty()) {
@@ -112,14 +120,20 @@ public class StartFrame extends JFrame {
                 return;
             }
             String type = getSelectedCharacter();
-            if (type == null){
+            if (type == null) {
                 JOptionPane.showMessageDialog(this, "Please select a character class.", "No Class Selected", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-            GameWorld world = new GameWorld(DEFAULT_ROWS, DEFAULT_COLS, name, type);
-            GameController gameController=new GameController(world);
+
+            String selectedSize = (String) sizeSelector.getSelectedItem();
+            String[] parts = selectedSize.split(" x ");
+            int rows = Integer.parseInt(parts[0]);
+            int cols = Integer.parseInt(parts[1]);
+
+            GameWorld world = new GameWorld(rows, cols, name, type);
+            GameController gameController = new GameController(world);
             dispose();
-            SwingUtilities.invokeLater(() -> new MainFrame(world,gameController));
+            SwingUtilities.invokeLater(() -> new MainFrame(world, gameController));
         });
 
         JPanel content = new JPanel(new GridBagLayout());
@@ -132,7 +146,7 @@ public class StartFrame extends JFrame {
         gbc.gridx = 0; gbc.gridy = 0; gbc.gridwidth = 2;
         content.add(title, gbc);
 
-        gbc.gridy = 1; gbc.gridwidth = 2;
+        gbc.gridy = 1;
         content.add(infoScroll, gbc);
 
         gbc.gridy = 2; gbc.gridwidth = 1;
@@ -140,12 +154,17 @@ public class StartFrame extends JFrame {
         gbc.gridx = 1;
         content.add(nameField, gbc);
 
-        gbc.gridx = 0; gbc.gridy = 3; gbc.gridwidth = 2;
+        gbc.gridx = 0; gbc.gridy = 3;
+        content.add(new JLabel("Map Size:"), gbc);
+        gbc.gridx = 1;
+        content.add(sizeSelector, gbc);
+
+        gbc.gridx = 0; gbc.gridy = 4; gbc.gridwidth = 2;
         JLabel chooseLabel = new JLabel("Choose Your Class", SwingConstants.CENTER);
         chooseLabel.setFont(chooseLabel.getFont().deriveFont(Font.BOLD, 18f));
         content.add(chooseLabel, gbc);
 
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         JPanel charsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 5));
         charsPanel.setBackground(panelColor);
         charsPanel.add(archerButton);
@@ -153,11 +172,10 @@ public class StartFrame extends JFrame {
         charsPanel.add(mageButton);
         content.add(charsPanel, gbc);
 
-        gbc.gridy = 5;
+        gbc.gridy = 6;
         content.add(descArea, gbc);
 
-        gbc.gridy = 6; gbc.gridwidth = 2;
-        startButton.setPreferredSize(new Dimension(140, 40));
+        gbc.gridy = 7;
         content.add(startButton, gbc);
 
         setContentPane(content);
@@ -166,6 +184,7 @@ public class StartFrame extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
     }
+
     private JRadioButton createCharacterButton(String text, ImageIcon icon) {
         JRadioButton btn = new JRadioButton(text, icon, false);
         btn.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -175,6 +194,7 @@ public class StartFrame extends JFrame {
         btn.setPreferredSize(new Dimension(100, 120));
         return btn;
     }
+
     private String getSelectedCharacter() {
         if (archerButton.isSelected())
             return "Archer";

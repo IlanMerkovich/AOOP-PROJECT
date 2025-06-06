@@ -2,6 +2,8 @@ package Game.Engine;
 
 import Game.Characters.*;
 import Game.Core.GameEntity;
+import Game.Factory.EnemyFactory;
+import Game.Factory.Factory;
 import Game.Items.*;
 import Game.Logs.LogManager;
 import Game.Map.Position;
@@ -13,10 +15,14 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class GameController {
     private static GameWorld world;
     private final EnemyManager enemyManager;
+    private final Factory enemyFactory=new EnemyFactory();
 
     public GameController(GameWorld world) {
         this.world = world;
-        ExecutorService scheduler = Executors.newFixedThreadPool(3);
+        int r=world.getRows();
+        int c=world.getCols();
+        System.out.println("created "+calculateNumOfThreads(r,c)+" threads.");
+        ExecutorService scheduler = Executors.newFixedThreadPool(calculateNumOfThreads(r,c));
         AtomicBoolean isRunning = new AtomicBoolean(true);
         this.enemyManager = new EnemyManager(scheduler, isRunning, world.getEnemies());
         this.enemyManager.startAllEnemies();
@@ -26,6 +32,10 @@ public class GameController {
         updateVisibility(getPlayer().getPosition());
         world.notifyListeners();
         world.notifyMapChange();
+    }
+    private int calculateNumOfThreads(int r,int c){
+        int numOfThreads= (int) ((r*c)*0.03);
+        return numOfThreads = Math.max(1, Math.min(10, numOfThreads));
     }
     public void shutdownEnemies() {
         enemyManager.shutdown();
@@ -190,7 +200,7 @@ public class GameController {
     private void updateVisibility(Position playerPos) {
         for (List<GameEntity> cell : world.getGameMap().getGrid().values()) {
             for (GameEntity entity : cell) {
-                boolean visible = playerPos.distanceTo(entity.getPosition()) <= 15;
+                boolean visible = playerPos.distanceTo(entity.getPosition()) <= 2;
                 entity.setVisible(visible);
             }
         }
@@ -204,7 +214,9 @@ public class GameController {
                     try {
                         world.getCombatSystem().resolveCombat(player, enemy);
                         placeTreasure(enemy);
+                        placeNewEnemy(enemy,world.getEnemies());
                         world.getEnemies().remove(enemy);
+
                     } finally {
                         world.getGameMap().unlockCell(playerPos);
                     }
@@ -230,6 +242,28 @@ public class GameController {
             }
         }
     }
+    private void placeNewEnemy(Enemy enemy, List<Enemy> enemies) {
+        if (!enemy.isDead())
+            return;
+        if (world.getGameMap().tryLockCell(enemy.getPosition(), 50)) {
+            try {
+                Position newPos = world.getRandomEmptyPosition(world.getRows(), world.getCols(), new Random());
+                if (newPos == null)
+                    return;
+                if (world.getGameMap().tryLockCell(newPos, 50)) {
+                    try {
+                        Enemy newEnemy = enemyFactory.createCharacter(enemies, newPos.getRow(), newPos.getCol());
+                        enemyManager.scheduleEnemy(newEnemy);
+                        world.placeNewEnemy(newEnemy, newPos);
+                    } finally {
+                        world.getGameMap().unlockCell(newPos);
+                    }
+                }
+            } finally {
+                world.getGameMap().unlockCell(enemy.getPosition());
+            }
+        }
+    }
     public GameMap getGameMap(){
         return world.getGameMap();
     }
@@ -245,5 +279,18 @@ public class GameController {
     }
     public static void setNewWorld(GameWorld gameWorld){
         world=gameWorld;
+    }
+    public void restoreEnemyThreads() {
+        int r = world.getRows();
+        int c = world.getCols();
+        ExecutorService scheduler = Executors.newFixedThreadPool(calculateNumOfThreads(r, c));
+        AtomicBoolean isRunning = new AtomicBoolean(true);
+        this.enemyManager.restart(scheduler, isRunning, world.getEnemies());
+        for (Enemy enemy : world.getEnemies()) {
+            if (!enemy.isDead()) {
+                enemy.init(this, isRunning);
+            }
+        }
+        this.enemyManager.startAllEnemies();
     }
 }

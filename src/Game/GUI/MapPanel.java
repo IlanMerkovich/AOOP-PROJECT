@@ -23,9 +23,8 @@ public class MapPanel extends JPanel implements GameListener {
     private final GameController gameController;
     private final JLabel[][] cells;
     private final int iconSize = 64;
-    private Map<String, ImageIcon> iconCache = new ConcurrentHashMap<>();
+    private final Map<String, ImageIcon> iconCache = new ConcurrentHashMap<>();
     private static final Color color1=new Color(0x3A, 0x3A, 0x3A);
-
 
     public MapPanel(GameController gameController,GameWorld world) {
         this.gameController = gameController;
