@@ -1,0 +1,336 @@
+[16/06/2025 19:57:55] ==============Game Started==============
+[16/06/2025 19:57:55] Player is :asd type: RageDecorator
+[16/06/2025 19:57:55] Enemy moved from X:1,Y:2 to X:2,Y:2
+[16/06/2025 19:57:55] Enemy moved from X:1,Y:6 to X:1,Y:5
+[16/06/2025 19:57:55] Enemy moved from X:1,Y:7 to X:1,Y:6
+[16/06/2025 19:57:57] Enemy moved from X:3,Y:5 to X:3,Y:6
+[16/06/2025 19:57:57] Enemy moved from X:3,Y:7 to X:2,Y:7
+[16/06/2025 19:57:58] Enemy moved from X:6,Y:2 to X:5,Y:2
+[16/06/2025 19:57:59] Enemy moved from X:6,Y:7 to X:5,Y:7
+[16/06/2025 19:57:59] Enemy moved from X:8,Y:3 to X:8,Y:2
+[16/06/2025 19:58:00] Player moved from X:7,Y:5 to X:7,Y:4
+[16/06/2025 19:58:01] Player picked up an item at: X:6,Y:4
+[16/06/2025 19:58:01] Player moved from X:7,Y:4 to X:7,Y:5
+[16/06/2025 19:58:02] Player used a power potion
+[16/06/2025 19:58:02] Enemy moved from X:0,Y:7 to X:1,Y:7
+[16/06/2025 19:58:02] Enemy moved from X:3,Y:1 to X:2,Y:1
+[16/06/2025 21:08:58] ==============Game Started==============
+[16/06/2025 21:08:58] Player is :asd type: RageDecorator
+[16/06/2025 21:08:59] Enemy moved from X:2,Y:3 to X:2,Y:2
+[16/06/2025 21:08:59] Enemy moved from X:2,Y:6 to X:1,Y:6
+[16/06/2025 21:09:00] Player moved from X:7,Y:3 to X:7,Y:2
+[16/06/2025 21:09:01] Enemy moved from X:4,Y:3 to X:3,Y:3
+[16/06/2025 21:09:01] Enemy moved from X:4,Y:4 to X:4,Y:3
+[16/06/2025 21:09:01] Player moved from X:7,Y:2 to X:7,Y:3
+[16/06/2025 21:09:17] ==============Game Started==============
+[16/06/2025 21:09:17] Player is :asd type: AgilityDecorator
+[29/06/2025 16:11:11] ==============Game Started==============
+[29/06/2025 16:11:11] Player is :asd type: RageDecorator
+[29/06/2025 16:11:11] Enemy moved from X:0,Y:5 to X:0,Y:4
+[29/06/2025 16:11:12] Enemy moved from X:3,Y:2 to X:4,Y:2
+[29/06/2025 16:11:13] Enemy moved from X:4,Y:5 to X:3,Y:5
+[29/06/2025 16:11:14] Player picked up an item at: X:9,Y:6
+[29/06/2025 16:11:14] Player moved from X:9,Y:7 to X:9,Y:6
+[29/06/2025 16:11:15] Player moved from X:9,Y:6 to X:8,Y:6
+[29/06/2025 16:11:15] Enemy moved from X:7,Y:7 to X:7,Y:6
+[29/06/2025 16:11:16] Player picked up an item at: X:8,Y:5
+[29/06/2025 16:11:16] Player moved from X:8,Y:6 to X:8,Y:5
+[29/06/2025 16:11:16] Player attacked enemy at: X:8,Y:5
+[29/06/2025 16:11:16] Entity evaded attack at: X:8,Y:5
+[29/06/2025 16:11:16] Enemy attacked player at: X:8,Y:4
+[29/06/2025 16:11:17] Player moved from X:8,Y:5 to X:9,Y:5
+[29/06/2025 16:11:17] Enemy moved from X:9,Y:0 to X:8,Y:0
+[29/06/2025 16:11:17] Enemy moved from X:9,Y:1 to X:9,Y:2
+[29/06/2025 16:11:18] Entity evaded attack at: X:9,Y:5
+[29/06/2025 16:11:18] Player attacked enemy at: X:8,Y:4
+[29/06/2025 16:11:18] Enemy attacked player at: X:9,Y:5
+[29/06/2025 16:11:18] Player attacked enemy at: X:8,Y:4
+[29/06/2025 16:11:18] Enemy attacked player at: X:9,Y:5
+[29/06/2025 16:11:18] Player attacked enemy at: X:8,Y:4
+[29/06/2025 16:11:18] Enemy attacked player at: X:9,Y:5
+[29/06/2025 16:11:18] Enemy moved from X:0,Y:6 to X:0,Y:5
+[29/06/2025 16:11:19] Entity evaded attack at: X:9,Y:5
+[29/06/2025 16:11:19] Player attacked enemy at: X:8,Y:4
+[29/06/2025 16:11:19] Enemy attacked player at: X:9,Y:5
+[29/06/2025 16:11:19] Player attacked enemy at: X:8,Y:4
+[29/06/2025 16:11:19] Enemy was killed by player at: X:8,Y:4
+[29/06/2025 16:11:19] Enemy was killed at X:8,Y:4
+[29/06/2025 16:11:19] Treasure was created at: X:8,Y:4
+[29/06/2025 16:11:19] Enemy moved from X:3,Y:7 to X:2,Y:7
+[29/06/2025 16:11:20] Enemy moved from X:5,Y:5 to X:5,Y:4
+[29/06/2025 16:11:20] Enemy moved from X:6,Y:1 to X:6,Y:0
+[18/07/2025 12:31:32] ==============Game Started==============
+[18/07/2025 12:31:32] Player is :asd type: AgilityDecorator
+[18/07/2025 12:31:33] Player moved from X:2,Y:2 to X:2,Y:3
+[18/07/2025 12:31:34] Player picked up an item at: X:1,Y:3
+[18/07/2025 12:31:34] Player moved from X:2,Y:3 to X:1,Y:3
+[18/07/2025 12:31:35] Enemy moved from X:4,Y:4 to X:4,Y:5
+[18/07/2025 12:31:35] Player moved from X:1,Y:3 to X:1,Y:2
+[18/07/2025 12:31:36] Player picked up an item at: X:0,Y:2
+[18/07/2025 12:31:36] Player picked up an item at: X:1,Y:1
+[18/07/2025 12:31:36] Enemy moved from X:6,Y:5 to X:6,Y:6
+[18/07/2025 12:31:36] Enemy moved from X:6,Y:7 to X:5,Y:7
+[18/07/2025 12:31:36] Enemy moved from X:8,Y:1 to X:7,Y:1
+[18/07/2025 12:31:36] Player moved from X:1,Y:2 to X:1,Y:3
+[18/07/2025 12:31:37] Enemy moved from X:9,Y:7 to X:9,Y:6
+[18/07/2025 12:31:37] Player moved from X:1,Y:3 to X:1,Y:4
+[18/07/2025 12:31:38] Enemy moved from X:2,Y:1 to X:1,Y:1
+[18/07/2025 12:31:38] Player attacked enemy at: X:1,Y:4
+[18/07/2025 12:31:38] Entity evaded attack at: X:1,Y:4
+[18/07/2025 12:31:38] Enemy attacked player at: X:2,Y:4
+[18/07/2025 12:31:39] Enemy moved from X:3,Y:3 to X:2,Y:3
+[18/07/2025 12:31:43] Enemy moved from X:7,Y:1 to X:8,Y:1
+[18/07/2025 12:31:43] Enemy moved from X:9,Y:3 to X:9,Y:4
+[18/07/2025 12:31:44] Enemy moved from X:8,Y:8 to X:7,Y:8
+[18/07/2025 12:31:44] Enemy moved from X:0,Y:8 to X:1,Y:8
+[18/07/2025 12:31:44] Player moved from X:1,Y:4 to X:1,Y:5
+[18/07/2025 12:31:44] Enemy moved from X:0,Y:9 to X:0,Y:8
+[18/07/2025 12:31:44] Player attacked enemy at: X:2,Y:5
+[18/07/2025 12:31:44] Enemy attacked player at: X:1,Y:5
+[18/07/2025 12:31:45] Player attacked enemy at: X:2,Y:5
+[18/07/2025 12:31:45] Critical hit by: Dragon
+[18/07/2025 12:31:45] Enemy attacked player at: X:1,Y:5
+[18/07/2025 12:31:45] Entity evaded attack at: X:1,Y:5
+[18/07/2025 12:31:45] Player attacked enemy at: X:2,Y:5
+[18/07/2025 12:31:45] Enemy attacked player at: X:1,Y:5
+[18/07/2025 12:31:45] Enemy moved from X:3,Y:0 to X:3,Y:1
+[18/07/2025 12:31:45] Enemy moved from X:3,Y:2 to X:2,Y:2
+[18/07/2025 12:31:45] Entity evaded attack at: X:1,Y:5
+[18/07/2025 12:31:45] Player attacked enemy at: X:2,Y:5
+[18/07/2025 12:31:45] Enemy attacked player at: X:1,Y:5
+[18/07/2025 12:31:46] Entity evaded attack at: X:1,Y:5
+[18/07/2025 12:31:46] Player attacked enemy at: X:2,Y:5
+[18/07/2025 12:31:46] Enemy attacked player at: X:1,Y:5
+[18/07/2025 12:31:46] Entity evaded attack at: X:1,Y:5
+[18/07/2025 12:31:46] Player attacked enemy at: X:2,Y:5
+[18/07/2025 12:31:46] Enemy attacked player at: X:1,Y:5
+[18/07/2025 12:31:46] Player attacked enemy at: X:2,Y:5
+[18/07/2025 12:31:46] Enemy attacked player at: X:1,Y:5
+[18/07/2025 12:31:46] Enemy moved from X:4,Y:5 to X:3,Y:5
+[18/07/2025 12:31:46] Enemy moved from X:4,Y:3 to X:4,Y:4
+[18/07/2025 12:31:46] Enemy moved from X:4,Y:6 to X:5,Y:6
+[18/07/2025 12:31:46] Player attacked enemy at: X:2,Y:5
+[18/07/2025 12:31:46] Enemy attacked player at: X:1,Y:5
+[18/07/2025 12:31:47] Player attacked enemy at: X:2,Y:5
+[18/07/2025 12:31:47] Enemy was killed by player at: X:2,Y:5
+[18/07/2025 12:31:47] Enemy was killed at X:2,Y:5
+[18/07/2025 12:31:47] Treasure was created at: X:2,Y:5
+[18/07/2025 12:31:48] Player interacted with a treasure at: X:2,Y:5
+[18/07/2025 12:31:49] Player used a power potion
+[18/07/2025 12:31:49] Player used a health potion
+[18/07/2025 12:31:50] Player used a power potion
+[18/07/2025 12:31:51] Enemy moved from X:4,Y:4 to X:4,Y:5
+[18/07/2025 12:31:51] Enemy moved from X:5,Y:6 to X:4,Y:6
+[19/07/2025 18:03:47] ==============Game Started==============
+[19/07/2025 18:03:47] Player is :asd type: AgilityDecorator
+[19/07/2025 18:03:49] Player moved from X:2,Y:2 to X:2,Y:3
+[19/07/2025 18:03:50] Player moved from X:2,Y:3 to X:2,Y:2
+[19/07/2025 18:03:51] Player picked up an item at: X:2,Y:1
+[19/07/2025 18:03:51] Enemy moved from X:5,Y:0 to X:4,Y:0
+[19/07/2025 18:03:51] Player moved from X:2,Y:2 to X:2,Y:1
+[19/07/2025 18:03:51] Player picked up an item at: X:2,Y:0
+[19/07/2025 18:03:51] Enemy moved from X:5,Y:5 to X:6,Y:5
+[19/07/2025 18:03:52] Enemy moved from X:6,Y:0 to X:7,Y:0
+[19/07/2025 18:03:52] Enemy moved from X:6,Y:1 to X:6,Y:0
+[19/07/2025 18:03:52] Enemy moved from X:6,Y:4 to X:5,Y:4
+[19/07/2025 18:03:52] Player moved from X:2,Y:1 to X:2,Y:0
+[19/07/2025 18:03:53] Player picked up an item at: X:1,Y:0
+[19/07/2025 18:03:54] Enemy moved from X:8,Y:7 to X:8,Y:8
+[19/07/2025 18:03:54] Enemy moved from X:9,Y:7 to X:8,Y:7
+[15/11/2025 11:39:19] ==============Game Started==============
+[15/11/2025 11:39:19] Player is :Ilan type: RageDecorator
+[15/11/2025 11:39:20] Enemy moved from X:3,Y:7 to X:3,Y:6
+[15/11/2025 11:39:20] Enemy moved from X:3,Y:9 to X:3,Y:8
+[15/11/2025 11:39:21] Player picked up an item at: X:1,Y:4
+[15/11/2025 11:39:21] Player moved from X:0,Y:4 to X:1,Y:4
+[15/11/2025 11:39:22] Player picked up an item at: X:2,Y:4
+[15/11/2025 11:39:22] Player moved from X:1,Y:4 to X:2,Y:4
+[15/11/2025 11:39:22] Player picked up an item at: X:2,Y:5
+[15/11/2025 11:39:23] Enemy moved from X:6,Y:4 to X:5,Y:4
+[15/11/2025 11:39:23] Player moved from X:2,Y:4 to X:2,Y:5
+[15/11/2025 11:39:23] Enemy moved from X:7,Y:4 to X:6,Y:4
+[15/11/2025 11:39:23] Player moved from X:2,Y:5 to X:2,Y:6
+[15/11/2025 11:39:24] Player picked up an item at: X:1,Y:6
+[15/11/2025 11:39:24] Player moved from X:2,Y:6 to X:1,Y:6
+[15/11/2025 11:39:25] Player moved from X:1,Y:6 to X:2,Y:6
+[15/11/2025 11:39:25] Enemy moved from X:0,Y:6 to X:1,Y:6
+[15/11/2025 11:39:26] Entity evaded attack at: X:2,Y:6
+[15/11/2025 11:39:26] Player attacked enemy at: X:3,Y:6
+[15/11/2025 11:39:26] Enemy attacked player at: X:2,Y:6
+[15/11/2025 11:39:26] Player attacked enemy at: X:3,Y:6
+[15/11/2025 11:39:26] Enemy attacked player at: X:2,Y:6
+[15/11/2025 11:39:26] Entity evaded attack at: X:2,Y:6
+[15/11/2025 11:39:26] Player attacked enemy at: X:3,Y:6
+[15/11/2025 11:39:26] Enemy attacked player at: X:2,Y:6
+[15/11/2025 11:39:27] Entity evaded attack at: X:2,Y:6
+[15/11/2025 11:39:27] Player attacked enemy at: X:3,Y:6
+[15/11/2025 11:39:27] Enemy attacked player at: X:2,Y:6
+[15/11/2025 11:39:27] Player attacked enemy at: X:3,Y:6
+[15/11/2025 11:39:27] Enemy attacked player at: X:2,Y:6
+[15/11/2025 11:39:27] Entity evaded attack at: X:2,Y:6
+[15/11/2025 11:39:27] Player attacked enemy at: X:3,Y:6
+[15/11/2025 11:39:27] Enemy attacked player at: X:2,Y:6
+[15/11/2025 11:39:28] Entity evaded attack at: X:2,Y:6
+[15/11/2025 11:39:28] Player attacked enemy at: X:3,Y:6
+[15/11/2025 11:39:28] Enemy attacked player at: X:2,Y:6
+[15/11/2025 11:39:28] Entity evaded attack at: X:2,Y:6
+[15/11/2025 11:39:28] Player attacked enemy at: X:3,Y:6
+[15/11/2025 11:39:28] Enemy attacked player at: X:2,Y:6
+[15/11/2025 11:39:28] Entity evaded attack at: X:2,Y:6
+[15/11/2025 11:39:28] Player attacked enemy at: X:3,Y:6
+[15/11/2025 11:39:28] Enemy attacked player at: X:2,Y:6
+[15/11/2025 11:39:29] Player attacked enemy at: X:3,Y:6
+[15/11/2025 11:39:29] Entity evaded attack at: X:3,Y:6
+[15/11/2025 11:39:29] Enemy attacked player at: X:2,Y:6
+[15/11/2025 11:39:29] Entity evaded attack at: X:2,Y:6
+[15/11/2025 11:39:29] Player attacked enemy at: X:3,Y:6
+[15/11/2025 11:39:29] Enemy attacked player at: X:2,Y:6
+[15/11/2025 11:39:29] Enemy moved from X:7,Y:2 to X:7,Y:3
+[15/11/2025 11:39:29] Entity evaded attack at: X:2,Y:6
+[15/11/2025 11:39:29] Player attacked enemy at: X:3,Y:6
+[15/11/2025 11:39:29] Enemy attacked player at: X:2,Y:6
+[15/11/2025 11:39:30] Entity evaded attack at: X:2,Y:6
+[15/11/2025 11:39:30] Player attacked enemy at: X:3,Y:6
+[15/11/2025 11:39:30] Enemy attacked player at: X:2,Y:6
+[15/11/2025 11:39:30] Player attacked enemy at: X:3,Y:6
+[15/11/2025 11:39:30] Enemy was killed by player at: X:3,Y:6
+[15/11/2025 11:39:30] Enemy was killed at X:3,Y:6
+[15/11/2025 11:39:30] Treasure was created at: X:3,Y:6
+[15/11/2025 11:39:30] Player interacted with a treasure at: X:3,Y:6
+[15/11/2025 11:39:31] Player moved from X:2,Y:6 to X:3,Y:6
+[15/11/2025 11:39:31] Player moved from X:3,Y:6 to X:3,Y:7
+[15/11/2025 11:39:32] Enemy moved from X:8,Y:8 to X:8,Y:9
+[15/11/2025 11:39:32] Entity evaded attack at: X:3,Y:8
+[15/11/2025 11:39:32] Player attacked enemy at: X:3,Y:7
+[15/11/2025 11:39:32] Enemy attacked player at: X:3,Y:8
+[15/11/2025 11:39:32] Player picked up an item at: X:4,Y:7
+[15/11/2025 11:39:32] Player moved from X:3,Y:7 to X:4,Y:7
+[15/11/2025 12:15:07] ==============Game Started==============
+[15/11/2025 12:15:07] Player is :Conan type: Warrior
+[15/11/2025 12:15:11] ==============Game Started==============
+[15/11/2025 12:15:11] Player is :ilan type: Warrior
+[15/11/2025 12:17:53] ==============Game Started==============
+[15/11/2025 12:17:53] Player is :Conan type: Warrior
+[15/11/2025 12:17:53] ==============Game Started==============
+[15/11/2025 12:17:53] Player is :ilan type: Warrior
+[15/11/2025 12:17:53] Entity evaded attack at: X:1,Y:0
+[15/11/2025 12:17:53] Player used a power potion
+[15/11/2025 12:17:53] Player used a health potion
+[15/11/2025 12:18:04] ==============Game Started==============
+[15/11/2025 12:18:04] Player is :ilan type: Warrior
+[15/11/2025 12:18:04] ==============Game Started==============
+[15/11/2025 12:18:04] Player is :Conan type: Warrior
+[15/11/2025 12:18:04] Entity evaded attack at: X:1,Y:0
+[15/11/2025 12:18:04] Entity evaded attack at: X:1,Y:0
+[15/11/2025 12:18:04] Entity evaded attack at: X:1,Y:0
+[15/11/2025 12:18:04] Player used a health potion
+[15/11/2025 12:18:04] Player used a power potion
+[15/11/2025 12:18:07] ==============Game Started==============
+[15/11/2025 12:18:07] Player is :Conan type: Warrior
+[15/11/2025 12:18:07] ==============Game Started==============
+[15/11/2025 12:18:07] Player is :ilan type: Warrior
+[15/11/2025 12:18:07] Entity evaded attack at: X:1,Y:0
+[15/11/2025 12:18:07] Entity evaded attack at: X:1,Y:0
+[15/11/2025 12:18:07] Player used a health potion
+[15/11/2025 12:18:07] Player used a power potion
+[15/11/2025 12:18:09] ==============Game Started==============
+[15/11/2025 12:18:09] Player is :Conan type: Warrior
+[15/11/2025 12:18:09] ==============Game Started==============
+[15/11/2025 12:18:09] Player is :ilan type: Warrior
+[15/11/2025 12:18:09] Entity evaded attack at: X:1,Y:0
+[15/11/2025 12:18:09] Entity evaded attack at: X:1,Y:0
+[15/11/2025 12:18:09] Entity evaded attack at: X:1,Y:0
+[15/11/2025 12:18:09] Entity evaded attack at: X:1,Y:0
+[15/11/2025 12:18:09] Player used a health potion
+[15/11/2025 12:18:09] Player used a power potion
+[15/11/2025 12:18:11] ==============Game Started==============
+[15/11/2025 12:18:11] Player is :Conan type: Warrior
+[15/11/2025 12:18:11] ==============Game Started==============
+[15/11/2025 12:18:11] Player is :ilan type: Warrior
+[15/11/2025 12:18:11] Entity evaded attack at: X:1,Y:0
+[15/11/2025 12:18:11] Entity evaded attack at: X:1,Y:0
+[15/11/2025 12:18:11] Player used a power potion
+[15/11/2025 12:18:11] Player used a health potion
+[15/11/2025 12:18:13] ==============Game Started==============
+[15/11/2025 12:18:13] Player is :Conan type: Warrior
+[15/11/2025 12:18:13] ==============Game Started==============
+[15/11/2025 12:18:13] Player is :ilan type: Warrior
+[15/11/2025 12:18:13] Entity evaded attack at: X:1,Y:0
+[15/11/2025 12:18:13] Entity evaded attack at: X:1,Y:0
+[15/11/2025 12:18:13] Entity evaded attack at: X:1,Y:0
+[15/11/2025 12:18:13] Entity evaded attack at: X:1,Y:0
+[15/11/2025 12:18:13] Player used a power potion
+[15/11/2025 12:18:13] Player used a health potion
+[15/11/2025 12:18:14] ==============Game Started==============
+[15/11/2025 12:18:14] Player is :ilan type: Warrior
+[15/11/2025 12:18:14] ==============Game Started==============
+[15/11/2025 12:18:14] Player is :Conan type: Warrior
+[15/11/2025 12:18:14] Entity evaded attack at: X:1,Y:0
+[15/11/2025 12:18:14] Entity evaded attack at: X:1,Y:0
+[15/11/2025 12:18:14] Player used a health potion
+[15/11/2025 12:18:15] Player used a power potion
+[15/11/2025 12:26:40] ==============Game Started==============
+[15/11/2025 12:26:40] Player is :Hero type: Warrior
+[15/11/2025 12:26:40] ==============Game Started==============
+[15/11/2025 12:26:40] Player is :Hero type: Warrior
+[15/11/2025 12:26:40] ==============Game Started==============
+[15/11/2025 12:26:40] Player is :Hero type: Warrior
+[15/11/2025 12:26:40] Game was restored to last saving point
+[15/11/2025 12:37:47] ==============Game Started==============
+[15/11/2025 12:37:47] Player is :Hero type: Warrior
+[15/11/2025 12:38:28] ==============Game Started==============
+[15/11/2025 12:38:28] Player is :Hero type: Warrior
+[15/11/2025 12:39:22] ==============Game Started==============
+[15/11/2025 12:39:22] Player is :Hero type: Warrior
+[15/11/2025 12:39:22] ==============Game Started==============
+[15/11/2025 12:39:22] Player is :Hero type: Warrior
+[15/11/2025 12:39:22] ==============Game Started==============
+[15/11/2025 12:39:22] Player is :Hero type: Warrior
+[15/11/2025 12:39:22] Game was restored to last saving point
+[15/11/2025 12:39:22] ==============Game Started==============
+[15/11/2025 12:39:22] Player is :Hero type: Warrior
+[15/11/2025 12:39:22] ==============Game Started==============
+[15/11/2025 12:39:22] Player is :Hero type: Warrior
+[15/11/2025 12:39:22] ==============Game Started==============
+[15/11/2025 12:39:22] Player is :Hero type: Warrior
+[15/11/2025 12:39:22] ==============Game Started==============
+[15/11/2025 12:39:22] Player is :Hero type: Warrior
+[15/11/2025 12:39:22] ==============Game Started==============
+[15/11/2025 12:39:22] Player is :Hero type: Warrior
+[15/11/2025 12:39:22] ==============Game Started==============
+[15/11/2025 12:39:22] Player is :Hero type: Warrior
+[15/11/2025 12:39:22] ==============Game Started==============
+[15/11/2025 12:39:22] Player is :Hero type: Warrior
+[15/11/2025 12:39:22] ==============Game Started==============
+[15/11/2025 12:39:22] Player is :Hero type: Warrior
+[15/11/2025 12:39:22] ==============Game Started==============
+[15/11/2025 12:39:22] Player is :Hero type: Warrior
+[15/11/2025 12:39:22] ==============Game Started==============
+[15/11/2025 12:39:22] Player is :Hero type: Warrior
+[15/11/2025 12:39:39] ==============Game Started==============
+[15/11/2025 12:39:39] Player is :Hero type: Warrior
+[15/11/2025 12:39:39] ==============Game Started==============
+[15/11/2025 12:39:39] Player is :Hero type: Warrior
+[15/11/2025 12:39:39] Game was restored to last saving point
+[15/11/2025 12:39:39] ==============Game Started==============
+[15/11/2025 12:39:39] Player is :Hero type: Warrior
+[15/11/2025 12:39:39] ==============Game Started==============
+[15/11/2025 12:39:39] Player is :Hero type: Warrior
+[15/11/2025 12:39:39] ==============Game Started==============
+[15/11/2025 12:39:39] Player is :Hero type: Warrior
+[15/11/2025 12:39:39] ==============Game Started==============
+[15/11/2025 12:39:39] Player is :Hero type: Warrior
+[15/11/2025 12:39:39] ==============Game Started==============
+[15/11/2025 12:39:39] Player is :Hero type: Warrior
+[15/11/2025 12:39:39] ==============Game Started==============
+[15/11/2025 12:39:39] Player is :Hero type: Warrior
+[15/11/2025 12:39:39] ==============Game Started==============
+[15/11/2025 12:39:39] Player is :Hero type: Warrior
+[15/11/2025 12:39:39] ==============Game Started==============
+[15/11/2025 12:39:39] Player is :Hero type: Warrior
+[15/11/2025 12:39:39] ==============Game Started==============
+[15/11/2025 12:39:39] Player is :Hero type: Warrior
+[15/11/2025 12:39:39] ==============Game Started==============
+[15/11/2025 12:39:39] Player is :Hero type: Warrior
+[15/11/2025 12:39:39] ==============Game Started==============
+[15/11/2025 12:39:39] Player is :Hero type: Warrior

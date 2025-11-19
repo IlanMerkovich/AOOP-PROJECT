@@ -1,0 +1,86 @@
+    package Game.Combat;
+    import Game.Audio.SoundManager;
+    import Game.Characters.Enemy;
+    import Game.Logs.LogManager;
+    import Game.Map.Position;
+    /**
+     * Handles turn-based combat between two combatants in the game.
+     * Supports checking range and applying attack logic.
+     */
+    public class CombatSystem {
+        private int enemiesKilled;
+        /**
+         * Constructs a new CombatSystem instance.
+         */
+        public CombatSystem(){
+            enemiesKilled=0;
+        }
+        /**
+         * Executes a full combat round between two combatants.
+         * The attacker attacks first. If the defender survives and is in range,
+         * they counterattack.
+         *
+         * @param attacker the combatant initiating the attack
+         * @param defender the combatant being attacked
+         */
+        public void resolveCombat(Combatant attacker, Combatant defender,String type){
+            if (isInRange(attacker, defender,type)) {
+                attacker.attack(defender);
+                LogManager.addLog("Player attacked enemy at: "+defender.getPosition());
+                if (defender.isDead()){
+                    if (defender instanceof Enemy){
+                        enemiesKilled++;
+                        if (enemiesKilled==1){
+                            SoundManager.playEffect("firstblood.wav");
+                        }
+                        else if (enemiesKilled%5==0){
+                            SoundManager.playEffect("unstopable.wav");
+                        }
+                        else{
+                            SoundManager.playEffect("enemykill.wav");
+                        }
+                        System.out.println("Enemy was defeated!");
+                        LogManager.addLog("Enemy was killed by player at: "+defender.getPosition());
+                    }
+                    else {
+                        System.out.println("You are dead. You lost!");
+                        LogManager.addLog("Player was killed. End game");
+                    }
+                    return;
+                }
+            }
+            else {
+                System.out.println("Defender is out of range!");
+                return;
+            }
+
+            if (isInRange(defender, attacker,type)) {
+                defender.attack(attacker);
+                LogManager.addLog("Enemy attacked player at: "+attacker.getPosition());
+                if (attacker.isDead()){
+                    System.out.println("You are dead. You lost!");
+                    LogManager.addLog("Player was killed. End game");
+                }
+            }
+            else{
+                LogManager.addLog("Enemy tried to attack but was out of range");
+            }
+        }
+        /**
+         * Checks if the target is within the attack range of the source.
+         * Supports both melee and ranged fighters.
+         *
+         * @param source the attacking combatant
+         * @param target the target combatant
+         * @return true if in range, false otherwise
+         */
+        private boolean isInRange(Combatant source, Combatant target,String type){
+            Position srcPos=source.getPosition();
+            Position trgPos=target.getPosition();
+            if(srcPos.distanceTo(trgPos)==1)
+                return true;
+            else if(type.equals("ranged")&&srcPos.distanceTo(trgPos)==2)
+                return true;
+            return false;
+        }
+    }
