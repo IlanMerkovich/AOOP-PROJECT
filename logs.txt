@@ -334,3 +334,245 @@
 [15/11/2025 12:39:39] Player is :Hero type: Warrior
 [15/11/2025 12:39:39] ==============Game Started==============
 [15/11/2025 12:39:39] Player is :Hero type: Warrior
+[01/12/2025 18:26:54] ==============Game Started==============
+[01/12/2025 18:26:54] Player is :Ilan type: RageDecorator
+[01/12/2025 18:26:54] Enemy moved from X:1,Y:4 to X:1,Y:5
+[01/12/2025 18:26:58] Enemy moved from X:7,Y:4 to X:8,Y:4
+[01/12/2025 18:26:59] Enemy moved from X:8,Y:6 to X:7,Y:6
+[01/12/2025 18:27:00] Enemy moved from X:0,Y:4 to X:1,Y:4
+[01/12/2025 18:27:00] Enemy moved from X:1,Y:2 to X:1,Y:1
+[01/12/2025 18:27:05] Enemy moved from X:8,Y:4 to X:8,Y:5
+[01/12/2025 18:27:05] Enemy moved from X:5,Y:7 to X:4,Y:7
+[01/12/2025 18:27:05] Player moved from X:1,Y:8 to X:1,Y:7
+[01/12/2025 18:27:05] Player picked up an item at: X:2,Y:7
+[01/12/2025 18:27:06] Player moved from X:1,Y:7 to X:2,Y:7
+[01/12/2025 18:27:06] Player moved from X:2,Y:7 to X:1,Y:7
+[01/12/2025 18:27:07] Player picked up an item at: X:0,Y:7
+[01/12/2025 18:27:07] Player moved from X:1,Y:7 to X:0,Y:7
+[01/12/2025 18:27:07] Player attacked enemy at: X:0,Y:8
+[01/12/2025 18:27:07] Enemy attacked player at: X:0,Y:7
+[01/12/2025 18:27:08] Player attacked enemy at: X:0,Y:8
+[01/12/2025 18:27:08] Enemy attacked player at: X:0,Y:7
+[01/12/2025 18:27:08] Player attacked enemy at: X:0,Y:8
+[01/12/2025 18:27:08] Enemy was killed by player at: X:0,Y:8
+[01/12/2025 18:27:08] Enemy moved from X:2,Y:2 to X:3,Y:2
+[01/12/2025 18:27:08] Enemy was killed at X:0,Y:8
+[01/12/2025 18:27:08] Treasure was created at: X:0,Y:8
+[01/12/2025 18:27:08] Player interacted with a treasure at: X:0,Y:8
+[01/12/2025 18:27:08] Player moved from X:0,Y:7 to X:0,Y:8
+[01/12/2025 18:27:09] Enemy moved from X:3,Y:5 to X:3,Y:4
+[01/12/2025 18:27:09] Enemy moved from X:3,Y:9 to X:3,Y:8
+[01/12/2025 18:27:09] Player picked up an item at: X:0,Y:9
+[01/12/2025 18:27:09] Enemy moved from X:5,Y:2 to X:4,Y:2
+[01/12/2025 18:27:09] Player moved from X:0,Y:8 to X:0,Y:9
+[01/12/2025 18:27:10] Player picked up an item at: X:1,Y:9
+[01/12/2025 18:27:10] Player moved from X:0,Y:9 to X:1,Y:9
+[01/12/2025 18:27:10] Enemy moved from X:8,Y:5 to X:8,Y:4
+[01/12/2025 18:27:10] Entity evaded attack at: X:1,Y:9
+[01/12/2025 18:27:10] Player attacked enemy at: X:2,Y:9
+[01/12/2025 18:27:10] Enemy attacked player at: X:1,Y:9
+[01/12/2025 18:27:11] Enemy moved from X:8,Y:3 to X:7,Y:3
+[01/12/2025 18:27:11] Enemy moved from X:1,Y:1 to X:1,Y:0
+[01/12/2025 18:27:12] Enemy moved from X:3,Y:4 to X:3,Y:3
+[01/12/2025 18:27:12] Player attacked enemy at: X:2,Y:9
+[01/12/2025 18:27:12] Entity evaded attack at: X:2,Y:9
+[01/12/2025 18:27:12] Enemy attacked player at: X:1,Y:9
+[01/12/2025 18:27:13] Player moved from X:1,Y:9 to X:1,Y:8
+[01/12/2025 18:27:14] Enemy moved from X:3,Y:1 to X:4,Y:1
+[01/12/2025 18:27:14] Player moved from X:1,Y:8 to X:2,Y:8
+[01/12/2025 18:27:14] Player moved from X:2,Y:8 to X:2,Y:7
+[01/12/2025 18:27:16] Player moved from X:2,Y:7 to X:2,Y:6
+[01/12/2025 18:27:16] Player picked up an item at: X:3,Y:6
+[01/12/2025 18:27:16] Player used a power potion
+[01/12/2025 18:27:16] Enemy moved from X:8,Y:2 to X:8,Y:3
+[01/12/2025 18:27:17] Player used a health potion
+[01/12/2025 18:27:17] Enemy moved from X:1,Y:4 to X:0,Y:4
+[01/12/2025 18:27:17] Player moved from X:2,Y:6 to X:3,Y:6
+[01/12/2025 18:27:18] Player moved from X:3,Y:6 to X:3,Y:5
+[01/12/2025 18:27:18] Player moved from X:3,Y:5 to X:3,Y:4
+[01/12/2025 18:27:19] Player picked up an item at: X:2,Y:4
+[01/12/2025 18:27:21] Player moved from X:3,Y:4 to X:2,Y:4
+[01/12/2025 18:27:21] Player picked up an item at: X:2,Y:3
+[01/12/2025 18:27:22] Player moved from X:2,Y:4 to X:1,Y:4
+[01/12/2025 18:27:23] Player attacked enemy at: X:1,Y:3
+[01/12/2025 18:27:23] Enemy attacked player at: X:1,Y:4
+[01/12/2025 18:27:25] Enemy moved from X:3,Y:8 to X:3,Y:9
+[01/12/2025 18:27:27] Enemy moved from X:7,Y:6 to X:6,Y:6
+[01/12/2025 18:27:28] Critical hit by: Dragon
+[01/12/2025 18:27:28] Player attacked enemy at: X:1,Y:4
+[01/12/2025 18:27:28] Enemy attacked player at: X:0,Y:4
+[01/12/2025 18:27:29] Enemy moved from X:3,Y:3 to X:3,Y:4
+[01/12/2025 18:27:30] Enemy moved from X:8,Y:4 to X:7,Y:4
+[01/12/2025 18:27:30] Enemy moved from X:4,Y:9 to X:5,Y:9
+[01/12/2025 18:27:31] Enemy moved from X:8,Y:3 to X:9,Y:3
+[01/12/2025 18:27:32] Player used a power potion
+[01/12/2025 18:27:33] Player moved from X:1,Y:4 to X:2,Y:4
+[01/12/2025 18:27:33] Enemy moved from X:1,Y:5 to X:1,Y:4
+[01/12/2025 18:27:33] Player moved from X:2,Y:4 to X:2,Y:3
+[01/12/2025 18:27:33] Enemy moved from X:0,Y:4 to X:0,Y:5
+[01/12/2025 18:27:34] Player moved from X:2,Y:3 to X:3,Y:3
+[01/12/2025 18:27:34] Enemy moved from X:5,Y:9 to X:4,Y:9
+[01/12/2025 18:27:34] Enemy moved from X:4,Y:1 to X:3,Y:1
+[01/12/2025 18:27:35] Enemy moved from X:6,Y:6 to X:7,Y:6
+[01/12/2025 18:27:36] Player attacked enemy at: X:3,Y:4
+[01/12/2025 18:27:36] Entity evaded attack at: X:3,Y:4
+[01/12/2025 18:27:36] Enemy attacked player at: X:3,Y:3
+[01/12/2025 18:27:36] Enemy moved from X:5,Y:8 to X:5,Y:9
+[01/12/2025 18:27:36] Enemy moved from X:4,Y:7 to X:5,Y:7
+[01/12/2025 18:27:37] Enemy moved from X:1,Y:3 to X:2,Y:3
+[01/12/2025 18:27:37] Enemy moved from X:0,Y:5 to X:0,Y:6
+[01/12/2025 18:27:37] Enemy moved from X:7,Y:1 to X:6,Y:1
+[01/12/2025 18:27:37] Player attacked enemy at: X:3,Y:3
+[01/12/2025 18:27:37] Enemy attacked player at: X:3,Y:4
+[01/12/2025 18:27:37] Player was killed. End game
+[01/12/2025 18:27:37] Enemy was killed at X:3,Y:4
+[01/12/2025 18:27:37] Treasure was created at: X:3,Y:4
+[01/12/2025 18:27:39] Enemy moved from X:7,Y:6 to X:8,Y:6
+[01/12/2025 18:27:40] Enemy moved from X:5,Y:7 to X:4,Y:7
+[01/12/2025 18:27:40] Player moved from X:3,Y:3 to X:4,Y:3
+[01/12/2025 18:27:40] Entity evaded attack at: X:5,Y:3
+[01/12/2025 18:27:40] Player attacked enemy at: X:4,Y:3
+[01/12/2025 18:27:40] Enemy attacked player at: X:5,Y:3
+[01/12/2025 18:27:40] Player moved from X:4,Y:3 to X:3,Y:3
+[01/12/2025 18:27:40] Enemy moved from X:7,Y:3 to X:6,Y:3
+[01/12/2025 18:27:40] Player interacted with a treasure at: X:3,Y:4
+[01/12/2025 18:27:42] Player moved from X:3,Y:3 to X:4,Y:3
+[01/12/2025 18:27:43] Player attacked enemy at: X:5,Y:3
+[01/12/2025 18:27:43] Enemy was killed by player at: X:5,Y:3
+[01/12/2025 18:27:43] Enemy was killed at X:5,Y:3
+[01/12/2025 18:27:43] Treasure was created at: X:5,Y:3
+[01/12/2025 18:27:43] Player interacted with a treasure at: X:5,Y:3
+[01/12/2025 18:27:44] Player picked up an item at: X:4,Y:4
+[01/12/2025 18:27:44] Player moved from X:4,Y:3 to X:3,Y:3
+[01/12/2025 18:27:45] Entity evaded attack at: X:3,Y:3
+[01/12/2025 18:27:45] Player attacked enemy at: X:2,Y:3
+[01/12/2025 18:27:45] Enemy attacked player at: X:3,Y:3
+[01/12/2025 18:27:45] Enemy moved from X:4,Y:2 to X:4,Y:3
+[01/12/2025 18:27:46] Player attacked enemy at: X:3,Y:2
+[01/12/2025 18:27:46] Critical hit by: Dragon
+[01/12/2025 18:27:46] Enemy attacked player at: X:3,Y:3
+[01/12/2025 18:27:46] Player attacked enemy at: X:3,Y:3
+[01/12/2025 18:27:46] Critical hit by: Warrior
+[01/12/2025 18:27:46] Enemy attacked player at: X:3,Y:2
+[01/12/2025 18:27:46] Player was killed. End game
+[01/12/2025 18:27:46] Enemy was killed at X:3,Y:2
+[01/12/2025 18:27:46] Treasure was created at: X:3,Y:2
+[01/12/2025 18:27:48] Enemy moved from X:4,Y:8 to X:3,Y:8
+[01/12/2025 18:27:49] Enemy moved from X:6,Y:1 to X:7,Y:1
+[01/12/2025 18:27:50] Enemy moved from X:1,Y:4 to X:0,Y:4
+[01/12/2025 18:27:50] Enemy moved from X:7,Y:4 to X:6,Y:4
+[01/12/2025 18:27:51] Enemy moved from X:3,Y:8 to X:4,Y:8
+[01/12/2025 18:27:51] Enemy moved from X:4,Y:7 to X:5,Y:7
+[01/12/2025 18:27:51] Enemy moved from X:6,Y:3 to X:5,Y:3
+[01/12/2025 18:27:52] Enemy moved from X:0,Y:4 to X:1,Y:4
+[01/12/2025 18:27:52] Player attacked enemy at: X:3,Y:3
+[01/12/2025 18:27:52] Critical hit by: Warrior
+[01/12/2025 18:27:52] Entity evaded attack at: X:3,Y:3
+[01/12/2025 18:27:52] Enemy attacked player at: X:4,Y:3
+[01/12/2025 18:27:52] Enemy moved from X:6,Y:4 to X:7,Y:4
+[01/12/2025 18:27:53] Enemy moved from X:8,Y:6 to X:8,Y:5
+[01/12/2025 18:27:55] Enemy moved from X:4,Y:8 to X:4,Y:7
+[01/12/2025 18:27:55] Enemy moved from X:8,Y:5 to X:8,Y:4
+[01/12/2025 18:27:55] Entity evaded attack at: X:4,Y:3
+[01/12/2025 18:27:55] Player attacked enemy at: X:3,Y:3
+[01/12/2025 18:27:55] Entity evaded attack at: X:3,Y:3
+[01/12/2025 18:27:55] Enemy attacked player at: X:4,Y:3
+[01/12/2025 18:27:58] Player interacted with a treasure at: X:3,Y:2
+[01/12/2025 18:27:59] Player attacked enemy at: X:3,Y:3
+[01/12/2025 18:27:59] Critical hit by: Warrior
+[01/12/2025 18:27:59] Entity evaded attack at: X:3,Y:3
+[01/12/2025 18:27:59] Enemy attacked player at: X:2,Y:3
+[01/12/2025 18:27:59] Player moved from X:3,Y:3 to X:3,Y:2
+[01/12/2025 18:27:59] Enemy moved from X:5,Y:7 to X:5,Y:8
+[01/12/2025 18:27:59] Player attacked enemy at: X:3,Y:1
+[01/12/2025 18:27:59] Enemy attacked player at: X:3,Y:2
+[01/12/2025 18:27:59] Entity evaded attack at: X:3,Y:2
+[01/12/2025 18:27:59] Player attacked enemy at: X:3,Y:1
+[01/12/2025 18:27:59] Critical hit by: Orc
+[01/12/2025 18:27:59] Entity evaded attack at: X:3,Y:1
+[01/12/2025 18:27:59] Enemy attacked player at: X:3,Y:2
+[01/12/2025 18:28:00] Entity evaded attack at: X:3,Y:2
+[01/12/2025 18:28:00] Player attacked enemy at: X:3,Y:1
+[01/12/2025 18:28:00] Enemy attacked player at: X:3,Y:2
+[01/12/2025 18:28:00] Critical hit by: Warrior
+[01/12/2025 18:28:00] Player attacked enemy at: X:3,Y:1
+[01/12/2025 18:28:00] Enemy was killed by player at: X:3,Y:1
+[01/12/2025 18:28:00] Enemy was killed at X:3,Y:1
+[01/12/2025 18:28:00] Treasure was created at: X:3,Y:1
+[01/12/2025 18:28:00] Player interacted with a treasure at: X:3,Y:1
+[01/12/2025 18:28:00] Player moved from X:3,Y:2 to X:3,Y:1
+[01/12/2025 18:28:01] Player picked up an item at: X:2,Y:1
+[01/12/2025 18:28:01] Player moved from X:3,Y:1 to X:2,Y:1
+[01/12/2025 18:28:02] Player moved from X:2,Y:1 to X:3,Y:1
+[01/12/2025 18:28:02] Player moved from X:3,Y:1 to X:2,Y:1
+[01/12/2025 18:28:02] Enemy moved from X:2,Y:3 to X:2,Y:2
+[01/12/2025 18:28:02] Critical hit by: Warrior
+[01/12/2025 18:28:02] Player attacked enemy at: X:2,Y:2
+[01/12/2025 18:28:02] Enemy was killed by player at: X:2,Y:2
+[01/12/2025 18:28:02] Enemy was killed at X:2,Y:2
+[01/12/2025 18:28:02] Treasure was created at: X:2,Y:2
+[01/12/2025 18:28:03] Enemy moved from X:1,Y:4 to X:1,Y:3
+[01/12/2025 18:28:03] Enemy moved from X:7,Y:4 to X:7,Y:3
+[01/12/2025 18:28:03] Player interacted with a treasure at: X:2,Y:2
+[01/12/2025 18:28:03] Player moved from X:2,Y:1 to X:1,Y:1
+[01/12/2025 18:28:04] Enemy moved from X:5,Y:8 to X:5,Y:7
+[01/12/2025 18:28:04] Enemy moved from X:5,Y:3 to X:5,Y:4
+[01/12/2025 18:28:04] Player attacked enemy at: X:1,Y:0
+[01/12/2025 18:28:04] Entity evaded attack at: X:1,Y:0
+[01/12/2025 18:28:04] Enemy attacked player at: X:1,Y:1
+[01/12/2025 18:28:04] Player attacked enemy at: X:1,Y:0
+[01/12/2025 18:28:04] Enemy was killed by player at: X:1,Y:0
+[01/12/2025 18:28:04] Enemy was killed at X:1,Y:0
+[01/12/2025 18:28:04] Treasure was created at: X:1,Y:0
+[01/12/2025 18:28:04] Critical hit by: Warrior
+[01/12/2025 18:28:04] Player attacked enemy at: X:0,Y:1
+[01/12/2025 18:28:04] Enemy was killed by player at: X:0,Y:1
+[01/12/2025 18:28:04] Enemy was killed at X:0,Y:1
+[01/12/2025 18:28:04] Treasure was created at: X:0,Y:1
+[01/12/2025 18:28:05] Enemy moved from X:4,Y:3 to X:5,Y:3
+[01/12/2025 18:28:05] Player interacted with a treasure at: X:0,Y:1
+[01/12/2025 18:28:06] Player moved from X:1,Y:1 to X:1,Y:2
+[01/12/2025 18:28:06] Enemy teleported from X:1,Y:3 to X:6,Y:3
+[01/12/2025 18:28:06] Player attacked enemy at: X:6,Y:3
+[01/12/2025 18:28:06] Enemy tried to attack but was out of range
+[01/12/2025 18:28:06] Enemy moved from X:5,Y:3 to X:5,Y:2
+[01/12/2025 18:28:07] Enemy moved from X:6,Y:3 to X:6,Y:4
+[01/12/2025 18:28:07] Player moved from X:1,Y:2 to X:1,Y:3
+[01/12/2025 18:28:07] Player moved from X:1,Y:3 to X:2,Y:3
+[01/12/2025 18:28:07] Enemy moved from X:5,Y:7 to X:5,Y:8
+[01/12/2025 18:28:08] Player moved from X:2,Y:3 to X:3,Y:3
+[01/12/2025 18:28:08] Player moved from X:3,Y:3 to X:4,Y:3
+[01/12/2025 18:28:08] Enemy moved from X:5,Y:2 to X:5,Y:3
+[01/12/2025 18:28:09] Player attacked enemy at: X:5,Y:3
+[01/12/2025 18:28:09] Enemy attacked player at: X:4,Y:3
+[01/12/2025 18:28:09] Enemy moved from X:7,Y:3 to X:8,Y:3
+[01/12/2025 18:28:10] Player moved from X:4,Y:3 to X:4,Y:4
+[01/12/2025 18:28:10] Critical hit by: Warrior
+[01/12/2025 18:28:10] Player attacked enemy at: X:5,Y:4
+[01/12/2025 18:28:10] Enemy was killed by player at: X:5,Y:4
+[01/12/2025 18:28:10] Enemy was killed at X:5,Y:4
+[01/12/2025 18:28:10] Treasure was created at: X:5,Y:4
+[01/12/2025 18:28:11] Player interacted with a treasure at: X:5,Y:4
+[01/12/2025 18:28:11] Player moved from X:4,Y:4 to X:5,Y:4
+[01/12/2025 18:28:12] Player attacked enemy at: X:5,Y:4
+[01/12/2025 18:28:12] Enemy attacked player at: X:6,Y:4
+[01/12/2025 18:28:12] Player was killed. End game
+[01/12/2025 18:28:12] Enemy was killed at X:6,Y:4
+[01/12/2025 18:28:12] Treasure was created at: X:6,Y:4
+[01/12/2025 18:28:12] Entity evaded attack at: X:5,Y:4
+[01/12/2025 18:28:12] Player attacked enemy at: X:5,Y:3
+[01/12/2025 18:28:12] Enemy attacked player at: X:5,Y:4
+[01/12/2025 18:28:12] Player interacted with a treasure at: X:6,Y:4
+[01/12/2025 18:28:13] Critical hit by: Warrior
+[01/12/2025 18:28:13] Entity evaded attack at: X:5,Y:4
+[01/12/2025 18:28:13] Player attacked enemy at: X:5,Y:3
+[01/12/2025 18:28:13] Entity evaded attack at: X:5,Y:3
+[01/12/2025 18:28:13] Enemy attacked player at: X:5,Y:4
+[01/12/2025 18:28:13] Critical hit by: Warrior
+[01/12/2025 18:28:13] Entity evaded attack at: X:5,Y:4
+[01/12/2025 18:28:13] Player attacked enemy at: X:5,Y:3
+[01/12/2025 18:28:13] Enemy attacked player at: X:5,Y:4
+[01/12/2025 18:28:13] Enemy moved from X:4,Y:7 to X:5,Y:7
+[01/12/2025 18:28:13] Critical hit by: Goblin
+[01/12/2025 18:28:13] Player attacked enemy at: X:5,Y:4
+[01/12/2025 18:28:13] Player was killed. End game

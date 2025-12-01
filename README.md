@@ -1,42 +1,136 @@
-# AOOP Turn-Based RPG Game
+# D&D Turn-Based Strategy Game
+### Advanced Object-Oriented Programming Project (Java)
 
-Welcome to **AOOP Turn-Based Game** — a Java-based text RPG developed as part of the Advanced Object-Oriented Programming (AOOP) course.
+This project is a **fully-structured, object-oriented turn-based strategy game** inspired by Dungeons & Dragons and implemented entirely in **Java**.  
+It demonstrates clean architecture, scalable design, and practical use of multiple design patterns — making it suitable as a **portfolio project** showcasing software engineering ability.
 
-## Description
+---
 
-This is a console-based turn-based role-playing game inspired by *Dungeons and Dragons*. The player chooses a character class and battles various enemies on a randomly generated grid map, collecting treasure and using potions along the way.
+## Project Overview
+
+The player controls a character on a grid-based map, battling enemies, collecting items, and progressing through strategic turn-based gameplay.  
+The game engine is modular and built to be easily extended with new mechanics, characters, items, and behaviors.
+
+This project emphasizes **maintainability**, **extensibility**, and **clarity of design**, similar to real-world applications.
+
+---
+
+## Technical Highlights
+
+### Multi-Layer Architecture
+The project is organized into clear logical layers:
+- **Engine Layer** – world simulation, turn execution, enemy logic
+- **Character Layer** – player classes, enemies, stats, and behaviors
+- **Combat Layer** – attack rules, damage formulas, interfaces
+- **Items & Inventory Layer**
+- **Builder / Factory / Decorator Layers**
+- **GUI Layer (Swing)** – rendering, input handling, event routing
+
+### Advanced OOP Practices
+- Abstraction and interface‑driven design
+- Inheritance hierarchy for character specialization
+- Composition for behavior logic
+- Runtime ability enhancement via decorators
+- Thread‑safe game operations using `ReentrantLock`
+
+### Design Patterns Used
+- **Factory** – enemy creation
+- **Builder** – structured creation of complex characters
+- **Decorator** – extending enemy behavior dynamically
+- **Memento** – complete world save/load system
+- **MVC‑inspired separation** between logic and interface
+
+---
+
+## Gameplay Systems
+
+### Characters
+- **Player classes:** Warrior, Mage, Archer
+- **Enemy types:** Goblin, Orc, Dragon
+- Unique stats, combat styles, resistances, and movement patterns
+
+### Combat System
+- Physical, magical, and ranged attacks
+- Elemental mechanics
+- Evasion, critical hits, resistances
+- Modular damage calculation handled by `CombatSystem`
+
+### Items & Inventory
+- Potions
+- Power potions
+- Treasure items
+- Walls & interactables
+- Inventory with usage logic
+
+### Enemy Behavior Enhancements (Decorators)
+- Teleportation
+- Shielding
+- Rage mode
+- Lifesteal
+- Agility boosts
+- Explosive effects
+
+---
+
+## High-Level Architecture Diagram
+
+```
+[ GUI Layer ]
+  └── StartFrame
+  └── MainFrame
+  └── MapPanel / StatusPanel / InventoryPanel
+             ↓ events
+[ Controller ]
+             ↓ delegates
+[ Engine Layer ]
+  └── GameWorld
+  └── EnemyManager
+  └── GameMap
+             ↓ accesses
+[ Character System ]
+  └── Players
+  └── Enemies
+             ↓ uses
+[ Combat System ]  [ Items ]  [ Decorators ]  [ Builders ]
+```
+
+---
 
 ## Project Structure
 
-The project is organized into the following packages:
+```
+Game.Engine        → world logic, controller, enemy manager, memento
+Game.Characters    → players, enemies, stats, shared behaviors
+Game.Combat        → attack interfaces, combat engine
+Game.Items         → potions, treasure, interactables
+Game.Builders      → creation of players and enemies
+Game.Decorators    → enemy behavior modifiers
+Game.GUI           → Java Swing UI components
+Game.Logs          → logging services
+Game.Utils         → Position and additional helpers
+```
 
-- `Game.Characters` – Player and enemy classes (e.g., Warrior, Mage, Goblin, Dragon)
-- `Game.Engine` – Game world, map logic, and main game loop
-- `Game.Combat` – Combat interfaces and combat system
-- `Game.Items` – Game items like potions, power potions, treasure, and walls
-- `Game.Core` – Core interfaces and utility classes
-- `Game.Map` – `Position` class to manage coordinates
+---
 
-## How to Run?
+## How to Run
 
-1. Compile the code using your favorite Java IDE or `javac` from the terminal.
-2. Run the `Main` class.
-3. Follow the prompts to:
-   - Set the map size (minimum 10x10)
-   - Choose your character class
-   - Play the game turn by turn
+1. Clone the repository:
+```
+git clone https://github.com/IlanMerkovich/AOOP-PROJECT.git
+```
 
-## Gameplay Features
+2. Open in **IntelliJ IDEA** or any Java IDE
+3. Ensure **Java 17+**
+4. Run:
+```
+MainFrame
+```
 
-- Multiple enemy types with unique behaviors and stats
-- Melee and ranged combat (including magical attacks)
-- Health and power potions
-- Treasure chests with randomized rewards
-- Fog of war using visibility range
-- Logging system for detailed combat actions
+---
 
 
-## Coming Soon
-This project is still evolving and under development.
-Future updates planned include:
-- GUI - Full graphical interface using JavaSwing
+## Author
+
+Developed by **Ilan Markovich**  
+Advanced Object-Oriented Programming – Final Project  
+Designed as a professional, extensible, and portfolio‑ready Java application.
